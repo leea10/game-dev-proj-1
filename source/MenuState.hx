@@ -17,7 +17,7 @@ class MenuState extends FlxState
 		super.create();
 		
 		//FlxG.scaleMode = new StageSizeScaleMode();
-		FlxG.fullscreen = true;
+		//FlxG.fullscreen = true;
 		
 		// custom cursors suck. we should just use the system default
 		FlxG.mouse.useSystemCursor = true;

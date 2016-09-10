@@ -13,23 +13,15 @@ import flixel.addons.editors.tiled.TiledObject;
 import flixel.addons.editors.tiled.TiledObjectLayer;
 
 class TiledLevel extends TiledMap
-{
-	private inline static var c_PATH_LEVEL_TILESHEETS = "assets/images/";
+{	
 	
-	// array of tilemaps
-	//public var floor_layer:FlxGroup;
-	//public var walls_layer:FlxGroup;
+	public var is_dark_world:Bool;
 	
-	
-	public function new(level_file:Dynamic, state:PlayState)
+	public function new(level_file:Dynamic, state:PlayState, dark_world:Bool)
 	{
 		super(level_file);
 		
-		//floor_layer = new FlxGroup();
-		//walls_layer = new FlxGroup();
-		//FlxG.camera.setScrollBoundsRect(0, 0, fullWidth, fullHeight, true);
-		
-		//loadObjects(state);
+		is_dark_world = dark_world;
 		
 		// load tilemaps
 		for (layer in layers) // layers is an array in the TiledMap superclass
@@ -54,6 +46,10 @@ class TiledLevel extends TiledMap
             // add the map to the state
 			level.loadMapFromArray(tileLayer.tileArray, width, height, tilesheetPath, tileWidth, tileWidth, OFF, tileGID, 1, 1);
             state.add(level);
+			if (is_dark_world){
+				// dark world levels are placed 10,000 pixels to the right (hopefully that's far enough)
+				level.x += 10000;
+			}
         }
 		
 		
@@ -76,6 +72,11 @@ class TiledLevel extends TiledMap
 	{
 		var x:Int = o.x;
 		var y:Int = o.y;
+		
+		if (is_dark_world){
+			// dark world levels are placed 10,000 pixels to the right (hopefully that's far enough)
+			x += 10000;
+		}
 		
 		// objects in tiled are aligned bottom-left (top-left in flixel)
 		if (o.gid != -1)

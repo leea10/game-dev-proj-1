@@ -20,7 +20,10 @@ class PlayState extends FlxState
 		add(new FlxText(10, 10, 100, "We did it! This is the play state!"));
 		
 		// load a level
-		level = new TiledLevel("assets/levels/templevel.tmx", this);
+			// light version
+		level = new TiledLevel("assets/levels/templevel_light.tmx", this, false);
+			// dark version
+		level = new TiledLevel("assets/levels/templevel_dark.tmx", this, true);
 	}
 
 	override public function update(elapsed:Float):Void
