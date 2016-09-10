@@ -38,6 +38,6 @@ class MenuState extends FlxState
 	public function switchToPlayState():Void
 	{
 		// switch to play state (only one state can be active at a time)
-		FlxG.switchState(new PlayState());
+		FlxG.switchState(new TestLevelState());
 	}
 }

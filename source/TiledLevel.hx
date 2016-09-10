@@ -84,15 +84,15 @@ class TiledLevel extends TiledMap
 		
 		switch (o.type.toLowerCase())
 		{
-			case "player start":
-				var player:Player = new Player(x, y);
-				state.player = player;
-				state.add(player);
-				
 			case "mirror start":
 				var mirror:Mirror = new Mirror(x, y);
 				state.mirror = mirror;
 				state.add(mirror);
+				
+			case "player start":
+				var player:Player = new Player(x, y);
+				state.player = player;
+				state.add(player);
 		}
 	}
 	
