@@ -3,18 +3,21 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.system.scaleModes.StageSizeScaleMode;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 
 class MenuState extends FlxState
-{
-	
+{	
 	var play_button : FlxButton;
 	
 	override public function create():Void
 	{
 		super.create();
+		
+		//FlxG.scaleMode = new StageSizeScaleMode();
+		FlxG.fullscreen = true;
 		
 		// custom cursors suck. we should just use the system default
 		FlxG.mouse.useSystemCursor = true;
