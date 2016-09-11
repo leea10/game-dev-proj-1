@@ -20,7 +20,7 @@
 	var left_pressed:Bool = false;
 	var right_pressed:Bool = false;
 	
-	var speed:Float = 2;
+	var speed:Float = 150;
 	
 	public var vx:Float = 0;
 	public var vy:Float = 0;
@@ -33,6 +33,8 @@
 		FlxG.camera.follow(this);
 		
 		solid = true;
+		drag.x = 1600;
+		drag.y = 1600;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -81,34 +83,36 @@
 			
 			if (left_pressed)
 			{
-				vx = -speed;
+				velocity.x = -speed;
 			}
 			if (right_pressed)
 			{
-				vx = speed;
+				velocity.x = speed;
 			}
 			if (up_pressed)
 			{
-				vy = -speed;
+				velocity.y = -speed;
 			}
 			if (down_pressed)
 			{
-				vy = speed;
+				velocity.y = speed;
 			}
 
+			/*
 			if ((left_pressed && (up_pressed || down_pressed)) || (right_pressed && (up_pressed || down_pressed)))
 			{
 				vy /= 1.414;
 				vx /= 1.414;
 			}
+			*/
 		}
 		else {
-			vx = 0;
-			vy = 0;
+			//vx = 0;
+			//vy = 0;
 		}
 
-		x += vx;
-		y += vy;
+		//x += vx;
+		//y += vy;
 	}
 	
 	public function enter_dark_world():Void

@@ -24,6 +24,12 @@
 		solid = true;
 		dark_version.solid = true;
 		
+		drag.x = 10000;
+		drag.y = 10000;
+		
+		dark_version.drag.x = 10000;
+		dark_version.drag.y = 10000;
+		
 		makeGraphic(32, 32, FlxColor.WHITE);
 		dark_version.makeGraphic(32, 32, FlxColor.BLACK);
 	}
