@@ -12,7 +12,6 @@
  {
 	public var in_dark_world:Bool = false;
 	
-	
 	// key presses
 	var space_just_pressed:Bool;
 	
@@ -21,10 +20,11 @@
 	var left_pressed:Bool = false;
 	var right_pressed:Bool = false;
 	
-	var speed:Float = 150;
-	var rotation:Float = 0;
+	var speed:Float = 2;
 	
-	
+	public var vx:Float = 0;
+	public var vy:Float = 0;
+		
 	public function new(?x:Float=0, ?y:Float=0)
 	{
 		super(x, y);
@@ -32,8 +32,7 @@
 		makeGraphic(32, 32, FlxColor.BLUE);
 		FlxG.camera.follow(this);
 		
-		drag.x = 1600;
-		drag.y = 1600;
+		solid = true;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -43,10 +42,10 @@
 		handle_key_presses();
 		handle_movement();
 		
-		// magic 
+		// magic
 		// (lerps player in the direction of their velocity)
-		var shortest_angle:Float = ((((rotation - angle) % 360) + 540) % 360) - 180;
-		angle += shortest_angle * 0.3;
+		//var shortest_angle:Float = ((((rotation - angle) % 360) + 540) % 360) - 180;
+		//angle += shortest_angle * 0.3;
 	}
 	
 	public function handle_key_presses():Void
@@ -79,39 +78,44 @@
 		// should we move at all?
 		if (up_pressed || down_pressed || left_pressed || right_pressed)
 		{
+			
 			if (left_pressed)
 			{
-				rotation = 180;
-				facing = FlxObject.LEFT;
-				if (up_pressed)
-					rotation += 45;
-				else if (down_pressed)
-					rotation -= 45;
+				vx = -speed;
 			}
-			else if (right_pressed)
+			if (right_pressed)
 			{
-				rotation = 0;
-				facing = FlxObject.RIGHT;
-				if (up_pressed)
-					rotation -= 45;
-				else if (down_pressed)
-					rotation += 45;
+				vx = speed;
 			}
-			else if (down_pressed)
-				rotation = 90;
-			else if (up_pressed)
-				rotation = 270;
-			 
-			velocity.set(speed,0);
-			velocity.rotate(new FlxPoint(0, 0), rotation);
+			if (up_pressed)
+			{
+				vy = -speed;
+			}
+			if (down_pressed)
+			{
+				vy = speed;
+			}
+
+			if ((left_pressed && (up_pressed || down_pressed)) || (right_pressed && (up_pressed || down_pressed)))
+			{
+				vy /= 1.414;
+				vx /= 1.414;
+			}
 		}
+		else {
+			vx = 0;
+			vy = 0;
+		}
+
+		x += vx;
+		y += vy;
 	}
 	
 	public function enter_dark_world():Void
 	{
 		if (!in_dark_world)
 		{
-			x += 10000;
+			reset(x + 10000, y);
 			in_dark_world = true;
 		}
 	}
@@ -120,7 +124,7 @@
 	{
 		if (in_dark_world)
 		{
-			x -= 10000;
+			reset(x - 10000, y);
 			in_dark_world = false;
 		}
 	}

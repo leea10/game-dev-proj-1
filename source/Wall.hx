@@ -7,20 +7,16 @@
  import flixel.math.FlxPoint;
  import flixel.FlxObject;
 
- class Mirror extends FlxSprite
+ class Wall extends FlxSprite
  {
-
-	public function new(?x:Float=0, ?y:Float=0)
+	public function new(?x:Float=0, ?y:Float=0, ?w:Int=0, ?h:Int=0)
 	{
 		super(x, y);
-
-		makeGraphic(32, 32, FlxColor.WHITE);
+		
+		makeGraphic(w, h, FlxColor.LIME);
 		solid = true;
+		immovable = true;
+		visible = false;
 	}
-
-	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
-	}
-
- }
+	
+}

@@ -16,21 +16,22 @@ class TiledLevel extends TiledMap
 {	
 	
 	public var is_dark_world:Bool;
+	public var wall_tiles:FlxGroup;
+	public var wall_tiles_copy:FlxGroup;
 	
 	public function new(level_file:Dynamic, state:PlayState, dark_world:Bool)
 	{
 		super(level_file);
 		
 		is_dark_world = dark_world;
+		wall_tiles = new FlxGroup();
+		wall_tiles_copy = new FlxGroup();
 		
 		// load tilemaps
 		for (layer in layers) // layers is an array in the TiledMap superclass
         {	
 			if (layer.type != TiledLayerType.TILE) continue;
 			var tileLayer:TiledTileLayer = cast layer;
-			
-			// layer data is stored as an array of ints
-            //var layerData:Array<Int> = tileLayer.tileArray;
 
 			// important: either all tiles need to be on one sheet (preferable) or we need to specify which layers have which tilemaps. each layer can use only one spritesheet.
 			var tilesheetName:String = "temp tilemap.png";
@@ -50,8 +51,8 @@ class TiledLevel extends TiledMap
 				// dark world levels are placed 10,000 pixels to the right (hopefully that's far enough)
 				level.x += 10000;
 			}
+			
         }
-		
 		
 		// load objects
 		for (layer in layers)
@@ -66,17 +67,26 @@ class TiledLevel extends TiledMap
 				loadObject(state, o, objectLayer);
 			}
 		}
+		
+		if (is_dark_world){
+			state.wall_tiles_dark = wall_tiles;
+			state.wall_tiles_dark_copy = wall_tiles_copy;
+		}
+		else {
+			state.wall_tiles_light = wall_tiles;
+			state.wall_tiles_light_copy = wall_tiles_copy;
+		}
+		
+		state.add(wall_tiles_copy);
+		state.add(wall_tiles);
 	}
 	
 	function loadObject(state:PlayState, o:TiledObject, g:TiledObjectLayer)
 	{
 		var x:Int = o.x;
 		var y:Int = o.y;
-		
-		if (is_dark_world){
-			// dark world levels are placed 10,000 pixels to the right (hopefully that's far enough)
-			x += 10000;
-		}
+		var w:Int = o.width;
+		var h:Int = o.height;
 		
 		// objects in tiled are aligned bottom-left (top-left in flixel)
 		if (o.gid != -1)
@@ -85,22 +95,40 @@ class TiledLevel extends TiledMap
 		switch (o.type.toLowerCase())
 		{
 			case "mirror start":
-				var mirror:Mirror = new Mirror(x, y);
-				state.mirror = mirror;
-				state.add(mirror);
+				if (!is_dark_world){
+					var mirror:Mirror = new Mirror(x, y);
+					state.mirror = mirror;
+					state.add(mirror);
+				}
+				
+			case "wall":
+				if (!is_dark_world){
+					var wall:Wall = new Wall(x, y, w, h);
+					wall_tiles.add(wall);
+					
+					var wall_copy:Wall = new Wall(x+10000, y, w, h);
+					wall_tiles_copy.add(wall_copy);
+				}
+				else {
+					var wall:Wall = new Wall(x+10000, y, w, h);
+					wall_tiles.add(wall);
+					
+					var wall_copy:Wall = new Wall(x, y, w, h);
+					wall_tiles_copy.add(wall_copy);
+				}
 				
 			case "player start":
-				var player:Player = new Player(x, y);
-				state.player = player;
-				state.add(player);
+				if (!is_dark_world){
+					var player:Player = new Player(x, y);
+					state.player = player;
+					state.add(player);
+				}
 		}
 	}
 	
 	function getStartGid (tilesheetName:String):Int
     {
         // This function gets the starting GID of a tilesheet
-
-        // Note: "0" is empty tile, so default to a non-empty "1" value.
         var tileGID:Int = 1;
 
         for (tileset in tilesets)
