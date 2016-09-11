@@ -19,8 +19,9 @@
 	var down_pressed:Bool = false;
 	var left_pressed:Bool = false;
 	var right_pressed:Bool = false;
-	
-	var speed:Float = 150;
+
+	var _speed:Float = 200;	
+	var _rotation = 0;
 	
 	public var vx:Float = 0;
 	public var vy:Float = 0;
@@ -78,41 +79,24 @@
 			left_pressed = right_pressed = false;
 
 		// should we move at all?
-		if (up_pressed || down_pressed || left_pressed || right_pressed)
-		{
-			
-			if (left_pressed)
-			{
-				velocity.x = -speed;
-			}
-			if (right_pressed)
-			{
-				velocity.x = speed;
-			}
-			if (up_pressed)
-			{
-				velocity.y = -speed;
-			}
-			if (down_pressed)
-			{
-				velocity.y = speed;
-			}
-
-			/*
-			if ((left_pressed && (up_pressed || down_pressed)) || (right_pressed && (up_pressed || down_pressed)))
-			{
-				vy /= 1.414;
-				vx /= 1.414;
-			}
-			*/
+		if (left_pressed) {
+			_rotation = 180;
+			if (up_pressed) _rotation += 45;
+			else if (down_pressed) _rotation -= 45;
+		} else if (right_pressed) {
+			_rotation = 0;
+			if (up_pressed) _rotation -= 45;
+			else if (down_pressed) _rotation += 45;
+		} else if (down_pressed) {
+			_rotation = 90;
+		} else if (up_pressed) {
+			_rotation = 270;
+		} else {
+			return;
 		}
-		else {
-			//vx = 0;
-			//vy = 0;
-		}
-
-		//x += vx;
-		//y += vy;
+		
+		velocity.set(_speed, 0);
+		velocity.rotate(new FlxPoint(0, 0), _rotation);
 	}
 	
 	public function enter_dark_world():Void
