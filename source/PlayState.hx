@@ -34,20 +34,5 @@ class PlayState extends FlxState
 		
 		FlxG.collide(player, wall_tiles_light);
 		FlxG.collide(player, wall_tiles_dark);
-		
-		box_collide(player, mirror, player.vx, player.vy);
-	}
-	
-	public function box_collide(spriteA:FlxSprite, spriteB:FlxSprite, vx:Float, vy:Float):Void{
-		if (FlxG.overlap(spriteA, spriteB)){
-			
-			if (vy < 0){ // sprite A is moving up
-				spriteA.y = spriteB.y + spriteB.height;
-			}
-			
-			if (vy > 0){ // sprite A is moving down
-				spriteA.y = spriteB.y - spriteA.height;
-			}
-		}
 	}
 }
