@@ -1,15 +1,16 @@
- package;
+package;
 
- import flixel.FlxSprite;
- import flixel.system.FlxAssets.FlxGraphicAsset;
- import flixel.util.FlxColor;
- import flixel.FlxG;
- import flixel.math.FlxPoint;
- import flixel.FlxObject;
- import flixel.math.FlxMath;
+import flixel.FlxSprite;
+import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.util.FlxColor;
+import flixel.FlxG;
+import flixel.math.FlxPoint;
+import flixel.FlxObject;
+import flixel.math.FlxMath;
+import flixel.addons.nape.FlxNapeSprite;
 
- class Player extends FlxSprite
- {
+class Player extends FlxSprite
+{
 	public var in_dark_world:Bool = false;
 	
 	// key presses
@@ -117,4 +118,4 @@
 		}
 	}
 	
- }
+}
