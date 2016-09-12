@@ -15,19 +15,15 @@ class MenuState extends FlxState
 	override public function create():Void
 	{
 		super.create();
-		
-		//FlxG.scaleMode = new StageSizeScaleMode();
-		//FlxG.fullscreen = true;
-		
-		// custom cursors suck. we should just use the system default
+
+		// Replace the default Haxeflixel custom cursor with the system cursor
 		FlxG.mouse.useSystemCursor = true;
 		
-		// put a PLAY button in the middle of the screen
 		play_button = new FlxButton(0, 0, "PLAY", switchToPlayState);
 		play_button.screenCenter();
 		add(play_button);
 		
-		// TO DO: make a real menu...
+		// TO DO: Complete menu; style buttons to be consistent with our asthetic.
 	}
 
 	override public function update(elapsed:Float):Void
@@ -38,6 +34,7 @@ class MenuState extends FlxState
 	public function switchToPlayState():Void
 	{
 		// switch to play state (only one state can be active at a time)
+		// TODO: replace with first tutorial level.
 		FlxG.switchState(new TestLevelState());
 	}
 }
