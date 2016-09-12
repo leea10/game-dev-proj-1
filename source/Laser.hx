@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.util.FlxSpriteUtil;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -15,11 +16,16 @@ import flixel.addons.nape.FlxNapeSprite;
 
 class Laser extends FlxSprite 
 {
+	var max_distance:Float = 600;
+	var hit_circle:FlxSprite;
+	var state:PlayState;
 	
-	public function new(x:Float, y:Float, length:Float, rotation:Float) 
+	var circle_width:Int = 16;
+	
+	public function new(x_pos:Float, y_pos:Float, length:Float, rotation:Float, playstate:PlayState) 
 	{
-		super(x, y);
-		FlxNapeSpace.init();
+		super(x_pos, y_pos);
+		state = playstate;
 		
 		loadGraphic("assets/images/temp laser.png");
 		
@@ -27,24 +33,45 @@ class Laser extends FlxSprite
 		scale.set(length / width, 1);
 		
 		origin.set(0, height / 2);
+		x = x_pos;
+		y = y_pos;
+		
+		hit_circle = new FlxSprite();
+		hit_circle.makeGraphic(circle_width, circle_width, FlxColor.RED);
+		state.add(hit_circle);
+		
+
 	}
 	
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 		
-		var origin = Vec2.get(x, y);
+		var origin_point = Vec2.get(x, y);
 		var direction_vector = Vec2.get(_cosAngle, _sinAngle);
 		
-		var laser_ray:Ray = new Ray(origin, direction_vector);
-		laser_ray.maxDistance = 600;
+		var laser_ray:Ray = new Ray(origin_point, direction_vector);
+		laser_ray.maxDistance = max_distance;
 		
-		//var laser_ray = Ray.fromSegment(origin, direction_vector);
 		
 		var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(laser_ray);
+		var min = max_distance;
+		var min_x:Float = 0;
+		var min_y:Float = 0;
+		
 		for (rayResult in rayResultList)
 		{
-			scale.set(rayResult.distance / width, 1);
+			if (min > rayResult.distance) {
+				min = rayResult.distance;
+				
+				min_x = x + (direction_vector.x * min);
+				min_y = y + (direction_vector.y * min);
+				
+				scale.set(min / width, 1);
+			}
 		}
+		
+		hit_circle.x = min_x - (circle_width/2);
+		hit_circle.y = min_y - (circle_width/2);
 	}
 }

@@ -1,15 +1,16 @@
- package;
+package;
 
- import flixel.FlxSprite;
- import flixel.system.FlxAssets.FlxGraphicAsset;
- import flixel.util.FlxColor;
- import flixel.FlxG;
- import flixel.math.FlxPoint;
- import flixel.FlxObject;
- import flixel.math.FlxMath;
+import flixel.FlxSprite;
+import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.util.FlxColor;
+import flixel.FlxG;
+import flixel.math.FlxPoint;
+import flixel.FlxObject;
+import flixel.math.FlxMath;
+import flixel.addons.nape.FlxNapeSprite;
 
- class Player extends FlxSprite
- {	
+class Player extends FlxSprite
+{	
 	// key presses	
 	var up_pressed:Bool = false;
 	var down_pressed:Bool = false;
@@ -83,4 +84,4 @@
 		velocity.set(_speed, 0);
 		velocity.rotate(new FlxPoint(0, 0), _rotation);
 	}
- }
+}

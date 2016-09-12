@@ -6,7 +6,9 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.group.FlxGroup;
+import flixel.util.FlxColor;
 import flixel.math.FlxMath;
+import flixel.addons.nape.FlxNapeSprite;
 
 // TODO(Ariel): Turn this into LevelState and use as a base class for all levels
 class TestLevelState extends PlayState
@@ -19,6 +21,8 @@ class TestLevelState extends PlayState
 	private var _lightWorld:FlxGroup;
 	private var _bothWorlds:FlxGroup;
 	
+	var nape_player:FlxNapeSprite;
+
 	override public function create():Void
 	{
 		super.create();
@@ -52,6 +56,14 @@ class TestLevelState extends PlayState
 		
 		add(new DualSprite(1000, 900, this));
 		add(new LaserEmitter(1100, 900, this));
+
+		nape_player = new FlxNapeSprite(1000,1000);
+		//nape_player.makeGraphic(32, 32, FlxColor.CYAN);
+		nape_player.createCircularBody(10);
+		nape_player.visible = false;
+		add(nape_player);
+		
+		//create_nape_walls();
 	}
 	
 	override public function update(elapsed:Float):Void
@@ -63,6 +75,7 @@ class TestLevelState extends PlayState
 		if (FlxG.keys.justPressed.SPACE) {
 			switchWorld();
 		}
+		nape_player.reset(player.x + 16, player.y + 16); //player sprite is 32x32 and we need this nape collider to be in the center
 	}
 	
 	function switchWorld():Void
