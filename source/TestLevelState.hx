@@ -8,11 +8,16 @@ import flixel.ui.FlxButton;
 import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 
+// TODO(Ariel): Turn this into LevelState and use as a base class for all levels
 class TestLevelState extends PlayState
 {
-	var _darkWorld:FlxGroup;
-	var _lightWorld:FlxGroup;
-	var _bothWorlds:FlxGroup;
+	// TODO(Ariel): Make private once the dual sprite transition is done
+	public var _isDark:Bool = false; // Are we in the dark world?
+	
+	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
+	private var _darkWorld:FlxGroup;
+	private var _lightWorld:FlxGroup;
+	private var _bothWorlds:FlxGroup;
 	
 	override public function create():Void
 	{
@@ -30,15 +35,19 @@ class TestLevelState extends PlayState
 		add(_lightWorld);
 		add(_bothWorlds);
 		
-		// Retrieve player and mirror 
-		// TODO: retrieve their positions and create them here.
+		// Initialize the level's starting world.
+		_darkWorld.visible = _isDark;
+		_lightWorld.visible = !_isDark;
+		
+		// Retrieve player and mirror.
+		// TODO(Ariel): retrieve their positions and create them here.
 		player = level._player;
 		mirror = level._mirror;
 		add(player);
 		add(mirror);
 		
 		// TODO(Ariel): get rid of duplicating the world / sprite hacks.
-		FlxG.worldBounds.width = (level.width*level.tileWidth)*2+10000;
+		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
 		
 		add(new DualSprite(1000, 900, this));
@@ -48,6 +57,18 @@ class TestLevelState extends PlayState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		
+		// If the spacebar was hit, switch worlds
+		// TODO(Ariel): Add another check to make sure the player is in front of the mirror.
+		if (FlxG.keys.justPressed.SPACE) {
+			switchWorld();
+		}
 	}
 	
+	function switchWorld():Void
+	{
+		_isDark = !_isDark;
+		_darkWorld.visible = _isDark;
+		_lightWorld.visible = !_isDark;
+	}
 }

@@ -7,18 +7,19 @@
  import flixel.math.FlxPoint;
  import flixel.FlxObject;
 
+ // TODO(Ariel): Integrate functionality of this class into new solution.
  class DualSprite extends FlxSprite
  {
-	var state:PlayState;
+	var state:TestLevelState;
 	
 	var dark_version:FlxSprite;
-	 
-	public function new(?x:Float=0, ?y:Float=0, playstate:PlayState)
+	
+	public function new(?x:Float=0, ?y:Float=0, playstate:TestLevelState)
 	{
 		super(x, y);
 		state = playstate;
 		
-		dark_version = new FlxSprite(x + 10000, y);
+		dark_version = new FlxSprite(x, y);
 		state.add(dark_version);
 
 		solid = true;
@@ -47,19 +48,14 @@
 		FlxG.collide(this, state.player);
 		FlxG.collide(dark_version, state.player);
 		
-		if (state.player.in_dark_world){
-			this.x = dark_version.x-10000;
+		if (state._isDark){
+			this.x = dark_version.x;
 			this.y = dark_version.y;
 		}
 		else {
-			dark_version.x = this.x+10000;
+			dark_version.x = this.x;
 			dark_version.y = this.y;
 		}
-		
-		//this.velocity.x = 0;
-		//this.velocity.y = 0;
-		//dark_version.velocity.x = 0;
-		//dark_version.velocity.y = 0;
 	}
 
  }
