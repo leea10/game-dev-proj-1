@@ -33,6 +33,9 @@ class TiledLevel extends TiledMap
 	{
 		super(level_file);
 		
+		// TODO(Ariel): We may need to create new groups that extends FlxGroup so we can implement extra logic 
+		// within a world's group of entities.
+		// TODO(Ariel): It might be cleaner to put these in a hashmap to avoid all the case/switch statements. 
 		_darkWorld = new FlxGroup();
 		_lightWorld = new FlxGroup();
 		_bothWorlds = new FlxGroup();
