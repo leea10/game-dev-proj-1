@@ -11,6 +11,7 @@ import nape.geom.Ray;
 import nape.geom.Vec2;
 import nape.geom.RayResultList;
 import flixel.addons.nape.FlxNapeSpace;
+import flixel.addons.nape.FlxNapeSprite;
 
 class Laser extends FlxSprite 
 {
@@ -18,6 +19,7 @@ class Laser extends FlxSprite
 	public function new(x:Float, y:Float, length:Float, rotation:Float) 
 	{
 		super(x, y);
+		FlxNapeSpace.init();
 		
 		loadGraphic("assets/images/temp laser.png");
 		
@@ -31,16 +33,18 @@ class Laser extends FlxSprite
 	{
 		super.update(elapsed);
 		
-		var origin:Vec2 = new Vec2(x, y);
-		var direction_vector:Vec2 = new Vec2(_cosAngle, _sinAngle);
+		var origin = Vec2.get(x, y);
+		var direction_vector = Vec2.get(_cosAngle, _sinAngle);
 		
-		var ray:Ray = new Ray(origin, direction_vector);
-		var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(ray);
+		var laser_ray:Ray = new Ray(origin, direction_vector);
+		laser_ray.maxDistance = 600;
 		
+		//var laser_ray = Ray.fromSegment(origin, direction_vector);
+		
+		var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(laser_ray);
 		for (rayResult in rayResultList)
 		{
-			
-			
+			scale.set(rayResult.distance / width, 1);
 		}
 	}
 }
