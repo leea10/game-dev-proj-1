@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxState;
 import flixel.FlxG;
+import flixel.group.FlxSpriteGroup;
 import haxe.io.Path;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
@@ -12,21 +13,30 @@ import flixel.addons.editors.tiled.TiledLayer.TiledLayerType;
 import flixel.addons.editors.tiled.TiledObject;
 import flixel.addons.editors.tiled.TiledObjectLayer;
 
+/**
+ * Parses data for entities in either / both universe and splits them into separate FlxSpriteGroups for the main level to use.
+ * DOES NOT INTERACT WITH THE PLAYSTATE - The playstate pulls the created groups of entities from this parser.
+ * @author Ariel Lee
+ */
 class TiledLevel extends TiledMap
 {	
+	// TODO: write public getter functions and make these private.
+	public var _darkWorld:FlxGroup; // Entities that are only in the dark world
+	public var _lightWorld:FlxGroup; // Entities that are only in the light world
+	public var _bothWorlds:FlxGroup; // Entites that are in both worlds
 	
-	public var is_dark_world:Bool;
-	public var wall_tiles:FlxGroup;
-	public var wall_tiles_copy:FlxGroup;
-	
-	public function new(level_file:Dynamic, state:PlayState, dark_world:Bool)
+	// THESE ARE TEMPORARY FOR INTERMEDIATE REFACTORING PURPOSES
+	public var _mirror:Mirror;
+	public var _player:Player;
+		
+	public function new(level_file:Dynamic)
 	{
 		super(level_file);
 		
-		is_dark_world = dark_world;
-		wall_tiles = new FlxGroup();
-		wall_tiles_copy = new FlxGroup();
-		
+		_darkWorld = new FlxGroup();
+		_lightWorld = new FlxGroup();
+		_bothWorlds = new FlxGroup();
+				
 		// load tilemaps
 		for (layer in layers) // layers is an array in the TiledMap superclass
         {	
@@ -38,20 +48,16 @@ class TiledLevel extends TiledMap
             var tilesheetPath:String = "assets/images/" + tilesheetName;
             var level:FlxTilemap = new FlxTilemap();
 
-			// tell the tilemap how big the level is
-            //level.widthInTiles = width;
-            //level.heightInTiles = height;
-
             var tileGID:Int = getStartGid(tilesheetName);
 			
             // add the map to the state
 			level.loadMapFromArray(tileLayer.tileArray, width, height, tilesheetPath, tileWidth, tileWidth, OFF, tileGID, 1, 1);
-            state.add(level);
-			if (is_dark_world){
-				// dark world levels are placed 10,000 pixels to the right (hopefully that's far enough)
-				level.x += 10000;
-			}
 			
+			switch(tileLayer.properties.get("world")) {
+				case "dark": _darkWorld.add(level);
+				case "light": _lightWorld.add(level);
+				case "both": _bothWorlds.add(level);
+			}
         }
 		
 		// load objects
@@ -60,28 +66,15 @@ class TiledLevel extends TiledMap
 			if (layer.type != TiledLayerType.OBJECT) continue;
 			var objectLayer:TiledObjectLayer = cast layer;
 
-			
 			// load all of the objects in the layer
 			for (o in objectLayer.objects)
 			{
-				loadObject(state, o, objectLayer);
+				loadObject(o, objectLayer);
 			}
 		}
-		
-		if (is_dark_world){
-			state.wall_tiles_dark = wall_tiles;
-			state.wall_tiles_dark_copy = wall_tiles_copy;
-		}
-		else {
-			state.wall_tiles_light = wall_tiles;
-			state.wall_tiles_light_copy = wall_tiles_copy;
-		}
-		
-		state.add(wall_tiles_copy);
-		state.add(wall_tiles);
 	}
 	
-	function loadObject(state:PlayState, o:TiledObject, g:TiledObjectLayer)
+	function loadObject(o:TiledObject, g:TiledObjectLayer)
 	{
 		var x:Int = o.x;
 		var y:Int = o.y;
@@ -94,13 +87,8 @@ class TiledLevel extends TiledMap
 		
 		switch (o.type.toLowerCase())
 		{
-			case "mirror start":
-				if (!is_dark_world){
-					var mirror:Mirror = new Mirror(x, y);
-					state.mirror = mirror;
-					state.add(mirror);
-				}
-				
+			case "mirror start": _mirror = new Mirror(x, y);
+			/*	
 			case "wall":
 				if (!is_dark_world){
 					var wall:Wall = new Wall(x, y, w, h);
@@ -116,13 +104,8 @@ class TiledLevel extends TiledMap
 					var wall_copy:Wall = new Wall(x, y, w, h);
 					wall_tiles_copy.add(wall_copy);
 				}
-				
-			case "player start":
-				if (!is_dark_world){
-					var player:Player = new Player(x, y);
-					state.player = player;
-					state.add(player);
-				}
+			*/
+			case "player start": _player = new Player(x, y);
 		}
 	}
 	
