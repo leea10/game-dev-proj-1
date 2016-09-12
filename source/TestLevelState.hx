@@ -23,7 +23,8 @@ class TestLevelState extends PlayState
 		FlxG.worldBounds.width = (level.width*level.tileWidth)*2+10000;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
 		
-		add(new DualSprite(1000,900,this));
+		add(new DualSprite(1000, 900, this));
+		add(new LaserEmitter(1100, 900, this));
 	}
 	
 	override public function update(elapsed:Float):Void
