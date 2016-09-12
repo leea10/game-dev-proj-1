@@ -74,38 +74,32 @@ class TiledLevel extends TiledMap
 		}
 	}
 	
-	function loadObject(o:TiledObject, g:TiledObjectLayer)
+	function loadObject(o:TiledObject, layer:TiledObjectLayer)
 	{
 		var x:Int = o.x;
 		var y:Int = o.y;
 		var w:Int = o.width;
 		var h:Int = o.height;
 		
-		// objects in tiled are aligned bottom-left (top-left in flixel)
+		// objects in tiled are aligned bottom-left (top-left in flixel).
 		if (o.gid != -1)
-			y -= g.map.getGidOwner(o.gid).tileHeight;
+			y -= layer.map.getGidOwner(o.gid).tileHeight;
+			
+		// Find the correct object group to add this object to.
+		var worldGroup:FlxGroup = null;
+		switch(layer.properties.get('world'))
+		{
+			case "light": worldGroup = _lightWorld;
+			case "dark": worldGroup = _darkWorld;
+			case "both": worldGroup = _bothWorlds;
+		}
 		
+		// Handle each type of object differently.
 		switch (o.type.toLowerCase())
 		{
 			case "mirror start": _mirror = new Mirror(x, y);
-			/*	
-			case "wall":
-				if (!is_dark_world){
-					var wall:Wall = new Wall(x, y, w, h);
-					wall_tiles.add(wall);
-					
-					var wall_copy:Wall = new Wall(x+10000, y, w, h);
-					wall_tiles_copy.add(wall_copy);
-				}
-				else {
-					var wall:Wall = new Wall(x+10000, y, w, h);
-					wall_tiles.add(wall);
-					
-					var wall_copy:Wall = new Wall(x, y, w, h);
-					wall_tiles_copy.add(wall_copy);
-				}
-			*/
 			case "player start": _player = new Player(x, y);
+			case "wall": worldGroup.add(new Wall(x, y, w, h));
 		}
 	}
 	

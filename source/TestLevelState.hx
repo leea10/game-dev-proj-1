@@ -18,10 +18,10 @@ class TestLevelState extends PlayState
 	{
 		super.create();
 		
-		// load a level -- the player is in the light version, and we want them to appear on top of everything else, so we load that level last
-			// dark version
-		level = new TiledLevel("assets/levels/templevel_light.tmx");
+		// Parse level data from file.
+		level = new TiledLevel("assets/levels/templevel.tmx");
 		
+		// Retrieve object groups based on what world(s) they're in.
 		_darkWorld = level._darkWorld;
 		_lightWorld = level._lightWorld;
 		_bothWorlds = level._bothWorlds;
@@ -30,11 +30,14 @@ class TestLevelState extends PlayState
 		add(_lightWorld);
 		add(_bothWorlds);
 		
+		// Retrieve player and mirror 
+		// TODO: retrieve their positions and create them here.
 		player = level._player;
 		mirror = level._mirror;
 		add(player);
 		add(mirror);
 		
+		// TODO: get rid of duplicating the world / sprite hacks.
 		FlxG.worldBounds.width = (level.width*level.tileWidth)*2+10000;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
 		
