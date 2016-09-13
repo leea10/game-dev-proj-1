@@ -24,6 +24,5 @@ class Wall extends FlxSprite
 		solid = true;
 		immovable = true;
 		visible = false;
-	}
-	
+	}	
 }

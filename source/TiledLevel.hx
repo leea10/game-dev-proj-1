@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxState;
 import flixel.FlxG;
+import flixel.group.FlxSpriteGroup;
 import haxe.io.Path;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
@@ -12,21 +13,30 @@ import flixel.addons.editors.tiled.TiledLayer.TiledLayerType;
 import flixel.addons.editors.tiled.TiledObject;
 import flixel.addons.editors.tiled.TiledObjectLayer;
 
+/**
+ * Parses data for entities in either / both universe and splits them into separate FlxSpriteGroups for the main level to use.
+ * DOES NOT INTERACT WITH THE PLAYSTATE - The playstate pulls the created groups of entities from this parser.
+ * @author Ariel Lee
+ */
 class TiledLevel extends TiledMap
 {	
+	// Holds the object groups for the different world groups (light, dark, both)
+	public var _worlds:Map<String, WorldGroup>;
 	
-	public var is_dark_world:Bool;
-	public var wall_tiles:FlxGroup;
-	public var wall_tiles_copy:FlxGroup;
-	
-	public function new(level_file:Dynamic, state:PlayState, dark_world:Bool)
+	// THESE ARE TEMPORARY FOR INTERMEDIATE REFACTORING PURPOSES
+	public var _mirror:Mirror;
+	public var _player:Player;
+		
+	public function new(level_file:Dynamic)
 	{
 		super(level_file);
 		
-		is_dark_world = dark_world;
-		wall_tiles = new FlxGroup();
-		wall_tiles_copy = new FlxGroup();
-		
+		_worlds = [
+			"dark" => new WorldGroup(), // Entities that are only in the dark world
+			"light" => new WorldGroup(), // Entities that are only in the light world
+			"both" => new WorldGroup(), // Entities that are in both worlds
+		];
+				
 		// load tilemaps
 		for (layer in layers) // layers is an array in the TiledMap superclass
         {	
@@ -38,20 +48,11 @@ class TiledLevel extends TiledMap
             var tilesheetPath:String = "assets/images/" + tilesheetName;
             var level:FlxTilemap = new FlxTilemap();
 
-			// tell the tilemap how big the level is
-            //level.widthInTiles = width;
-            //level.heightInTiles = height;
-
-            var tileGID:Int = getStartGid(tilesheetName);
+            var tileGID:Int = _getStartGid(tilesheetName);
 			
-            // add the map to the state
+            // add the tile map to the appropriate set of world entities
 			level.loadMapFromArray(tileLayer.tileArray, width, height, tilesheetPath, tileWidth, tileWidth, OFF, tileGID, 1, 1);
-            state.add(level);
-			if (is_dark_world){
-				// dark world levels are placed 10,000 pixels to the right (hopefully that's far enough)
-				level.x += 10000;
-			}
-			
+			_worlds[tileLayer.properties.get("world")].add(level);
         }
 		
 		// load objects
@@ -60,73 +61,49 @@ class TiledLevel extends TiledMap
 			if (layer.type != TiledLayerType.OBJECT) continue;
 			var objectLayer:TiledObjectLayer = cast layer;
 
-			
 			// load all of the objects in the layer
 			for (o in objectLayer.objects)
 			{
-				loadObject(state, o, objectLayer);
+				_loadObject(o, objectLayer);
 			}
 		}
-		
-		if (is_dark_world){
-			state.wall_tiles_dark = wall_tiles;
-			state.wall_tiles_dark_copy = wall_tiles_copy;
-		}
-		else {
-			state.wall_tiles_light = wall_tiles;
-			state.wall_tiles_light_copy = wall_tiles_copy;
-		}
-		
-		state.add(wall_tiles_copy);
-		state.add(wall_tiles);
 	}
 	
-	function loadObject(state:PlayState, o:TiledObject, g:TiledObjectLayer)
+	public function getWorldEntities(world:String):WorldGroup 
+	{
+		return _worlds.get(world);
+	}
+	
+	private function _loadObject(o:TiledObject, layer:TiledObjectLayer)
 	{
 		var x:Int = o.x;
 		var y:Int = o.y;
 		var w:Int = o.width;
 		var h:Int = o.height;
 		
-		// objects in tiled are aligned bottom-left (top-left in flixel)
-		if (o.gid != -1)
-			y -= g.map.getGidOwner(o.gid).tileHeight;
+		// objects in tiled are aligned bottom-left (top-left in flixel).
+		if (o.gid != -1) {
+			y -= layer.map.getGidOwner(o.gid).tileHeight;
+		}
 		
+		// Find the correct object group to add this object to.
+		var worldGroup:WorldGroup = _worlds.get(layer.properties.get("world"));
+		
+		// Handle each type of object differently.
 		switch (o.type.toLowerCase())
-		{
-			case "mirror start":
-				if (!is_dark_world){
-					var mirror:Mirror = new Mirror(x, y);
-					state.mirror = mirror;
-					state.add(mirror);
-				}
-				
-			case "wall":
-				if (!is_dark_world){
-					var wall:Wall = new Wall(x, y, w, h);
-					wall_tiles.add(wall);
-					
-					var wall_copy:Wall = new Wall(x+10000, y, w, h);
-					wall_tiles_copy.add(wall_copy);
-				}
-				else {
-					var wall:Wall = new Wall(x+10000, y, w, h);
-					wall_tiles.add(wall);
-					
-					var wall_copy:Wall = new Wall(x, y, w, h);
-					wall_tiles_copy.add(wall_copy);
-				}
-				
-			case "player start":
-				if (!is_dark_world){
-					var player:Player = new Player(x, y);
-					state.player = player;
-					state.add(player);
-				}
+		{			
+			// The player won't be bound to any world since it can bounce between worlds.
+			case "player start": _player = new Player(x, y);
+			
+			// TODO(Ariel): Figure out the exact mechanics of the mirror's existence
+			// If it exists in both, place in "both". If it flips back and forth
+			// like the player does, then leave it as its own entity, like the player.
+			case "mirror start": _mirror = new Mirror(x, y);
+			case "wall": worldGroup.addWall(x, y, w, h);
 		}
 	}
 	
-	function getStartGid (tilesheetName:String):Int
+	private function _getStartGid (tilesheetName:String):Int
     {
         // This function gets the starting GID of a tilesheet
         var tileGID:Int = 1;

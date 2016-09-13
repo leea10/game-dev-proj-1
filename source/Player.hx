@@ -10,12 +10,8 @@ import flixel.math.FlxMath;
 import flixel.addons.nape.FlxNapeSprite;
 
 class Player extends FlxSprite
-{
-	public var in_dark_world:Bool = false;
-	
-	// key presses
-	var space_just_pressed:Bool;
-	
+{	
+	// key presses	
 	var up_pressed:Bool = false;
 	var down_pressed:Bool = false;
 	var left_pressed:Bool = false;
@@ -54,8 +50,6 @@ class Player extends FlxSprite
 	
 	public function handle_key_presses():Void
 	{
-		space_just_pressed = FlxG.keys.anyJustPressed([SPACE]);
-
 		up_pressed = FlxG.keys.anyPressed([UP, W]);
 		down_pressed = FlxG.keys.anyPressed([DOWN, S]);
 		left_pressed = FlxG.keys.anyPressed([LEFT, A]);
@@ -63,16 +57,7 @@ class Player extends FlxSprite
 	}
 	
 	public function handle_movement():Void
-	{
-		// should we swap worlds?
-		if (space_just_pressed)
-		{
-			if (in_dark_world)
-				enter_light_world();
-			else
-				enter_dark_world();
-		}
-		
+	{	
 		// cancel opposing directions
 		if (up_pressed && down_pressed)
 			up_pressed = down_pressed = false;
@@ -99,23 +84,4 @@ class Player extends FlxSprite
 		velocity.set(_speed, 0);
 		velocity.rotate(new FlxPoint(0, 0), _rotation);
 	}
-	
-	public function enter_dark_world():Void
-	{
-		if (!in_dark_world)
-		{
-			reset(x + 10000, y);
-			in_dark_world = true;
-		}
-	}
-	
-	public function enter_light_world():Void
-	{
-		if (in_dark_world)
-		{
-			reset(x - 10000, y);
-			in_dark_world = false;
-		}
-	}
-	
 }

@@ -30,17 +30,14 @@ class PlayState extends FlxState
 	{
 		super.create();
 		FlxNapeSpace.init();
-
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		
-		FlxG.collide(player, wall_tiles_light);
-		FlxG.collide(player, wall_tiles_dark);
 	}
 	
+	/*
 	public function create_nape_walls()
 	{
 		for (wallobj in wall_tiles_light)
@@ -54,4 +51,5 @@ class PlayState extends FlxState
 			add(_test);
 		}
 	}
+	*/
 }
