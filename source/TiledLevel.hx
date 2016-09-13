@@ -21,7 +21,7 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
 class TiledLevel extends TiledMap
 {	
 	// Holds the object groups for the different world groups (light, dark, both)
-	public var _worlds:Map<String, TaggedGroup>;
+	public var _worlds:Map<String, WorldGroup>;
 	
 	// THESE ARE TEMPORARY FOR INTERMEDIATE REFACTORING PURPOSES
 	public var _mirror:Mirror;
@@ -32,9 +32,9 @@ class TiledLevel extends TiledMap
 		super(level_file);
 		
 		_worlds = [
-			"dark" => new TaggedGroup(), // Entities that are only in the dark world
-			"light" => new TaggedGroup(), // Entities that are only in the light world
-			"both" => new TaggedGroup(), // Entities that are in both worlds
+			"dark" => new WorldGroup(), // Entities that are only in the dark world
+			"light" => new WorldGroup(), // Entities that are only in the light world
+			"both" => new WorldGroup(), // Entities that are in both worlds
 		];
 				
 		// load tilemaps
@@ -61,8 +61,6 @@ class TiledLevel extends TiledMap
 			if (layer.type != TiledLayerType.OBJECT) continue;
 			var objectLayer:TiledObjectLayer = cast layer;
 
-			
-			
 			// load all of the objects in the layer
 			for (o in objectLayer.objects)
 			{
@@ -71,7 +69,7 @@ class TiledLevel extends TiledMap
 		}
 	}
 	
-	public function getWorldEntities(world:String):TaggedGroup 
+	public function getWorldEntities(world:String):WorldGroup 
 	{
 		return _worlds.get(world);
 	}
@@ -89,18 +87,19 @@ class TiledLevel extends TiledMap
 		}
 		
 		// Find the correct object group to add this object to.
-		var worldGroup:TaggedGroup = _worlds.get(layer.properties.get("world"));
+		var worldGroup:WorldGroup = _worlds.get(layer.properties.get("world"));
 		
-		// Handle each type of object differently. For example, the player
-		// won't be bound to any world since it can bounce between worlds.
-		// TODO(Ariel): Figure out the exact mechanics of the mirror's existence
-		// If it exists in both, place in "both". If it flips back and forth
-		// like the player does, then leave it as its own entity, like the player.
+		// Handle each type of object differently.
 		switch (o.type.toLowerCase())
-		{
-			case "mirror start": _mirror = new Mirror(x, y);
+		{			
+			// The player won't be bound to any world since it can bounce between worlds.
 			case "player start": _player = new Player(x, y);
-			case "wall": worldGroup.add(new Wall(x, y, w, h));
+			
+			// TODO(Ariel): Figure out the exact mechanics of the mirror's existence
+			// If it exists in both, place in "both". If it flips back and forth
+			// like the player does, then leave it as its own entity, like the player.
+			case "mirror start": _mirror = new Mirror(x, y);
+			case "wall": worldGroup.addWall(x, y, w, h);
 		}
 	}
 	

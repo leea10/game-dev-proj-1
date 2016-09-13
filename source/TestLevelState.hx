@@ -17,9 +17,9 @@ class TestLevelState extends PlayState
 	public var _isDark:Bool = false; // Are we in the dark world?
 	
 	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
-	private var _darkWorld:TaggedGroup;
-	private var _lightWorld:TaggedGroup;
-	private var _bothWorlds:TaggedGroup;
+	private var _darkWorld:WorldGroup;
+	private var _lightWorld:WorldGroup;
+	private var _bothWorlds:WorldGroup;
 	
 	var nape_player:FlxNapeSprite;
 
