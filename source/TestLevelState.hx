@@ -31,17 +31,17 @@ class TestLevelState extends PlayState
 		level = new TiledLevel("assets/levels/templevel.tmx");
 		
 		// Retrieve object groups based on what world(s) they're in.
-		_darkWorld = level._darkWorld;
-		_lightWorld = level._lightWorld;
-		_bothWorlds = level._bothWorlds;
-		
-		add(_darkWorld);
-		add(_lightWorld);
-		add(_bothWorlds);
+		_darkWorld = level.getWorldEntities("dark");
+		_lightWorld = level.getWorldEntities("light");
+		_bothWorlds = level.getWorldEntities("both");
 		
 		// Initialize the level's starting world.
 		_darkWorld.visible = _isDark;
 		_lightWorld.visible = !_isDark;
+		
+		add(_darkWorld);
+		add(_lightWorld);
+		add(_bothWorlds);		
 		
 		// Retrieve player and mirror.
 		// TODO(Ariel): retrieve their positions and create them here.

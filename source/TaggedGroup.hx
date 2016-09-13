@@ -21,7 +21,7 @@ class TaggedGroup extends FlxGroup
 	
 	// Adds a new tagged entity to the group. Replaces existing.
 	// (Boooooo Haxe doesn't support method overloading)
-	public function addNewTag(tag:String, entity:FlxObject):Void
+	public function addTag(tag:String, entity:FlxObject):Void
 	{
 		_entityMap.set(tag, entity);
 		add(entity);

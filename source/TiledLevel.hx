@@ -20,10 +20,8 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
  */
 class TiledLevel extends TiledMap
 {	
-	// TODO: write public getter functions and make these private.
-	public var _darkWorld:TaggedGroup; // Entities that are only in the dark world
-	public var _lightWorld:TaggedGroup; // Entities that are only in the light world
-	public var _bothWorlds:TaggedGroup; // Entites that are in both worlds
+	// Holds the object groups for the different world groups (light, dark, both)
+	public var _worlds:Map<String, TaggedGroup>;
 	
 	// THESE ARE TEMPORARY FOR INTERMEDIATE REFACTORING PURPOSES
 	public var _mirror:Mirror;
@@ -33,12 +31,11 @@ class TiledLevel extends TiledMap
 	{
 		super(level_file);
 		
-		// TODO(Ariel): We may need to create new groups that extends FlxGroup so we can implement extra logic 
-		// within a world's group of entities.
-		// TODO(Ariel): It might be cleaner to put these in a hashmap to avoid all the case/switch statements. 
-		_darkWorld = new TaggedGroup();
-		_lightWorld = new TaggedGroup();
-		_bothWorlds = new TaggedGroup();
+		_worlds = [
+			"dark" => new TaggedGroup(), // Entities that are only in the dark world
+			"light" => new TaggedGroup(), // Entities that are only in the light world
+			"both" => new TaggedGroup(), // Entities that are in both worlds
+		];
 				
 		// load tilemaps
 		for (layer in layers) // layers is an array in the TiledMap superclass
@@ -51,16 +48,11 @@ class TiledLevel extends TiledMap
             var tilesheetPath:String = "assets/images/" + tilesheetName;
             var level:FlxTilemap = new FlxTilemap();
 
-            var tileGID:Int = getStartGid(tilesheetName);
+            var tileGID:Int = _getStartGid(tilesheetName);
 			
-            // add the map to the state
+            // add the tile map to the appropriate set of world entities
 			level.loadMapFromArray(tileLayer.tileArray, width, height, tilesheetPath, tileWidth, tileWidth, OFF, tileGID, 1, 1);
-			
-			switch(tileLayer.properties.get("world")) {
-				case "dark": _darkWorld.add(level);
-				case "light": _lightWorld.add(level);
-				case "both": _bothWorlds.add(level);
-			}
+			_worlds[tileLayer.properties.get("world")].add(level);
         }
 		
 		// load objects
@@ -69,15 +61,22 @@ class TiledLevel extends TiledMap
 			if (layer.type != TiledLayerType.OBJECT) continue;
 			var objectLayer:TiledObjectLayer = cast layer;
 
+			
+			
 			// load all of the objects in the layer
 			for (o in objectLayer.objects)
 			{
-				loadObject(o, objectLayer);
+				_loadObject(o, objectLayer);
 			}
 		}
 	}
 	
-	function loadObject(o:TiledObject, layer:TiledObjectLayer)
+	public function getWorldEntities(world:String):TaggedGroup 
+	{
+		return _worlds.get(world);
+	}
+	
+	private function _loadObject(o:TiledObject, layer:TiledObjectLayer)
 	{
 		var x:Int = o.x;
 		var y:Int = o.y;
@@ -85,19 +84,18 @@ class TiledLevel extends TiledMap
 		var h:Int = o.height;
 		
 		// objects in tiled are aligned bottom-left (top-left in flixel).
-		if (o.gid != -1)
+		if (o.gid != -1) {
 			y -= layer.map.getGidOwner(o.gid).tileHeight;
-			
-		// Find the correct object group to add this object to.
-		var worldGroup:TaggedGroup = null;
-		switch(layer.properties.get('world'))
-		{
-			case "light": worldGroup = _lightWorld;
-			case "dark": worldGroup = _darkWorld;
-			case "both": worldGroup = _bothWorlds;
 		}
 		
-		// Handle each type of object differently.
+		// Find the correct object group to add this object to.
+		var worldGroup:TaggedGroup = _worlds.get(layer.properties.get("world"));
+		
+		// Handle each type of object differently. For example, the player
+		// won't be bound to any world since it can bounce between worlds.
+		// TODO(Ariel): Figure out the exact mechanics of the mirror's existence
+		// If it exists in both, place in "both". If it flips back and forth
+		// like the player does, then leave it as its own entity, like the player.
 		switch (o.type.toLowerCase())
 		{
 			case "mirror start": _mirror = new Mirror(x, y);
@@ -106,7 +104,7 @@ class TiledLevel extends TiledMap
 		}
 	}
 	
-	function getStartGid (tilesheetName:String):Int
+	private function _getStartGid (tilesheetName:String):Int
     {
         // This function gets the starting GID of a tilesheet
         var tileGID:Int = 1;
