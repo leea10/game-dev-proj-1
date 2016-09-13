@@ -13,18 +13,19 @@ import flixel.addons.nape.FlxNapeSpace;
 
 class PlayState extends FlxState
 {
+	public var _isDark:Bool = false; // Are we in the dark world?
+	
 	public var level:TiledLevel;
 	public var player:Player;
+	public var nape_player:FlxNapeSprite;
 	public var mirror:Mirror;
 	
 	public var wall:Wall;
 	
-	//private var wall_group:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>();
-	
-	public var wall_tiles_light:FlxGroup;
-	public var wall_tiles_dark:FlxGroup;
-	public var wall_tiles_light_copy:FlxGroup;	// a copy of the light-world tiles in the dark world (for collision purposes)
-	public var wall_tiles_dark_copy:FlxGroup;	// a copy of the dark-world tiles in the light world (for collision purposes)
+	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
+	public var _darkWorld:WorldGroup;
+	public var _lightWorld:WorldGroup;
+	public var _bothWorlds:WorldGroup;
 	
 	override public function create():Void
 	{

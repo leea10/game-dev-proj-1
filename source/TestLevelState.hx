@@ -14,15 +14,6 @@ import flixel.addons.nape.FlxNapeSprite;
 // TODO(Ariel): Figure out what differentiates this from a normal PlayState and possibly consolidate.
 class TestLevelState extends PlayState
 {
-	private var _isDark:Bool = false; // Are we in the dark world?
-	
-	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
-	private var _darkWorld:WorldGroup;
-	private var _lightWorld:WorldGroup;
-	private var _bothWorlds:WorldGroup;
-	
-	var nape_player:FlxNapeSprite;
-
 	override public function create():Void
 	{
 		super.create();
@@ -38,9 +29,11 @@ class TestLevelState extends PlayState
 		// Initialize the level's starting world.
 		_setWorld(_isDark);
 		
+		_darkWorld.addLaser(1100, 900, this);
+		
 		add(_darkWorld);
 		add(_lightWorld);
-		add(_bothWorlds);		
+		add(_bothWorlds);
 		
 		// Retrieve player and mirror.
 		// TODO(Ariel): retrieve their positions and create them here.
@@ -51,13 +44,14 @@ class TestLevelState extends PlayState
 		
 		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
+		
+		//add(new LaserEmitter(1100, 900, this));
 
-		add(new LaserEmitter(1100, 900, this));
 
 		nape_player = new FlxNapeSprite(1000,1000);
-		//nape_player.makeGraphic(32, 32, FlxColor.CYAN);
 		nape_player.createCircularBody(10);
 		nape_player.visible = false;
+		nape_player.solid = false;
 		add(nape_player);
 		
 		//create_nape_walls();
