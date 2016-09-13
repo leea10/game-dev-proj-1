@@ -21,9 +21,9 @@ import flixel.addons.editors.tiled.TiledObjectLayer;
 class TiledLevel extends TiledMap
 {	
 	// TODO: write public getter functions and make these private.
-	public var _darkWorld:FlxGroup; // Entities that are only in the dark world
-	public var _lightWorld:FlxGroup; // Entities that are only in the light world
-	public var _bothWorlds:FlxGroup; // Entites that are in both worlds
+	public var _darkWorld:TaggedGroup; // Entities that are only in the dark world
+	public var _lightWorld:TaggedGroup; // Entities that are only in the light world
+	public var _bothWorlds:TaggedGroup; // Entites that are in both worlds
 	
 	// THESE ARE TEMPORARY FOR INTERMEDIATE REFACTORING PURPOSES
 	public var _mirror:Mirror;
@@ -36,9 +36,9 @@ class TiledLevel extends TiledMap
 		// TODO(Ariel): We may need to create new groups that extends FlxGroup so we can implement extra logic 
 		// within a world's group of entities.
 		// TODO(Ariel): It might be cleaner to put these in a hashmap to avoid all the case/switch statements. 
-		_darkWorld = new FlxGroup();
-		_lightWorld = new FlxGroup();
-		_bothWorlds = new FlxGroup();
+		_darkWorld = new TaggedGroup();
+		_lightWorld = new TaggedGroup();
+		_bothWorlds = new TaggedGroup();
 				
 		// load tilemaps
 		for (layer in layers) // layers is an array in the TiledMap superclass
@@ -89,7 +89,7 @@ class TiledLevel extends TiledMap
 			y -= layer.map.getGidOwner(o.gid).tileHeight;
 			
 		// Find the correct object group to add this object to.
-		var worldGroup:FlxGroup = null;
+		var worldGroup:TaggedGroup = null;
 		switch(layer.properties.get('world'))
 		{
 			case "light": worldGroup = _lightWorld;

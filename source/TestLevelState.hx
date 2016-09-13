@@ -17,9 +17,9 @@ class TestLevelState extends PlayState
 	public var _isDark:Bool = false; // Are we in the dark world?
 	
 	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
-	private var _darkWorld:FlxGroup;
-	private var _lightWorld:FlxGroup;
-	private var _bothWorlds:FlxGroup;
+	private var _darkWorld:TaggedGroup;
+	private var _lightWorld:TaggedGroup;
+	private var _bothWorlds:TaggedGroup;
 	
 	var nape_player:FlxNapeSprite;
 
@@ -50,11 +50,10 @@ class TestLevelState extends PlayState
 		add(player);
 		add(mirror);
 		
-		// TODO(Ariel): get rid of duplicating the world / sprite hacks.
 		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
-		
-		add(new DualSprite(1000, 900, this));
+
+		// TODO(Ariel): get rid of duplicating the world / sprite hacks.
 		add(new LaserEmitter(1100, 900, this));
 
 		nape_player = new FlxNapeSprite(1000,1000);
