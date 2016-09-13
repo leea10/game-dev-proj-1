@@ -10,11 +10,11 @@ import flixel.util.FlxColor;
 import flixel.math.FlxMath;
 import flixel.addons.nape.FlxNapeSprite;
 
-// TODO(Ariel): Turn this into LevelState and use as a base class for all levels
+// TODO(Ariel): Turn this into LevelState and use as a base class for all levels.
+// TODO(Ariel): Figure out what differentiates this from a normal PlayState and possibly consolidate.
 class TestLevelState extends PlayState
 {
-	// TODO(Ariel): Make private once the dual sprite transition is done
-	public var _isDark:Bool = false; // Are we in the dark world?
+	private var _isDark:Bool = false; // Are we in the dark world?
 	
 	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
 	private var _darkWorld:WorldGroup;
@@ -36,8 +36,7 @@ class TestLevelState extends PlayState
 		_bothWorlds = level.getWorldEntities("both");
 		
 		// Initialize the level's starting world.
-		_darkWorld.visible = _isDark;
-		_lightWorld.visible = !_isDark;
+		_setWorld(_isDark);
 		
 		add(_darkWorld);
 		add(_lightWorld);
@@ -53,7 +52,6 @@ class TestLevelState extends PlayState
 		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
 
-		// TODO(Ariel): get rid of duplicating the world / sprite hacks.
 		add(new LaserEmitter(1100, 900, this));
 
 		nape_player = new FlxNapeSprite(1000,1000);
@@ -69,18 +67,41 @@ class TestLevelState extends PlayState
 	{
 		super.update(elapsed);
 		
-		// If the spacebar was hit, switch worlds
-		// TODO(Ariel): Add another check to make sure the player is in front of the mirror.
-		if (FlxG.keys.justPressed.SPACE) {
-			switchWorld();
-		}
+		_handleInput();
+		_handleCollisions();
+
 		nape_player.reset(player.x + 16, player.y + 16); //player sprite is 32x32 and we need this nape collider to be in the center
 	}
 	
-	function switchWorld():Void
+	private function _handleInput():Void
 	{
-		_isDark = !_isDark;
+		// If the spacebar was hit, switch worlds
+		// TODO(Ariel): Add another check to make sure the player is in front of the mirror.
+		if (FlxG.keys.justPressed.SPACE) {
+			_switchWorld();
+		}		
+	}
+	
+	private function _handleCollisions():Void
+	{
+		FlxG.collide(player, _bothWorlds.walls);
+		FlxG.collide(player, _getActiveWorld().walls);		
+	}
+	
+	private function _getActiveWorld():WorldGroup 
+	{
+		return _isDark ? _darkWorld : _lightWorld;
+	}
+	
+	private function _setWorld(isDark):Void 
+	{
+		_isDark = isDark;
 		_darkWorld.visible = _isDark;
 		_lightWorld.visible = !_isDark;
+	}
+	
+	private function _switchWorld():Void
+	{
+		_setWorld(!_isDark);
 	}
 }

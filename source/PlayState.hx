@@ -35,9 +35,6 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		
-		FlxG.collide(player, wall_tiles_light);
-		FlxG.collide(player, wall_tiles_dark);
 	}
 	
 	/*
