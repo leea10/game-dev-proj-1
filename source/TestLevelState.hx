@@ -30,7 +30,7 @@ class TestLevelState extends PlayState
 		_setWorld(_isDark);
 		
 		_darkWorld.addLaser(1100, 900, this);
-		_bothWorlds.addLight(1200, 700, this);
+		_bothWorlds.addLight(1200, 650, this);
 		
 		add(_darkWorld);
 		add(_lightWorld);

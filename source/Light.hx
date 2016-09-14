@@ -34,13 +34,14 @@ class Light extends FlxSprite
 		state = playstate;
 		worldgroup = group;
 		makeGraphic(1, 1, FlxColor.BLUE);
-		
-		origin_point = new FlxPoint(x + width / 2, y + height / 2);
 	}
 	
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		
+		y += 1;
+		origin_point = new FlxPoint(x + width / 2, y + height / 2);
 		
 		var vertices = new Array<FlxPoint>();
 		var corners = new Array<FlxPoint>();
@@ -77,72 +78,26 @@ class Light extends FlxSprite
 			
 			var dist_to_point = Vec2.distance(origin_vector, Vec2.get(point.x, point.y));
 			
+			
+			// aim a ray at the center
 			var light_ray:Ray = new Ray(origin_vector, direction_vector);
 			light_ray.maxDistance = max_distance;
 			
+			/*
 			var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(light_ray);
-			var min = max_distance;
-			var min_x:Float = 0;
-			var min_y:Float = 0;
+			vertices[vertices.length] = interpret_ray_result(rayResultList, light_ray);
+			*/
 			
-			for (rayResult in rayResultList)
-			{
-				
-				// determine if this wall is in a world this light should interact with
-				var should_collide:Bool = true;
-				
-				if (!in_dark_world){
-					for (wall in state._darkWorld.walls){
-						if (wall.body == rayResult.shape.body){
-							should_collide = false;
-						}
-					}
-					
-					/*
-					if (state._isDark){
-						if (state.nape_player.body == rayResult.shape.body){
-							should_collide = false;
-						}
-					}
-					*/
-				}
-				if (!in_light_world){
-					for (wall in state._lightWorld.walls){
-						if (wall.body == rayResult.shape.body){
-							should_collide = false;
-						}
-					}
-					
-					/*
-					if (!state._isDark){
-						if (state.nape_player.body == rayResult.shape.body){
-							should_collide = false;
-						}
-					}
-					*/
-				}
-				if (state.nape_player.body == rayResult.shape.body){
-					should_collide = false;
-				}
-				
-				
-				if (should_collide){
-					if (min > rayResult.distance) {
-						min = rayResult.distance;
-						
-						min_x = light_ray.at(min).x;
-						min_y = light_ray.at(min).y;
-						
-						//state.canvas.drawLine(origin_point.x, origin_point.y, min_x, min_y, {thickness: 1, color: FlxColor.GREEN});
-					}
-				}
-			}
+			// aim a ray juuust to the right
+			light_ray.direction = rotate_vec2(light_ray.direction, 0.0001);
+			var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(light_ray);
+			vertices[vertices.length] = interpret_ray_result(rayResultList, light_ray);
 			
-			vertices[vertices.length] = new FlxPoint(min_x, min_y);
-			
-			if (min > dist_to_point){
-				vertices[vertices.length] = new FlxPoint(point.x, point.y);
-			}
+			// aim a ray juuust to the left
+			light_ray.direction = rotate_vec2(light_ray.direction, -0.0002);
+			var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(light_ray);
+			vertices[vertices.length] = interpret_ray_result(rayResultList, light_ray);
+
 		}
 		
 		
@@ -164,21 +119,96 @@ class Light extends FlxSprite
 			return 0;
 		} );
 		
+		
+		state.canvas.makeGraphic(0, 0, FlxColor.TRANSPARENT);
+		state.canvas.makeGraphic(Math.round(FlxG.worldBounds.width), Math.round(FlxG.worldBounds.height), FlxColor.TRANSPARENT);
 		state.canvas.drawPolygon(vertices, FlxColor.fromRGB(30,30,30));
 		state.canvas.set_blend(BlendMode.ADD);
 		
-		/*
+		
 		for (vert in vertices){
-			state.canvas.drawLine(origin_point.x, origin_point.y, vert.x, vert.y, {thickness: 1, color: FlxColor.RED});
-			state.canvas.drawCircle(vert.x, vert.y, 3, FlxColor.CYAN);
+			//state.canvas.drawLine(origin_point.x, origin_point.y, vert.x, vert.y, {thickness: 1, color: FlxColor.RED});
+			//state.canvas.drawCircle(vert.x, vert.y, 3, FlxColor.CYAN);
 			//drawRect(0, 0, 1000, 1000);
 		}
-		*/
+		
 	}
 	
 	public function initialize():Void
 	{
 		get_worlds();
+	}
+	
+	public function rotate_vec2(vec:Vec2, degrees:Float):Vec2
+	{
+		var result:Vec2 = new Vec2();
+		
+		result.x = vec.x * Math.cos(degrees) - vec.y * Math.sin(degrees);
+		result.y = vec.x * Math.sin(degrees) + vec.y * Math.cos(degrees);
+		
+		return result;
+	}
+	
+	public function interpret_ray_result(rayResultList:RayResultList, light_ray:Ray):FlxPoint
+	{
+		var min = max_distance;
+		var min_x:Float = 0;
+		var min_y:Float = 0;
+		
+		for (rayResult in rayResultList)
+		{
+			// determine if this wall is in a world this light should interact with
+			var should_collide:Bool = true;
+			
+			if (!in_dark_world){
+				for (wall in state._darkWorld.walls){
+					if (wall.body == rayResult.shape.body){
+						should_collide = false;
+					}
+				}
+				
+				/*
+				if (state._isDark){
+					if (state.nape_player.body == rayResult.shape.body){
+						should_collide = false;
+					}
+				}
+				*/
+			}
+			if (!in_light_world){
+				for (wall in state._lightWorld.walls){
+					if (wall.body == rayResult.shape.body){
+						should_collide = false;
+					}
+				}
+				
+				/*
+				if (!state._isDark){
+					if (state.nape_player.body == rayResult.shape.body){
+						should_collide = false;
+					}
+				}
+				*/
+			}
+			if (state.nape_player.body == rayResult.shape.body){
+				should_collide = false;
+			}
+			
+			
+			if (should_collide){
+				if (min > rayResult.distance) {
+					min = rayResult.distance;
+					
+					min_x = light_ray.at(min).x;
+					min_y = light_ray.at(min).y;
+					
+					//state.canvas.drawLine(origin_point.x, origin_point.y, min_x, min_y, {thickness: 1, color: FlxColor.GREEN});
+				}
+			}
+		}
+		
+		
+		return new FlxPoint(min_x, min_y);
 	}
 	
 	function get_worlds():Void
