@@ -8,6 +8,7 @@ import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import flixel.addons.nape.FlxNapeSprite;
 import nape.phys.BodyType;
+import nape.dynamics.InteractionFilter;
 
 class Wall extends FlxNapeSprite
 {
@@ -26,7 +27,7 @@ class Wall extends FlxNapeSprite
 		origin_y = y + (h / 2);
 		
 		super(origin_x, origin_y);
-
+		
 		immovable = true;
 		solid = true;
 		makeGraphic(w, h, FlxColor.LIME);
@@ -36,5 +37,10 @@ class Wall extends FlxNapeSprite
 		
 		body.type = BodyType.STATIC;
 		visible = false;
+	}
+	
+	public function set_filter (filter:InteractionFilter)
+	{
+		body.shapes.at(0).filter = filter;
 	}
 }

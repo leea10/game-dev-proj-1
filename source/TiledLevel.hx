@@ -12,6 +12,7 @@ import flixel.addons.editors.tiled.TiledTileLayer;
 import flixel.addons.editors.tiled.TiledLayer.TiledLayerType;
 import flixel.addons.editors.tiled.TiledObject;
 import flixel.addons.editors.tiled.TiledObjectLayer;
+import nape.dynamics.InteractionFilter;
 
 /**
  * Parses data for entities in either / both universe and splits them into separate FlxSpriteGroups for the main level to use.
@@ -26,15 +27,31 @@ class TiledLevel extends TiledMap
 	// THESE ARE TEMPORARY FOR INTERMEDIATE REFACTORING PURPOSES
 	public var _mirror:Mirror;
 	public var _player:Player;
+	
+	public var light_filter:InteractionFilter;
+	public var dark_filter:InteractionFilter;
+	public var both_filter:InteractionFilter;
 		
 	public function new(level_file:Dynamic)
 	{
 		super(level_file);
 		
+		var light_collision_group:Int = 1; /// .....0001
+		var dark_collision_group:Int = 2;  /// .....0010
+		var both_collision_group:Int = 4;  /// .....0100
+		
+		var light_collision_mask:Int = 5;  /// .....0101 -- collide with stuff in the light world and in both worlds
+		var dark_collision_mask:Int = 6;   /// .....0110 -- collide with stuff in the dark world and in both worlds
+		var both_collision_mask:Int = 7;   /// .....0111 -- collide with everything
+		
+		light_filter = new InteractionFilter(light_collision_group, light_collision_mask);
+		dark_filter = new InteractionFilter(dark_collision_group, dark_collision_mask);
+		both_filter = new InteractionFilter(both_collision_group, both_collision_mask);
+		
 		_worlds = [
-			"dark" => new WorldGroup(), // Entities that are only in the dark world
-			"light" => new WorldGroup(), // Entities that are only in the light world
-			"both" => new WorldGroup(), // Entities that are in both worlds
+			"dark" => new WorldGroup(dark_filter), // Entities that are only in the dark world
+			"light" => new WorldGroup(light_filter), // Entities that are only in the light world
+			"both" => new WorldGroup(both_filter), // Entities that are in both worlds
 		];
 				
 		// load tilemaps

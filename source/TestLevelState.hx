@@ -26,9 +26,6 @@ class TestLevelState extends PlayState
 		_lightWorld = level.getWorldEntities("light");
 		_bothWorlds = level.getWorldEntities("both");
 		
-		// Initialize the level's starting world.
-		_setWorld(_isDark);
-		
 		_darkWorld.addLaser(1100, 900, this);
 		//_bothWorlds.addLight(1200, 650, this);
 		
@@ -42,15 +39,12 @@ class TestLevelState extends PlayState
 		mirror = level._mirror;
 		add(player);
 		add(mirror);
-				
+		
+		// Initialize the level's starting world.
+		_setWorld(_isDark);
+		
 		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
-
-		//nape_player = new FlxNapeSprite(1000,1000);
-		//nape_player.createCircularBody(10);
-		//nape_player.visible = false;
-		//nape_player.solid = false;
-		//add(nape_player);
 		
 		canvas.makeGraphic(Math.round(FlxG.worldBounds.width), Math.round(FlxG.worldBounds.height), FlxColor.TRANSPARENT);
 		add(canvas);
@@ -105,6 +99,13 @@ class TestLevelState extends PlayState
 		_isDark = isDark;
 		_darkWorld.visible = _isDark;
 		_lightWorld.visible = !_isDark;
+		
+		if (_isDark) {
+			player.body.shapes.at(0).filter = dark_filter;
+		}
+		else {
+			player.body.shapes.at(0).filter = light_filter;
+		}
 	}
 	
 	private function _switchWorld():Void

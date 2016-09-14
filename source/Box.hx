@@ -2,6 +2,7 @@ package;
 import flixel.FlxSprite;
 import nape.phys.BodyType;
 import flixel.addons.nape.FlxNapeSprite;
+import nape.dynamics.InteractionFilter;
 
 // TODO(Ariel): Maybe this needs to extend FlxNapeSprite? I'll let Sam decide that.
 /**
@@ -29,5 +30,10 @@ class Box extends FlxNapeSprite
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+	}
+	
+	public function set_filter (filter:InteractionFilter)
+	{
+		body.shapes.at(0).filter = filter;
 	}
 }

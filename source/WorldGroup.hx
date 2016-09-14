@@ -2,6 +2,7 @@ package;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.addons.nape.FlxNapeSprite;
+import nape.dynamics.InteractionFilter;
 
 // All the entities in a world.
 class WorldGroup extends FlxGroup
@@ -11,9 +12,12 @@ class WorldGroup extends FlxGroup
 	public var lights:FlxTypedGroup<Light>;
 	public var boxes:FlxTypedGroup<Box>;
 	
-	public function new() 
+	var filter:InteractionFilter;
+	
+	public function new(filt:InteractionFilter) 
 	{
 		super();
+		filter = filt;
 		
 		// Groups made for easy collision checks.
 		walls = new FlxTypedGroup<Wall>();
@@ -40,7 +44,9 @@ class WorldGroup extends FlxGroup
 	 */
 	public function addWall(x:Int, y:Int, width:Int, height:Int) 
 	{
-		walls.add(new Wall(x, y, width, height));
+		var w:Wall = new Wall(x, y, width, height);
+		walls.add(w);
+		w.set_filter(filter);
 	}
 	
 	public function addLaser(x:Int, y:Int, playstate:PlayState)
@@ -64,5 +70,6 @@ class WorldGroup extends FlxGroup
 		var b:Box = new Box(tilesheetPath, frame, x, y, width, height);
 		boxes.add(b);
 		add(b);
-	}
+		b.set_filter(filter);
+	}	
 }
