@@ -43,8 +43,7 @@ class TiledLevel extends TiledMap
 			if (layer.type != TiledLayerType.TILE) continue;
 			var tileLayer:TiledTileLayer = cast layer;
 
-			// important: either all tiles need to be on one sheet (preferable) or we need to specify which layers have which tilemaps. each layer can use only one spritesheet.
-			var tilesheetName:String = "temp tilemap.png";
+			var tilesheetName:String = tileLayer.properties.get("tileset");
             var tilesheetPath:String = "assets/images/" + tilesheetName;
             var level:FlxTilemap = new FlxTilemap();
 
