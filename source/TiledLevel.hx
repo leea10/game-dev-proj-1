@@ -43,7 +43,7 @@ class TiledLevel extends TiledMap
 			if (layer.type != TiledLayerType.TILE) continue;
 			var tileLayer:TiledTileLayer = cast layer;
 
-			var tilesheetName:String = tileLayer.properties.get("tileset");
+			var tilesheetName:String = tileLayer.properties.get("tilesheet");
             var tilesheetPath:String = "assets/images/" + tilesheetName;
             var level:FlxTilemap = new FlxTilemap();
 
