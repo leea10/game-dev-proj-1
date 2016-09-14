@@ -42,15 +42,15 @@ class TestLevelState extends PlayState
 		mirror = level._mirror;
 		add(player);
 		add(mirror);
-		
+				
 		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
 
-		nape_player = new FlxNapeSprite(1000,1000);
-		nape_player.createCircularBody(10);
-		nape_player.visible = false;
-		nape_player.solid = false;
-		add(nape_player);
+		//nape_player = new FlxNapeSprite(1000,1000);
+		//nape_player.createCircularBody(10);
+		//nape_player.visible = false;
+		//nape_player.solid = false;
+		//add(nape_player);
 		
 		canvas.makeGraphic(Math.round(FlxG.worldBounds.width), Math.round(FlxG.worldBounds.height), FlxColor.TRANSPARENT);
 		add(canvas);
@@ -63,7 +63,7 @@ class TestLevelState extends PlayState
 		_handleInput();
 		_handleCollisions();
 
-		nape_player.reset(player.x + 16, player.y + 16); //player sprite is 32x32 and we need this nape collider to be in the center
+		//nape_player.reset(player.x + 16, player.y + 16); //player sprite is 32x32 and we need this nape collider to be in the center
 	}
 	
 	private function _handleInput():Void

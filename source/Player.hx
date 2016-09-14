@@ -7,9 +7,11 @@ import flixel.FlxG;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
 import flixel.math.FlxMath;
+import nape.phys.BodyType;
+import nape.geom.Vec2;
 import flixel.addons.nape.FlxNapeSprite;
 
-class Player extends FlxSprite
+class Player extends FlxNapeSprite
 {	
 	// key presses	
 	var up_pressed:Bool = false;
@@ -17,22 +19,32 @@ class Player extends FlxSprite
 	var left_pressed:Bool = false;
 	var right_pressed:Bool = false;
 
-	var _speed:Float = 200;	
-	var _rotation = 0;
+	var _speed:Float = 200;
+	var _rotation:Float = 0;
 	
 	public var vx:Float = 0;
 	public var vy:Float = 0;
-		
+	
 	public function new(?x:Float=0, ?y:Float=0)
 	{
 		super(x, y);
-		 
+		
 		makeGraphic(32, 32, FlxColor.BLUE);
+		createRectangularBody();
+		body.type = BodyType.DYNAMIC;
+		
+		setBodyMaterial(0, 0, 0, 1);
+		setDrag(0.5, 0.5);
+		
+		body.allowMovement = true;
+		body.allowRotation = false;
+		body.inertia = 1000;
+		
 		FlxG.camera.follow(this);
 		
 		solid = true;
-		drag.x = 1600;
-		drag.y = 1600;
+		//drag.x = 1600;
+		//drag.y = 1600;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -64,7 +76,6 @@ class Player extends FlxSprite
 		if (left_pressed && right_pressed)
 			left_pressed = right_pressed = false;
 
-		// should we move at all?
 		if (left_pressed) {
 			_rotation = 180;
 			if (up_pressed) _rotation += 45;
@@ -81,7 +92,12 @@ class Player extends FlxSprite
 			return;
 		}
 		
-		velocity.set(_speed, 0);
-		velocity.rotate(new FlxPoint(0, 0), _rotation);
+		if (left_pressed || right_pressed || up_pressed || down_pressed) {
+			_rotation *= (3.1416 / 180); // convert degrees to radians
+			var vx:Float = Math.cos(_rotation);
+			var vy:Float = Math.sin(_rotation);
+			body.velocity = new Vec2(vx*_speed, vy*_speed);
+		}
+		
 	}
 }

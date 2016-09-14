@@ -10,6 +10,8 @@ import flixel.group.FlxGroup;
 import flixel.util.FlxColor;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeSpace;
+import nape.phys.FluidProperties;
+import nape.shape.Shape;
 
 class PlayState extends FlxState
 {
@@ -19,8 +21,6 @@ class PlayState extends FlxState
 	public var player:Player;
 	public var nape_player:FlxNapeSprite;
 	public var mirror:Mirror;
-	
-	//public var wall:Wall;
 	
 	public var canvas:FlxSprite = new FlxSprite(0, 0);
 	

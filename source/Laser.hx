@@ -72,12 +72,12 @@ class Laser extends FlxSprite
 						should_collide = false;
 					}
 				}
-				
+				/*
 				if (state._isDark){
 					if (state.nape_player.body == rayResult.shape.body){
 						should_collide = false;
 					}
-				}
+				}*/
 			}
 			if (!in_light_world){
 				for (wall in state._lightWorld.walls){
@@ -85,12 +85,12 @@ class Laser extends FlxSprite
 						should_collide = false;
 					}
 				}
-				
+				/*
 				if (!state._isDark){
 					if (state.nape_player.body == rayResult.shape.body){
 						should_collide = false;
 					}
-				}
+				}*/
 			}
 			
 			

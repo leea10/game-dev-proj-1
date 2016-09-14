@@ -31,6 +31,9 @@ class Wall extends FlxNapeSprite
 		solid = true;
 		makeGraphic(w, h, FlxColor.LIME);
 		createRectangularBody();
+		
+		setBodyMaterial(0, 0, 0, 1);
+		
 		body.type = BodyType.STATIC;
 		visible = false;
 	}
