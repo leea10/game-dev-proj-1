@@ -83,11 +83,6 @@ class Light extends FlxSprite
 			var light_ray:Ray = new Ray(origin_vector, direction_vector);
 			light_ray.maxDistance = max_distance;
 			
-			/*
-			var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(light_ray);
-			vertices[vertices.length] = interpret_ray_result(rayResultList, light_ray);
-			*/
-			
 			// aim a ray juuust to the right
 			light_ray.direction = rotate_vec2(light_ray.direction, 0.0001);
 			var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(light_ray);
@@ -129,7 +124,6 @@ class Light extends FlxSprite
 		for (vert in vertices){
 			//state.canvas.drawLine(origin_point.x, origin_point.y, vert.x, vert.y, {thickness: 1, color: FlxColor.RED});
 			//state.canvas.drawCircle(vert.x, vert.y, 3, FlxColor.CYAN);
-			//drawRect(0, 0, 1000, 1000);
 		}
 		
 	}
