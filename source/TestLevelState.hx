@@ -77,8 +77,22 @@ class TestLevelState extends PlayState
 	
 	private function _handleCollisions():Void
 	{
+		// We may need to just make a group called "collidables" in WorldGroup
+		// to prevent this from getting out of control.
+		
+		// The player collides with things in "both worlds" and in the world that the player is in.
 		FlxG.collide(player, _bothWorlds.walls);
-		FlxG.collide(player, _getActiveWorld().walls);		
+		FlxG.collide(player, _bothWorlds.boxes);
+		FlxG.collide(player, _getActiveWorld().walls);
+		FlxG.collide(player, _getActiveWorld().boxes);
+		
+		// Things in "both worlds" must collide with things in both the dark and light worlds.
+		FlxG.collide(_bothWorlds.boxes, _lightWorld.boxes);
+		FlxG.collide(_bothWorlds.boxes, _darkWorld.boxes);
+		FlxG.collide(_bothWorlds.boxes, _lightWorld.walls);
+		FlxG.collide(_bothWorlds.boxes, _darkWorld.walls);
+		FlxG.collide(_lightWorld.boxes, _bothWorlds.walls);
+		FlxG.collide(_darkWorld.boxes, _bothWorlds.walls);
 	}
 	
 	private function _getActiveWorld():WorldGroup 

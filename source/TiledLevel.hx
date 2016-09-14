@@ -88,6 +88,13 @@ class TiledLevel extends TiledMap
 		// Find the correct object group to add this object to.
 		var worldGroup:WorldGroup = _worlds.get(layer.properties.get("world"));
 		
+		var tilesheetName = layer.properties.get("tilesheet");
+		if (tilesheetName == null) {
+			tilesheetName = '';
+		}
+		var tilesheetPath = "assets/images/" + tilesheetName;
+		var frame = o.gid - _getStartGid(tilesheetName);
+		
 		// Handle each type of object differently.
 		switch (o.type.toLowerCase())
 		{			
@@ -99,6 +106,7 @@ class TiledLevel extends TiledMap
 			// like the player does, then leave it as its own entity, like the player.
 			case "mirror start": _mirror = new Mirror(x, y);
 			case "wall": worldGroup.addWall(x, y, w, h);
+			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
 		}
 	}
 	
