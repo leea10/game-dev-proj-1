@@ -99,7 +99,7 @@ class TiledLevel extends TiledMap
 		switch (o.type.toLowerCase())
 		{			
 			// The player won't be bound to any world since it can bounce between worlds.
-			case "player start": _player = new Player(x, y);
+			case "player start": _player = new Player(tilesheetPath, frame, x, y, w, h);
 			
 			// TODO(Ariel): Figure out the exact mechanics of the mirror's existence
 			// If it exists in both, place in "both". If it flips back and forth

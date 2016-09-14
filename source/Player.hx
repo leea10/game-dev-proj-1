@@ -25,11 +25,12 @@ class Player extends FlxNapeSprite
 	public var vx:Float = 0;
 	public var vy:Float = 0;
 	
-	public function new(?x:Float=0, ?y:Float=0)
+	public function new(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int)
 	{
 		super(x, y);
+		loadGraphic(tilesheetPath, true, width, height);
+		animation.frameIndex = frame;
 		
-		makeGraphic(32, 32, FlxColor.BLUE);
 		createRectangularBody();
 		body.type = BodyType.DYNAMIC;
 		
@@ -43,8 +44,6 @@ class Player extends FlxNapeSprite
 		FlxG.camera.follow(this);
 		
 		solid = true;
-		//drag.x = 1600;
-		//drag.y = 1600;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -92,6 +91,7 @@ class Player extends FlxNapeSprite
 			return;
 		}
 		
+<<<<<<< HEAD
 		if (left_pressed || right_pressed || up_pressed || down_pressed) {
 			_rotation *= (3.1416 / 180); // convert degrees to radians
 			var vx:Float = Math.cos(_rotation);
@@ -99,5 +99,10 @@ class Player extends FlxNapeSprite
 			body.velocity = new Vec2(vx*_speed, vy*_speed);
 		}
 		
+=======
+		velocity.set(_speed, 0);
+		velocity.rotate(new FlxPoint(0, 0), _rotation);
+		angle = _rotation;
+>>>>>>> d53cc943f9750a58dbca66cd70af52b2d9be869a
 	}
 }
