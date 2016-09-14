@@ -25,8 +25,6 @@ class LaserEmitter extends FlxSprite
 		state = playstate;
 		worldgroup = group;
 		
-		//get_worlds();
-		
 		makeGraphic(16, 16, FlxColor.ORANGE);
 		origin.set(width / 2, height / 2);
 	}
@@ -65,9 +63,7 @@ class LaserEmitter extends FlxSprite
 			}
 		}
 		for (laser in state._bothWorlds.lasers){
-			trace ("found a laser");
 			if (laser == this){
-				trace ("found this laser");
 				in_light_world = true;
 				in_dark_world = true;
 			}

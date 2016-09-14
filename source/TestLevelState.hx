@@ -30,6 +30,7 @@ class TestLevelState extends PlayState
 		_setWorld(_isDark);
 		
 		_darkWorld.addLaser(1100, 900, this);
+		_bothWorlds.addLight(1200, 700, this);
 		
 		add(_darkWorld);
 		add(_lightWorld);
@@ -44,9 +45,6 @@ class TestLevelState extends PlayState
 		
 		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
-		
-		//add(new LaserEmitter(1100, 900, this));
-
 
 		nape_player = new FlxNapeSprite(1000,1000);
 		nape_player.createCircularBody(10);
@@ -54,7 +52,8 @@ class TestLevelState extends PlayState
 		nape_player.solid = false;
 		add(nape_player);
 		
-		//create_nape_walls();
+		canvas.makeGraphic(Math.round(FlxG.worldBounds.width), Math.round(FlxG.worldBounds.height), FlxColor.TRANSPARENT);
+		add(canvas);
 	}
 	
 	override public function update(elapsed:Float):Void

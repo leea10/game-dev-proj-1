@@ -20,7 +20,9 @@ class PlayState extends FlxState
 	public var nape_player:FlxNapeSprite;
 	public var mirror:Mirror;
 	
-	public var wall:Wall;
+	//public var wall:Wall;
+	
+	public var canvas:FlxSprite = new FlxSprite(0, 0);
 	
 	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
 	public var _darkWorld:WorldGroup;
@@ -37,20 +39,5 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 	}
-	
-	/*
-	public function create_nape_walls()
-	{
-		for (wallobj in wall_tiles_light)
-		{
-			var wall:Wall = cast wallobj;
-			
-			var _test = new FlxNapeSprite(wall.x + (wall.w/2), wall.y + (wall.h/2));
-			_test.makeGraphic(wall.w, wall.h, FlxColor.CYAN);
-			_test.createRectangularBody();
-			_test.visible = false;
-			add(_test);
-		}
-	}
-	*/
+
 }
