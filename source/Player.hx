@@ -91,18 +91,13 @@ class Player extends FlxNapeSprite
 			return;
 		}
 		
-<<<<<<< HEAD
 		if (left_pressed || right_pressed || up_pressed || down_pressed) {
-			_rotation *= (3.1416 / 180); // convert degrees to radians
-			var vx:Float = Math.cos(_rotation);
-			var vy:Float = Math.sin(_rotation);
+			var rad_rotation:Float = _rotation*(3.1416 / 180); // convert degrees to radians
+			var vx:Float = Math.cos(rad_rotation);
+			var vy:Float = Math.sin(rad_rotation);
 			body.velocity = new Vec2(vx*_speed, vy*_speed);
 		}
 		
-=======
-		velocity.set(_speed, 0);
-		velocity.rotate(new FlxPoint(0, 0), _rotation);
 		angle = _rotation;
->>>>>>> d53cc943f9750a58dbca66cd70af52b2d9be869a
 	}
 }
