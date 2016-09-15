@@ -50,6 +50,8 @@ class Player extends FlxNapeSprite
 		body.allowRotation = false;
 		body.inertia = 1000;
 		
+		body.scaleShapes(0.65,0.65);
+		
 		FlxG.camera.follow(this);
 		
 		solid = true;
@@ -61,6 +63,8 @@ class Player extends FlxNapeSprite
 		
 		handle_key_presses();
 		handle_movement();
+		
+		has_drag_target = false;
 		raycast_for_boxes();
 		
 		if (is_dragging){
@@ -131,13 +135,12 @@ class Player extends FlxNapeSprite
 		var direction_vector = Vec2.get(_cosAngle, _sinAngle);
 		
 		var box_ray:Ray = new Ray(origin_point, direction_vector);
-		box_ray.maxDistance = 33;
+		box_ray.maxDistance = 21;
 		
 		var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(box_ray);
 		
 		var should_collide:Bool = false;
 		var min:Float = 100;
-		has_drag_target = false;
 		
 		for (rayResult in rayResultList)
 		{

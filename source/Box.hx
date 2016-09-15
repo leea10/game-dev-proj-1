@@ -21,20 +21,14 @@ class Box extends FlxNapeSprite
 		origin_y = y_in + (height / 2) + (64 - height);
 		
 		super(origin_x, origin_y);
-		
-		//makeGraphic(width, height, FlxColor.LIME);
-		
+				
 		loadGraphic(tilesheetPath, true, width, height);
 		createRectangularBody();
-		//animation.frameIndex = frame;
+		animation.frameIndex = frame;
 		body.type = BodyType.DYNAMIC;
-		//solid = true;
 		
 		setBodyMaterial(0, 0, 0, 5);
 		setDrag(0.5, 0.5);
-		
-		//x = x_in + 64;
-		//y = y_in + 64;
 		
 		body.allowMovement = true;
 		body.allowRotation = false;
