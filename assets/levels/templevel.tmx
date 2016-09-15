@@ -57,7 +57,7 @@
    <property name="world" value="light"/>
   </properties>
   <object id="66" type="box" gid="36" x="1280" y="960" width="64" height="64"/>
-  <object id="68" type="box" gid="17" x="1280" y="832" width="64" height="64"/>
+  <object id="68" type="box" gid="17" x="1088" y="752" width="48" height="112"/>
  </objectgroup>
  <objectgroup name="light_collision" visible="0">
   <properties>
@@ -92,13 +92,13 @@
   <object id="50" type="wall" x="1024" y="704" width="64" height="64"/>
   <object id="51" type="wall" x="960" y="832" width="64" height="64"/>
  </objectgroup>
- <objectgroup name="dark_objects" visible="0">
+ <objectgroup name="dark_objects">
   <properties>
    <property name="tilesheet" value="temp tilemap.png"/>
    <property name="world" value="dark"/>
   </properties>
   <object id="57" type="box" gid="115" x="1344" y="784" width="32" height="32"/>
-  <object id="69" type="box" gid="17" x="1152" y="992" width="112" height="32"/>
+  <object id="69" type="box" gid="17" x="1216" y="1008" width="48" height="48"/>
  </objectgroup>
  <objectgroup name="both_collision" visible="0">
   <properties>
@@ -118,7 +118,7 @@
    <property name="world" value="both"/>
   </properties>
   <object id="67" type="box" gid="24" x="1280" y="704" width="32" height="32"/>
-  <object id="70" type="box" gid="17" x="832" y="832" width="192" height="16"/>
+  <object id="70" type="box" gid="17" x="928" y="832" width="96" height="48"/>
  </objectgroup>
  <objectgroup name="player controlled" visible="0">
   <properties>

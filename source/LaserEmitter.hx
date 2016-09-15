@@ -37,7 +37,7 @@ class LaserEmitter extends FlxSprite
 	
 	function update_laser():Void
 	{	
-		angle += 1;
+		angle += 0.3;
 		laser.angle = angle;
 	}
 
