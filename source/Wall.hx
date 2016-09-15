@@ -28,8 +28,6 @@ class Wall extends FlxNapeSprite
 		
 		super(origin_x, origin_y);
 		
-		immovable = true;
-		solid = true;
 		makeGraphic(w, h, FlxColor.LIME);
 		createRectangularBody();
 		

@@ -1,6 +1,7 @@
 package;
 import flixel.FlxSprite;
 import nape.phys.BodyType;
+import flixel.util.FlxColor;
 import flixel.addons.nape.FlxNapeSprite;
 import nape.dynamics.InteractionFilter;
 
@@ -11,17 +12,29 @@ import nape.dynamics.InteractionFilter;
  */
 class Box extends FlxNapeSprite
 {
-	public function new(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int) 
+	public var origin_x:Float;
+	public var origin_y:Float;
+	
+	public function new(tilesheetPath:String, frame:Int, x_in:Int, y_in:Int, width:Int, height:Int) 
 	{
-		super(x, y);
-		loadGraphic(tilesheetPath, true, width, height);
+		origin_x = x_in + (width / 2);
+		origin_y = y_in + (height / 2) + (64 - height);
+		
+		super(origin_x, origin_y);
+		
+		makeGraphic(width, height, FlxColor.LIME);
+		
+		//loadGraphic(tilesheetPath, true, width, height);
 		createRectangularBody();
-		animation.frameIndex = frame;
+		//animation.frameIndex = frame;
 		body.type = BodyType.DYNAMIC;
-		solid = true;
+		//solid = true;
 		
 		setBodyMaterial(0, 0, 0, 1);
 		setDrag(0.5, 0.5);
+		
+		//x = x_in + 64;
+		//y = y_in + 64;
 		
 		body.allowMovement = true;
 		body.allowRotation = false;
