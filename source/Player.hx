@@ -31,6 +31,7 @@ class Player extends FlxNapeSprite
 	public var box_target:FlxSprite = new FlxSprite();
 	public var has_drag_target:Bool = false;
 	public var is_dragging:Bool = false;
+	public var drag_axis:String = "";
 	
 	public var state:PlayState;
 	
@@ -66,10 +67,10 @@ class Player extends FlxNapeSprite
 		
 		has_drag_target = false;
 		raycast_for_boxes();
+		get_drag_axis();
 		
 		if (is_dragging){
-			var box:Box = cast box_target;
-			
+			var box:FlxNapeSprite = cast box_target;
 			box.body.velocity = this.body.velocity;
 		}
 		
@@ -89,6 +90,24 @@ class Player extends FlxNapeSprite
 		is_dragging = FlxG.keys.pressed.SHIFT && has_drag_target;
 	}
 	
+	public function get_drag_axis():Void
+	{
+		if (angle == 180 || angle == 0)
+		{
+			drag_axis = "horizontal";
+		}
+		else if (angle == 90 || angle == 270)
+		{
+			drag_axis = "vertical";
+		}
+		else
+		{
+			// if we're not facing in a cardinal direction, dragging is disabled
+			has_drag_target = false;
+		}
+		
+	}
+	
 	public function handle_movement():Void
 	{	
 		// cancel opposing directions
@@ -96,6 +115,16 @@ class Player extends FlxNapeSprite
 			up_pressed = down_pressed = false;
 		if (left_pressed && right_pressed)
 			left_pressed = right_pressed = false;
+			
+		
+		if (is_dragging){
+			if (drag_axis == "horizontal"){
+				up_pressed = down_pressed = false;
+			}
+			if (drag_axis == "vertical"){
+				left_pressed = right_pressed = false;
+			}
+		}
 
 		if (left_pressed) {
 			_rotation = 180;
@@ -170,6 +199,11 @@ class Player extends FlxNapeSprite
 					temp_target = box;
 				}
 			}
+			
+			if (state.mirror.body == rayResult.shape.body){
+				should_collide = true;
+				temp_target = state.mirror;
+			}
 		
 			if (should_collide){
 				has_drag_target = true;
@@ -178,6 +212,7 @@ class Player extends FlxNapeSprite
 					box_target = temp_target;
 				}
 			}
+			
 		}
 	}
 }

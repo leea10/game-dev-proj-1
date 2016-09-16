@@ -98,7 +98,7 @@
    <property name="world" value="dark"/>
   </properties>
   <object id="57" type="box" gid="115" x="1344" y="784" width="32" height="32"/>
-  <object id="69" type="box" gid="17" x="1216" y="1008" width="48" height="48"/>
+  <object id="69" type="box" gid="17" x="1216" y="959" width="48" height="48"/>
  </objectgroup>
  <objectgroup name="both_collision" visible="0">
   <properties>
@@ -120,12 +120,12 @@
   <object id="67" type="box" gid="24" x="1280" y="704" width="32" height="32"/>
   <object id="70" type="box" gid="17" x="928" y="832" width="96" height="48"/>
  </objectgroup>
- <objectgroup name="player controlled" visible="0">
+ <objectgroup name="player controlled">
   <properties>
    <property name="tilesheet" value="player_sprite_sheet.png"/>
    <property name="world" value=""/>
   </properties>
-  <object id="9" name="mirror start" type="mirror start" x="1176" y="665.5" width="16" height="16"/>
+  <object id="9" name="mirror start" type="mirror start" x="1184" y="672"/>
   <object id="79" name="player start" type="player start" gid="478" x="1024" y="704" width="64" height="64"/>
  </objectgroup>
 </map>

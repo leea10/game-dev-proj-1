@@ -38,6 +38,8 @@ class LaserEmitter extends FlxSprite
 		
 		makeGraphic(16, 16, FlxColor.ORANGE);
 		origin.set(width / 2, height / 2);
+		
+		angle = 270;
 	}
 
 	override public function update(elapsed:Float):Void
@@ -48,7 +50,7 @@ class LaserEmitter extends FlxSprite
 	
 	function update_lasers():Void
 	{		
-		angle += 0.1;
+		//angle += .3;
 		
 		var i:Int = 0;
 		var prev:Laser = lasergroup.members[0];

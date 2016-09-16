@@ -50,7 +50,6 @@ class Laser extends FlxSprite
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		//calculate();
 	}
 	
 	public function calculate():Void
@@ -88,12 +87,6 @@ class Laser extends FlxSprite
 						should_collide = false;
 					}
 				}
-				else {
-					// the player exists in the same world
-					if (state.player.body == rayResult.shape.body){
-						temp_bounced = true;
-					}
-				}
 			}
 			if (!in_light_world){
 				for (wall in state._lightWorld.walls){
@@ -111,11 +104,16 @@ class Laser extends FlxSprite
 						should_collide = false;
 					}
 				}
-				else {
-					if (state.player.body == rayResult.shape.body){
-						temp_bounced = true;
-					}
-				}
+			}
+			
+			// don't collide with the base of the mirror
+			if (state.mirror.body == rayResult.shape.body){
+				should_collide = false;
+			}
+			
+			// do collide with the actual mirror part
+			if (state.mirror.swivel_top.body == rayResult.shape.body){
+				temp_bounced = true;
 			}
 			
 			

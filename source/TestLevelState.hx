@@ -26,7 +26,7 @@ class TestLevelState extends PlayState
 		_lightWorld = level.getWorldEntities("light");
 		_bothWorlds = level.getWorldEntities("both");
 		
-		_lightWorld.addLaser(1100, 900, this);
+		_bothWorlds.addLaser(1100, 900, this);
 		//_bothWorlds.addLight(1200, 650, this);
 		
 		add(_darkWorld);
@@ -38,8 +38,12 @@ class TestLevelState extends PlayState
 		player = level._player;
 		mirror = level._mirror;
 		add(player);
-		add(mirror);
+		
+		_bothWorlds.mirrors.add(mirror);
+
 		player.state = this;
+		mirror.set_filter(both_filter);
+		add(mirror.swivel_top);
 		
 		// Initialize the level's starting world.
 		_setWorld(_isDark);
