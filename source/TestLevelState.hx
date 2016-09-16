@@ -26,7 +26,7 @@ class TestLevelState extends PlayState
 		_lightWorld = level.getWorldEntities("light");
 		_bothWorlds = level.getWorldEntities("both");
 		
-		_bothWorlds.addLaser(1100, 900, this);
+		_lightWorld.addLaser(1100, 900, this);
 		//_bothWorlds.addLight(1200, 650, this);
 		
 		add(_darkWorld);
