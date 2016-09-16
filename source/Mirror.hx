@@ -3,6 +3,7 @@ package;
 import flixel.FlxSprite;
 import nape.phys.BodyType;
 import flixel.util.FlxColor;
+import nape.geom.Vec2;
 import flixel.addons.nape.FlxNapeSprite;
 import nape.dynamics.InteractionFilter;
 
@@ -45,8 +46,11 @@ class Mirror extends FlxNapeSprite
 	{
 		super.update(elapsed);
 		
-		swivel_top.reset(x+width/2,y+height/2);
-		swivel_top.body.rotation += 0.02;
+		origin_x = x+width/2;
+		origin_y = y+height/2;
+		
+		swivel_top.reset(origin_x,origin_y);
+		swivel_top.body.rotation += 0.01;
 	}
 	
 	public function set_filter (filter:InteractionFilter)
@@ -54,5 +58,31 @@ class Mirror extends FlxNapeSprite
 		body.shapes.at(0).filter = filter;
 	}
 	
+	public function facing_point (x_pos:Float,y_pos:Float):Bool
+	{
+		var norm = rotate_vec2(Vec2.get(swivel_top._cosAngle, swivel_top._sinAngle), 90);
+		var vec = Vec2.get(x_pos - origin_x, y_pos - origin_y);
+		
+		var angle:Float = (angle_between_vectors(norm, vec));
+		return (angle < 76);
+	}
 	
+	public function angle_between_vectors(a:Vec2,b:Vec2):Float
+	{
+		var c:Float = (a.x * b.x + a.y * b.y) / (Math.sqrt( Math.pow(a.x, 2) + Math.pow(a.y, 2) ) * (Math.sqrt( Math.pow(b.x, 2) + Math.pow(b.y, 2) )));
+		return Math.acos(c) * (180 / 3.1416);
+		
+		return Math.atan2(a.x * b.y -a.y * b.x, a.x * b.x + a.y * b.y);
+	}
+	
+	public function rotate_vec2(vec:Vec2, degrees:Float):Vec2
+	{
+		degrees *= (3.146/180);
+		var result:Vec2 = new Vec2();
+		
+		result.x = vec.x * Math.cos(degrees) - vec.y * Math.sin(degrees);
+		result.y = vec.x * Math.sin(degrees) + vec.y * Math.cos(degrees);
+		
+		return result;
+	}
 }
