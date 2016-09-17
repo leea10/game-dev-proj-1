@@ -114,12 +114,12 @@ class Light extends FlxSprite
 			return 0;
 		} );
 		
-		
+		/*
 		state.canvas.makeGraphic(0, 0, FlxColor.TRANSPARENT);
 		state.canvas.makeGraphic(Math.round(FlxG.worldBounds.width), Math.round(FlxG.worldBounds.height), FlxColor.TRANSPARENT);
 		state.canvas.drawPolygon(vertices, FlxColor.fromRGB(30,30,30));
 		state.canvas.set_blend(BlendMode.ADD);
-		
+		*/
 		
 		for (vert in vertices){
 			//state.canvas.drawLine(origin_point.x, origin_point.y, vert.x, vert.y, {thickness: 1, color: FlxColor.RED});

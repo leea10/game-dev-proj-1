@@ -22,9 +22,7 @@ class PlayState extends FlxState
 	public var player:Player;
 	public var nape_player:FlxNapeSprite;
 	public var mirror:Mirror;
-	
-	public var canvas:FlxSprite = new FlxSprite(0, 0);
-	
+		
 	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
 	public var _darkWorld:WorldGroup;
 	public var _lightWorld:WorldGroup;
@@ -55,6 +53,77 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		_handleInput();
+	}
+	
+	public function init (levelpath:String){
+		// Parse level data from file.
+		level = new TiledLevel(levelpath);
+		
+		// Retrieve object groups based on what world(s) they're in.
+		_darkWorld = level.getWorldEntities("dark");
+		_lightWorld = level.getWorldEntities("light");
+		_bothWorlds = level.getWorldEntities("both");
+		
+		add(_darkWorld);
+		add(_lightWorld);
+		add(_bothWorlds);
+		
+		// Retrieve player and mirror.
+		// TODO(Ariel): retrieve their positions and create them here.
+		player = level._player;
+		mirror = level._mirror;
+		add(player);
+		
+		_bothWorlds.mirrors.add(mirror);
+
+		player.state = this;
+		mirror.set_filter(both_filter);
+		add(mirror.swivel_top);
+		
+		// Initialize the level's starting world.
+		_setWorld(_isDark);
+		
+		FlxG.worldBounds.width = level.width * level.tileWidth;
+		FlxG.worldBounds.height = level.height * level.tileHeight;
+	}
+	
+	private function _handleInput():Void
+	{
+		// If the spacebar was hit, switch worlds
+		// TODO(Ariel): Add another check to make sure the player is in front of the mirror.
+		if (FlxG.keys.justPressed.SPACE) {
+			_switchWorld();
+		}		
+	}
+	
+	private function _getActiveWorld():WorldGroup 
+	{
+		return _isDark ? _darkWorld : _lightWorld;
+	}
+	
+	private function _setWorld(isDark):Void 
+	{
+		_isDark = isDark;
+		_darkWorld.visible = _isDark;
+		_lightWorld.visible = !_isDark;
+		
+		if (_isDark) {
+			player.body.shapes.at(0).filter = dark_filter;
+		}
+		else {
+			player.body.shapes.at(0).filter = light_filter;
+		}
+	}
+	
+	private function _switchWorld():Void
+	{
+		_setWorld(!_isDark);
 	}
 
+	public function restartLevel()
+	{
+		var x = Type.createInstance(Type.getClass(this), []);
+		FlxG.switchState(x);
+	}
 }
