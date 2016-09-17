@@ -23,6 +23,10 @@ class PlayState extends FlxState
 	public var nape_player:FlxNapeSprite;
 	public var mirror:Mirror;
 		
+	// groups for the actual tiles (not entities) -- this is for layering reasons
+	public var _darkTiles:FlxGroup = new FlxGroup();
+	public var _lightTiles:FlxGroup = new FlxGroup();
+	
 	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
 	public var _darkWorld:WorldGroup;
 	public var _lightWorld:WorldGroup;
@@ -58,16 +62,19 @@ class PlayState extends FlxState
 	
 	public function init (levelpath:String){
 		// Parse level data from file.
-		level = new TiledLevel(levelpath);
+		level = new TiledLevel(levelpath, this);
 		
 		// Retrieve object groups based on what world(s) they're in.
 		_darkWorld = level.getWorldEntities("dark");
 		_lightWorld = level.getWorldEntities("light");
 		_bothWorlds = level.getWorldEntities("both");
 		
+		add(_darkTiles);
+		add(_lightTiles);
+		
+		add(_bothWorlds);
 		add(_darkWorld);
 		add(_lightWorld);
-		add(_bothWorlds);
 		
 		// Retrieve player and mirror.
 		// TODO(Ariel): retrieve their positions and create them here.
@@ -107,6 +114,10 @@ class PlayState extends FlxState
 		_isDark = isDark;
 		_darkWorld.visible = _isDark;
 		_lightWorld.visible = !_isDark;
+		
+		_darkTiles.visible = _isDark;
+		_lightTiles.visible = !_isDark;
+		
 		
 		if (_isDark) {
 			player.body.shapes.at(0).filter = dark_filter;

@@ -12,13 +12,15 @@ class WorldGroup extends FlxGroup
 	public var lights:FlxTypedGroup<Light>;
 	public var boxes:FlxTypedGroup<Box>;
 	public var mirrors:FlxTypedGroup<FlxNapeSprite>;
+	public var worldname:String;
 	
 	var filter:InteractionFilter;
 	
-	public function new(filt:InteractionFilter) 
+	public function new(filt:InteractionFilter, world:String) 
 	{
 		super();
 		filter = filt;
+		worldname = world;
 		
 		// Groups made for easy collision checks.
 		walls = new FlxTypedGroup<Wall>();
@@ -52,9 +54,10 @@ class WorldGroup extends FlxGroup
 		w.set_filter(filter);
 	}
 	
-	public function addLaser(x:Int, y:Int, playstate:PlayState)
+	public function addLaser(x:Int, y:Int, rot:Float, playstate:PlayState)
 	{
 		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this);
+		l.angle = rot;
 		lasers.add(l);
 		add(l);
 		l.initialize();

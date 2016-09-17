@@ -31,10 +31,13 @@ class TiledLevel extends TiledMap
 	public var light_filter:InteractionFilter;
 	public var dark_filter:InteractionFilter;
 	public var both_filter:InteractionFilter;
+	
+	public var state:PlayState;
 		
-	public function new(level_file:Dynamic)
+	public function new(level_file:Dynamic, playstate:PlayState)
 	{
 		super(level_file);
+		state = playstate;
 		
 		var light_collision_group:Int = 1; /// .....0001
 		var dark_collision_group:Int = 2;  /// .....0010
@@ -49,9 +52,9 @@ class TiledLevel extends TiledMap
 		both_filter = new InteractionFilter(both_collision_group, both_collision_mask);
 		
 		_worlds = [
-			"dark" => new WorldGroup(dark_filter), // Entities that are only in the dark world
-			"light" => new WorldGroup(light_filter), // Entities that are only in the light world
-			"both" => new WorldGroup(both_filter), // Entities that are in both worlds
+			"dark" => new WorldGroup(dark_filter, "dark"), // Entities that are only in the dark world
+			"light" => new WorldGroup(light_filter, "light"), // Entities that are only in the light world
+			"both" => new WorldGroup(both_filter, "both"), // Entities that are in both worlds
 		];
 				
 		// load tilemaps
@@ -68,7 +71,14 @@ class TiledLevel extends TiledMap
 			
             // add the tile map to the appropriate set of world entities
 			level.loadMapFromArray(tileLayer.tileArray, width, height, tilesheetPath, tileWidth, tileWidth, OFF, tileGID, 1, 1);
-			_worlds[tileLayer.properties.get("world")].add(level);
+			
+			if (tileLayer.properties.get("world") == "light"){
+				state._lightTiles.add(level);
+			}
+			else if (tileLayer.properties.get("world") == "dark"){
+				state._darkTiles.add(level);
+			}
+			
         }
 		
 		// load objects
@@ -96,6 +106,7 @@ class TiledLevel extends TiledMap
 		var y:Int = o.y;
 		var w:Int = o.width;
 		var h:Int = o.height;
+		var rot:Float = o.angle;
 		
 		// objects in tiled are aligned bottom-left (top-left in flixel).
 		if (o.gid != -1) {
@@ -124,6 +135,7 @@ class TiledLevel extends TiledMap
 			case "mirror start": _mirror = new Mirror(x, y);
 			case "wall": worldGroup.addWall(x, y, w, h);
 			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
+			case "laser": worldGroup.addLaser(x, y, rot, state);
 		}
 	}
 	

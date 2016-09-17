@@ -138,21 +138,15 @@ class LaserEmitter extends FlxSprite
 	// what world(s) is this laser in?
 	function get_worlds():Void
 	{
-		for (laser in state._lightWorld.lasers){
-			if (laser == this){
-				in_light_world = true;
-			}
+		if (worldgroup.worldname == "light"){
+			in_light_world = true;
 		}
-		for (laser in state._darkWorld.lasers){
-			if (laser == this){
-				in_dark_world = true;
-			}
+		else if (worldgroup.worldname == "dark"){
+			in_dark_world = true;
 		}
-		for (laser in state._bothWorlds.lasers){
-			if (laser == this){
-				in_light_world = true;
-				in_dark_world = true;
-			}
+		else{
+			in_light_world = true;
+			in_dark_world = true;
 		}
 	}
 }
