@@ -1,5 +1,7 @@
 package;
+import flixel.FlxBasic;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.group.FlxGroup;
 import flixel.addons.nape.FlxNapeSprite;
 import nape.dynamics.InteractionFilter;
@@ -12,6 +14,7 @@ class WorldGroup extends FlxGroup
 	public var lights:FlxTypedGroup<Light>;
 	public var boxes:FlxTypedGroup<Box>;
 	public var mirrors:FlxTypedGroup<FlxNapeSprite>;
+	public var switches:FlxTypedGroup<Switch>;
 	
 	var filter:InteractionFilter;
 	
@@ -26,12 +29,7 @@ class WorldGroup extends FlxGroup
 		lights = new FlxTypedGroup<Light>();
 		boxes = new FlxTypedGroup<Box>();
 		mirrors = new FlxTypedGroup<FlxNapeSprite>();
-		
-		add(mirrors);
-		add(walls);
-		add(lasers);
-		add(lights);
-		add(boxes);
+		switches = new FlxTypedGroup<Switch>();
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -74,5 +72,13 @@ class WorldGroup extends FlxGroup
 		boxes.add(b);
 		add(b);
 		b.set_filter(filter);
-	}	
+	}
+	
+	public function addSwitch(x:Int, y:Int, width:Int, height:Int)
+	{
+		var s:Switch = new Switch(x, y, width, height);
+		switches.add(s);
+		add(s);
+		s.setFilter(filter);
+	}
 }

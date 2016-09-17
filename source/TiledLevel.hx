@@ -124,6 +124,7 @@ class TiledLevel extends TiledMap
 			case "mirror start": _mirror = new Mirror(x, y);
 			case "wall": worldGroup.addWall(x, y, w, h);
 			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
+			case "switch": worldGroup.addSwitch(x, y, w, h);
 		}
 	}
 	
