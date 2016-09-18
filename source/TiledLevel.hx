@@ -155,7 +155,7 @@ class TiledLevel extends TiledMap
 				triggers.set(s,id);
 			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state);
 				receivers.set(l,id);
-			case "pressure plate": var p:PressurePlate = floorEntitiesGroup.addPlate(x, y, w, h);
+			case "pressure plate": var p:PressurePlate = floorEntitiesGroup.addPlate(x, y, w, h, state);
 				triggers.set(p,id);
 			case "pit": floorEntitiesGroup.addPit(x, y, w, h, state);
 		}

@@ -29,10 +29,11 @@ class FloorEntitiesGroup extends FlxGroup
 		add(pits);
 	}
 	
-	public function addPlate(x:Int, y:Int, width:Int, height:Int):PressurePlate
+	public function addPlate(x:Int, y:Int, width:Int, height:Int, playstate:PlayState):PressurePlate
 	{
-		var p:PressurePlate = new PressurePlate(x, y, width, height);
+		var p:PressurePlate = new PressurePlate(x, y, width, height, this, playstate);
 		pressurePlates.add(p);
+		p.initialize();
 		return p;
 	}
 	
