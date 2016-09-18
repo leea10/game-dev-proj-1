@@ -8,10 +8,10 @@ import flixel.util.FlxColor;
  */
 class PressurePlate extends FlxSprite implements Trigger 
 {
-	private var _receiver:Receiver;
+	public var _receiver:Receiver;
 	private var _on:Bool;
 	
-	public function new(x:Int, y:Int, width:Int, height:Int, ?receiver:Receiver = null) 
+	public function new(x:Int, y:Int, width:Int, height:Int, ?receiver:Receiver = null)
 	{
 		super(x, y);
 		makeGraphic(width, height, FlxColor.YELLOW);

@@ -29,7 +29,10 @@ class TiledLevel extends TiledMap
 	public var _player:Player;
 	
 	public var state:PlayState;
-		
+	
+	public var triggers:Map<FlxSprite, String> = new Map<FlxSprite, String>();
+	public var receivers:Map<FlxSprite, String> = new Map<FlxSprite, String>();
+	
 	public function new(level_file:Dynamic, playstate:PlayState)
 	{
 		super(level_file);
@@ -85,6 +88,18 @@ class TiledLevel extends TiledMap
 				_loadObject(o, objectLayer);
 			}
 		}
+		
+		for (t in triggers.keys()){
+			for (r in receivers.keys()){
+				if (triggers.get(t) == receivers.get(r)){
+					// we have a match!
+					var tri:Trigger = cast t;
+					var rec:Receiver = cast r;
+					
+					tri._receiver = rec;
+				}
+			}
+		}
 	}
 	
 	public function getWorldEntities(world:String):WorldGroup 
@@ -105,6 +120,8 @@ class TiledLevel extends TiledMap
 		var h:Int = o.height;
 		var rot:Float = o.angle;
 		
+		var id:String = o.properties.get("id");
+		
 		// objects in tiled are aligned bottom-left (top-left in flixel).
 		if (o.gid != -1) {
 			y -= layer.map.getGidOwner(o.gid).tileHeight;
@@ -124,7 +141,7 @@ class TiledLevel extends TiledMap
 		
 		// Handle each type of object differently.
 		switch (o.type.toLowerCase())
-		{			
+		{
 			// The player won't be bound to any world since it can bounce between worlds.
 			case "player start": _player = new Player(tilesheetPath, frame, x, y, w, h);
 			
@@ -134,11 +151,13 @@ class TiledLevel extends TiledMap
 			case "mirror start": _mirror = new Mirror(x, y);
 			case "wall": worldGroup.addWall(x, y, w, h);
 			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
-			case "switch": worldGroup.addSwitch(x, y, w, h);
-			case "laser": worldGroup.addLaser(x, y, rot, state);
-			case "pressure plate": floorEntitiesGroup.addPlate(x, y, w, h);
+			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h);
+				triggers.set(s,id);
+			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state);
+				receivers.set(l,id);
+			case "pressure plate": var p:PressurePlate = floorEntitiesGroup.addPlate(x, y, w, h);
+				triggers.set(p,id);
 			case "pit": floorEntitiesGroup.addPit(x, y, w, h, state);
-			case "trap door": floorEntitiesGroup.addTrapDoor(x, y, w, h, state);
 		}
 	}
 	

@@ -25,7 +25,7 @@ class Laser extends FlxSprite
 	public var hit_point:Vec2;
 	public var hit_normal:Vec2;
 	public var bounced:Bool = false;
-	
+		
 	public function new(x_pos:Float, y_pos:Float, length:Float, rotation:Float, playstate:PlayState, dark_world:Bool, light_world:Bool) 
 	{
 		super(x_pos, y_pos);

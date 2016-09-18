@@ -7,6 +7,6 @@ package;
  */
 interface Trigger  
 {
-	private var _receiver:Receiver;
+	public var _receiver:Receiver;
 	public function trigger():Void;
 }

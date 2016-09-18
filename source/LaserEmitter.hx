@@ -10,7 +10,7 @@ import flixel.FlxObject;
 import nape.geom.Vec2;
 import flixel.addons.nape.FlxNapeSprite;
 
-class LaserEmitter extends FlxSprite
+class LaserEmitter extends FlxSprite implements Receiver
 {
 	var length:Int = 600;
 	var state:PlayState;
@@ -23,6 +23,8 @@ class LaserEmitter extends FlxSprite
 		
 	// how many times can the beam bounce before stopping?
 	var bounce_limit:Int = 5;
+	
+	var is_active:Bool = false;
 	
 	public var in_dark_world:Bool = false;
 	public var in_light_world:Bool = false;
@@ -76,20 +78,28 @@ class LaserEmitter extends FlxSprite
 			i++;
 		}
 		
-		// we definitely want at least one beam
-		var desired_num_lasers = 1;
-		for (l in lasergroup.members){
-			if (l.bounced){
-				desired_num_lasers += 1;
+		var desired_num_lasers;
+		if (is_active){
+			desired_num_lasers = 1;
+			// we definitely want at least one beam
+			for (l in lasergroup.members){
+				if (l.bounced){
+					desired_num_lasers += 1;
+				}
 			}
+		}
+		else {
+			// unless the laser is off
+			desired_num_lasers = 0;
 		}
 		
 		// desired_num_lasers can be at maximum 1 more than the number of laser already in the group -- only one laser is ever added in a single frame
 		if ((desired_num_lasers > lasergroup.length) && desired_num_lasers <= (bounce_limit+1)){
-			lasergroup.add(new Laser(0, 0, length, angle, state, in_dark_world, in_light_world));
+			create_new_laser();
 		}
 		// too many lasers
 		else if (desired_num_lasers < lasergroup.length){
+			
 			var temp_array:Array<Laser> = new Array<Laser>();
 			
 			var i:Int = 0;
@@ -132,6 +142,11 @@ class LaserEmitter extends FlxSprite
 		worldgroup.add(sparksgroup);
 		
 		// make one laser to begin with
+		create_new_laser();
+	}
+	
+	public function create_new_laser():Void
+	{
 		lasergroup.add(new Laser(x + (width / 2), y + (height / 2) - 4, length, angle, state, in_dark_world, in_light_world));
 	}
 	
@@ -148,5 +163,15 @@ class LaserEmitter extends FlxSprite
 			in_light_world = true;
 			in_dark_world = true;
 		}
+	}
+	
+	public function activate()
+	{
+		is_active = true;
+	}
+	
+	public function deactivate()
+	{
+		is_active = false;
 	}
 }

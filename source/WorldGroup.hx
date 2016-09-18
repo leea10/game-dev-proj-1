@@ -51,43 +51,48 @@ class WorldGroup extends FlxGroup
 	 * TODO(Ariel): This could get a little out of hand when we start adding
 	 * more objects, but we can totally consolidate later if we have time / find it necessary
 	 */
-	public function addWall(x:Int, y:Int, width:Int, height:Int) 
+	public function addWall(x:Int, y:Int, width:Int, height:Int):Wall
 	{
 		var w:Wall = new Wall(x, y, width, height);
 		walls.add(w);
 		w.set_filter(filter);
+		return w;
 	}
 	
-	public function addLaser(x:Int, y:Int, rot:Float, playstate:PlayState)
+	public function addLaser(x:Int, y:Int, rot:Float, playstate:PlayState):LaserEmitter
 	{
 		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this);
 		l.angle = rot;
 		lasers.add(l);
 		add(l);
 		l.initialize();
+		return l;
 	}
 	
-	public function addLight(x:Int, y:Int, playstate:PlayState)
+	public function addLight(x:Int, y:Int, playstate:PlayState):Light
 	{
 		var l:Light = new Light(x, y, playstate, this);
 		lights.add(l);
 		add(l);
 		l.initialize();
+		return l;
 	}
 	
-	public function addBox(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int)
+	public function addBox(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int):Box
 	{
 		var b:Box = new Box(tilesheetPath, frame, x, y, width, height);
 		boxes.add(b);
 		add(b);
 		b.set_filter(filter);
+		return b;
 	}
 	
-	public function addSwitch(x:Int, y:Int, width:Int, height:Int)
+	public function addSwitch(x:Int, y:Int, width:Int, height:Int):Switch
 	{
 		var s:Switch = new Switch(x, y, width, height);
 		switches.add(s);
 		add(s);
 		s.setFilter(filter);
+		return s;
 	}
 }

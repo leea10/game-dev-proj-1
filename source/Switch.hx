@@ -5,7 +5,7 @@ import nape.dynamics.InteractionFilter;
 
 class Switch extends FlxNapeSprite implements Trigger
 {
-	private var _receiver:Receiver;
+	public var _receiver:Receiver;
 	private var _on:Bool;
 	
 	// TODO(ariel): Include a sprite
