@@ -130,6 +130,18 @@ class TiledLevel extends TiledMap
 		// Find the correct object group to add this object to.
 		var thisWorld = layer.properties.get("world");
 		var worldGroup:WorldGroup = _worlds.get(thisWorld);
+		var flipGroup:WorldGroup;
+		
+		if (thisWorld == "dark"){
+			flipGroup = _worlds.get("light");
+		}
+		else if (thisWorld == "light"){
+			flipGroup = _worlds.get("dark");
+		}
+		else {
+			flipGroup = worldGroup;
+		}
+		
 		var floorEntitiesGroup:FloorEntitiesGroup = _floorEntities.get(thisWorld);
 		
 		var tilesheetName = layer.properties.get("tilesheet");
@@ -153,7 +165,7 @@ class TiledLevel extends TiledMap
 			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
 			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h);
 				triggers.set(s,id);
-			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state);
+			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state, flipGroup);
 				receivers.set(l,id);
 			case "pressure plate": var p:PressurePlate = floorEntitiesGroup.addPlate(x, y, w, h, state);
 				triggers.set(p,id);

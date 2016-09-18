@@ -25,6 +25,7 @@ class Laser extends FlxSprite
 	public var hit_point:Vec2;
 	public var hit_normal:Vec2;
 	public var bounced:Bool = false;
+	public var flip_worlds:Bool = false;
 		
 	public function new(x_pos:Float, y_pos:Float, length:Float, rotation:Float, playstate:PlayState, dark_world:Bool, light_world:Bool) 
 	{
@@ -69,6 +70,7 @@ class Laser extends FlxSprite
 		for (rayResult in rayResultList)
 		{
 			var temp_bounced:Bool = false;
+			var temp_flip:Bool = false;
 			// determine if this object is in a world this laser should interact with
 			var should_collide:Bool = true;
 			if (!in_dark_world){
@@ -115,9 +117,9 @@ class Laser extends FlxSprite
 			if (state.mirror.swivel_top.body == rayResult.shape.body) {
 				if (state.mirror.facing_point(x,y)) {
 					temp_bounced = true;
+					temp_flip = true;
 				}
 			}
-			
 			
 			if (should_collide){
 				if (min > rayResult.distance) {
@@ -131,6 +133,9 @@ class Laser extends FlxSprite
 					hit_normal = rayResult.normal;
 					hit_point = Vec2.get(min_x, min_y);
 					bounced = temp_bounced;
+					flip_worlds = temp_flip;
+					
+					trace(flip_worlds);
 				}
 			}
 		}

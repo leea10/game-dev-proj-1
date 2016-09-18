@@ -59,9 +59,9 @@ class WorldGroup extends FlxGroup
 		return w;
 	}
 	
-	public function addLaser(x:Int, y:Int, rot:Float, playstate:PlayState):LaserEmitter
+	public function addLaser(x:Int, y:Int, rot:Float, playstate:PlayState, flip:WorldGroup):LaserEmitter
 	{
-		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this);
+		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this, flip);
 		l.angle = rot;
 		lasers.add(l);
 		add(l);

@@ -8,6 +8,6 @@ class TestLevelState extends PlayState
 	override public function create():Void
 	{
 		super.create();
-		init("assets/levels/level1.tmx");
+		init("assets/levels/templevel.tmx");
 	}
 }

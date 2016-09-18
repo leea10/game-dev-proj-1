@@ -15,6 +15,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 	var length:Int = 600;
 	var state:PlayState;
 	var worldgroup:WorldGroup;
+	var flipgroup:WorldGroup;
 	
 	// group for laser beams
 	var lasergroup:FlxTypedGroup<Laser>;
@@ -29,11 +30,12 @@ class LaserEmitter extends FlxSprite implements Receiver
 	public var in_dark_world:Bool = false;
 	public var in_light_world:Bool = false;
 	
-	public function new(?x:Float=0, ?y:Float=0, playstate:PlayState, group:WorldGroup) 
+	public function new(?x:Float=0, ?y:Float=0, playstate:PlayState, group:WorldGroup, flgroup:WorldGroup) 
 	{
 		super(x, y);
 		state = playstate;
 		worldgroup = group;
+		flipgroup = flgroup;
 		
 		lasergroup = new FlxTypedGroup<Laser>();
 		sparksgroup = new FlxGroup();
@@ -94,8 +96,34 @@ class LaserEmitter extends FlxSprite implements Receiver
 		}
 		
 		// desired_num_lasers can be at maximum 1 more than the number of laser already in the group -- only one laser is ever added in a single frame
-		if ((desired_num_lasers > lasergroup.length) && desired_num_lasers <= (bounce_limit+1)){
-			create_new_laser();
+		if ((desired_num_lasers > lasergroup.length) && desired_num_lasers <= (bounce_limit + 1)){
+			if (lasergroup.length > 0){
+				var prev:Laser = lasergroup.members[lasergroup.length - 1];
+				var l:Laser = create_new_laser();
+				
+				trace("made new laser -- flip? " + prev.flip_worlds);
+				
+				if (prev.flip_worlds){
+					l.in_dark_world = prev.in_light_world;
+					l.in_light_world = prev.in_dark_world;
+				}
+				else {
+					l.in_dark_world = prev.in_dark_world;
+					l.in_light_world = prev.in_light_world;
+				}
+				
+				// is this laser in the world we started in?
+				if ((l.in_light_world != in_light_world) || (l.in_dark_world != in_dark_world)){
+					flipgroup.add(l);
+				}
+				else {
+					worldgroup.add(l);
+				}
+			}
+			else {
+				var l:Laser = create_new_laser();
+				worldgroup.add(l);
+			}
 		}
 		// too many lasers
 		else if (desired_num_lasers < lasergroup.length){
@@ -106,6 +134,10 @@ class LaserEmitter extends FlxSprite implements Receiver
 			for (l in lasergroup.members){
 				if (i < desired_num_lasers){
 					temp_array.insert(i, l);
+				}
+				else {
+					worldgroup.remove(l);
+					flipgroup.remove(l);
 				}
 				i++;
 			}
@@ -138,16 +170,19 @@ class LaserEmitter extends FlxSprite implements Receiver
 	public function initialize():Void
 	{
 		get_worlds();
-		worldgroup.add(lasergroup);
-		worldgroup.add(sparksgroup);
+		
+		//worldgroup.add(lasergroup);
+		//worldgroup.add(sparksgroup);
 		
 		// make one laser to begin with
 		create_new_laser();
 	}
 	
-	public function create_new_laser():Void
+	public function create_new_laser():Laser
 	{
-		lasergroup.add(new Laser(x + (width / 2), y + (height / 2) - 4, length, angle, state, in_dark_world, in_light_world));
+		var l:Laser = new Laser(x + (width / 2), y + (height / 2) - 4, length, angle, state, in_dark_world, in_light_world);
+		lasergroup.add(l);
+		return l;
 	}
 	
 	// what world(s) is this laser in?
