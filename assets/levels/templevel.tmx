@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="64" nextobjectid="91">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="64" nextobjectid="94">
  <tileset firstgid="1" name="temp" tilewidth="64" tileheight="64" tilecount="256" columns="16">
   <image source="../images/temp tilemap.png" width="1024" height="1024"/>
   <terraintypes>
@@ -32,6 +32,9 @@
  </tileset>
  <tileset firstgid="473" name="player" tilewidth="64" tileheight="64" tilecount="16" columns="4">
   <image source="../images/player_sprite_sheet.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="489" name="box" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../images/dark_crate.png" width="64" height="64"/>
  </tileset>
  <layer name="light_floor" width="100" height="100">
   <properties>
@@ -115,16 +118,16 @@
  </objectgroup>
  <objectgroup name="dark_objects">
   <properties>
-   <property name="tilesheet" value="temp tilemap.png"/>
+   <property name="tilesheet" value="dark_crate.png"/>
    <property name="world" value="dark"/>
   </properties>
-  <object id="57" type="box" gid="115" x="1344" y="784" width="32" height="32"/>
-  <object id="69" type="box" gid="17" x="1216" y="959" width="48" height="48"/>
   <object id="83" name="switch" type="switch" x="1023" y="854" width="26" height="29">
    <properties>
     <property name="id" value="a"/>
    </properties>
   </object>
+  <object id="91" type="box" gid="489" x="1344" y="832" width="64" height="64"/>
+  <object id="93" type="box" gid="489" x="832" y="768" width="64" height="64"/>
  </objectgroup>
  <objectgroup name="both_collision">
   <properties>
@@ -138,7 +141,7 @@
   <object id="41" type="wall" x="704" y="576" width="64" height="256"/>
   <object id="42" type="wall" x="768" y="576" width="192" height="64"/>
  </objectgroup>
- <objectgroup name="both_objects">
+ <objectgroup name="both_objects" visible="0">
   <properties>
    <property name="tilesheet" value="temp tilemap.png"/>
    <property name="world" value="both"/>
