@@ -95,24 +95,6 @@ class LaserEmitter extends FlxSprite implements Receiver
 			desired_num_lasers = 0;
 		}
 		
-		for (l in lasergroup.members) {
-			// make sure all the lasers are in the right groups
-			if (prev.flip_worlds) {
-				// this laser should be in the other world
-				if ((l.in_light_world == prev.in_light_world) && (l.in_dark_world == prev.in_dark_world) && (in_dark_world != in_light_world)){
-					// something's wrong -- just delete all the lasers and start over
-					desired_num_lasers = 0;
-				}
-			}
-			else {
-				// this laser should be in the same world
-				if ((l.in_light_world != prev.in_light_world) || (l.in_dark_world != prev.in_dark_world)){
-					// something's wrong -- just delete all the lasers and start over
-					desired_num_lasers = 0;
-				}
-			}
-		}
-		
 		// desired_num_lasers can be at maximum 1 more than the number of laser already in the group -- only one laser is ever added in a single frame
 		if ((desired_num_lasers > lasergroup.length) && desired_num_lasers <= (bounce_limit + 1)){
 			if (lasergroup.length > 0){
