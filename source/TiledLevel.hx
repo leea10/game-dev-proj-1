@@ -137,6 +137,7 @@ class TiledLevel extends TiledMap
 			case "switch": worldGroup.addSwitch(x, y, w, h);
 			case "laser": worldGroup.addLaser(x, y, rot, state);
 			case "pressure plate": floorEntitiesGroup.addPlate(x, y, w, h);
+			case "pit": floorEntitiesGroup.addPit(x, y, w, h, state);
 		}
 	}
 	

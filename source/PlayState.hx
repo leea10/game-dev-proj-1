@@ -12,6 +12,7 @@ import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeSpace;
 import nape.phys.FluidProperties;
 import nape.shape.Shape;
+import haxe.Timer;
 
 class PlayState extends FlxState
 {
@@ -19,7 +20,6 @@ class PlayState extends FlxState
 	
 	public var level:TiledLevel;
 	public var player:Player;
-	public var nape_player:FlxNapeSprite;
 	public var mirror:Mirror;
 		
 	// groups for the actual tiles (not entities) -- this is for layering reasons
@@ -112,9 +112,9 @@ class PlayState extends FlxState
 		
 		_darkTiles.visible = _isDark;
 		_lightTiles.visible = !_isDark;
-
+		
 		_darkFloorEntities.visible = _isDark;
-		_lightFloorEntities.visible = !_isDark;		
+		_lightFloorEntities.visible = !_isDark;
 		
 		if (_isDark) {
 			player.body.shapes.at(0).filter = CollisionFilter.DARK;
@@ -129,7 +129,13 @@ class PlayState extends FlxState
 		_setWorld(!_isDark);
 	}
 
-	public function restartLevel()
+	public function waitAndRestart()
+	{
+		Timer.delay(restartLevel, 1500);
+
+	}
+	
+	function restartLevel()
 	{
 		var x = Type.createInstance(Type.getClass(this), []);
 		FlxG.switchState(x);

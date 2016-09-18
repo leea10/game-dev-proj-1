@@ -184,7 +184,7 @@ class Light extends FlxSprite
 				}
 				*/
 			}
-			if (state.nape_player.body == rayResult.shape.body){
+			if (state.player.body == rayResult.shape.body){
 				should_collide = false;
 			}
 			

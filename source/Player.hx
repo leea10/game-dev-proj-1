@@ -28,6 +28,8 @@ class Player extends FlxNapeSprite
 	public var vx:Float = 0;
 	public var vy:Float = 0;
 	
+	public var is_dead:Bool = false;
+	
 	var box_offset:Vec2 = Vec2.get(0,0);
 	
 	public var box_target:FlxSprite = new FlxSprite();
@@ -66,35 +68,29 @@ class Player extends FlxNapeSprite
 	{
 		super.update(elapsed);
 		
-		handle_key_presses();
-		handle_movement();
-		
-		has_drag_target = false;
-		raycast_for_boxes();
-		get_drag_axis();
-		
-		if (is_dragging){
-			var box:FlxNapeSprite = cast box_target;
-			reset(box_offset.x+box.x+32,box_offset.y+box.y+32);
-			/*
-			if (has_been_dragging){
-				if (box.body.velocity.length <= 0.01){
-					this.body.velocity = new Vec2(0, 0);
-					reset(box_offset.x+box.x+32,box_offset.y+box.y+32);
-					has_been_dragging = false;
+		if (!is_dead){
+			handle_key_presses();
+			handle_movement();
+			
+			has_drag_target = false;
+			raycast_for_boxes();
+			get_drag_axis();
+			
+			if (is_dragging){
+				var box:FlxNapeSprite = cast box_target;
+				reset(box_offset.x+box.x+32,box_offset.y+box.y+32);
+				
+				box.body.velocity = this.body.velocity;
+				if (drag_axis == "horizontal" && (left_pressed || right_pressed)){
+					has_been_dragging = true;
+				}
+				else if (drag_axis == "vertical" && (up_pressed || down_pressed)){
+					has_been_dragging = true;
 				}
 			}
-			*/
-			box.body.velocity = this.body.velocity;
-			if (drag_axis == "horizontal" && (left_pressed || right_pressed)){
-				has_been_dragging = true;
+			else {
+				has_been_dragging = false;
 			}
-			else if (drag_axis == "vertical" && (up_pressed || down_pressed)){
-				has_been_dragging = true;
-			}
-		}
-		else {
-			has_been_dragging = false;
 		}
 	}
 	
@@ -240,5 +236,14 @@ class Player extends FlxNapeSprite
 			}
 			
 		}
+	}
+	
+	public function die():Void
+	{
+		is_dead = true;
+		body.type = BodyType.STATIC;
+		set_physicsEnabled(false);
+		
+		state.waitAndRestart();
 	}
 }
