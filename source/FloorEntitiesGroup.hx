@@ -41,4 +41,11 @@ class FloorEntitiesGroup extends FlxGroup
 		pits.add(p);
 		p.initialize();
 	}
+	
+	public function addTrapDoor(x:Int, y:Int, width:Int, height:Int, playstate:PlayState)
+	{
+		var td:TrapDoor = new TrapDoor(x, y, width, height, this, playstate);
+		pits.add(td);
+		td.initialize();
+	}
 }
