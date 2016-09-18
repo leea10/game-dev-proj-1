@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.addons.nape.FlxNapeSprite;
 
 /**
  * ...
@@ -96,20 +97,21 @@ class Pit extends FlxSprite
 	}
 	
 	// is a sprite entirely inside another? there's a little fudging here so things will fall in if they're ALMOST all the way inside (fixes some issues with float comparisons)
-	public function overlap_inside(in_object:FlxSprite, out_object:FlxSprite):Bool
-	{
+	public function overlap_inside(in_object:FlxNapeSprite, out_object:FlxSprite):Bool
+	{		
 		var inside:Bool = true;
+		var fudge:Int = 2;
 		
-		if (in_object.x+1 < out_object.x){
+		if (in_object.x+fudge < out_object.x){
 			inside = false;
 		}
-		if (in_object.y+1 < out_object.y){
+		if (in_object.y+fudge < out_object.y){
 			inside = false;
 		}
-		if (in_object.x+in_object.width > out_object.x+out_object.width+1){
+		if (in_object.body.shapes.at(0).bounds.x+in_object.body.shapes.at(0).bounds.width > out_object.x+out_object.width+fudge){
 			inside = false;
 		}
-		if (in_object.y+in_object.height > out_object.y+out_object.height+1){
+		if (in_object.body.shapes.at(0).bounds.y+in_object.body.shapes.at(0).bounds.height > out_object.y+out_object.height+fudge){
 			inside = false;
 		}
 		
@@ -133,6 +135,5 @@ class Pit extends FlxSprite
 	function fall(faller:FlxSprite):Void
 	{		
 		FlxTween.tween(faller.scale, { x: 0, y: 0 }, .8, { type: FlxTween.ONESHOT } );
-		//FlxTween.color(faller, 1, FlxColor.WHITE, FlxColor.TRANSPARENT, { type: FlxTween.ONESHOT } );
 	}
 }
