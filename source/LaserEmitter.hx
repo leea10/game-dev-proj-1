@@ -40,7 +40,8 @@ class LaserEmitter extends FlxSprite implements Receiver
 		lasergroup = new FlxTypedGroup<Laser>();
 		sparksgroup = new FlxGroup();
 		
-		makeGraphic(16, 16, FlxColor.ORANGE);
+		loadGraphic("assets/images/dark_laser_head.png");
+		//makeGraphic(16, 16, FlxColor.ORANGE);
 		origin.set(width / 2, height / 2);
 		
 		angle = 270;
@@ -54,7 +55,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 	
 	function update_lasers():Void
 	{		
-		//angle += .3;
+		angle += .3;
 		
 		var i:Int = 0;
 		var prev:Laser = lasergroup.members[0];
@@ -101,8 +102,6 @@ class LaserEmitter extends FlxSprite implements Receiver
 				var prev:Laser = lasergroup.members[lasergroup.length - 1];
 				var l:Laser = create_new_laser();
 				
-				trace("made new laser -- flip? " + prev.flip_worlds);
-				
 				if (prev.flip_worlds){
 					l.in_dark_world = prev.in_light_world;
 					l.in_light_world = prev.in_dark_world;
@@ -114,15 +113,15 @@ class LaserEmitter extends FlxSprite implements Receiver
 				
 				// is this laser in the world we started in?
 				if ((l.in_light_world != in_light_world) || (l.in_dark_world != in_dark_world)){
-					flipgroup.add(l);
+					flipgroup.lasers.add(l);
 				}
 				else {
-					worldgroup.add(l);
+					worldgroup.lasers.add(l);
 				}
 			}
 			else {
 				var l:Laser = create_new_laser();
-				worldgroup.add(l);
+				worldgroup.lasers.add(l);
 			}
 		}
 		// too many lasers
@@ -136,8 +135,8 @@ class LaserEmitter extends FlxSprite implements Receiver
 					temp_array.insert(i, l);
 				}
 				else {
-					worldgroup.remove(l);
-					flipgroup.remove(l);
+					worldgroup.lasers.remove(l);
+					flipgroup.lasers.remove(l);
 				}
 				i++;
 			}
@@ -180,7 +179,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 	
 	public function create_new_laser():Laser
 	{
-		var l:Laser = new Laser(x + (width / 2), y + (height / 2) - 4, length, angle, state, in_dark_world, in_light_world);
+		var l:Laser = new Laser(x + (width / 2), y + (height / 2) - 2, length, angle, state, in_dark_world, in_light_world);
 		lasergroup.add(l);
 		return l;
 	}

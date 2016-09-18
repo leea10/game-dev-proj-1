@@ -1,16 +1,19 @@
 package;
 import flixel.FlxBasic;
+import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.group.FlxGroup;
+import nape.phys.BodyType;
 import flixel.addons.nape.FlxNapeSprite;
 import nape.dynamics.InteractionFilter;
 
 // All the entities in a world.
 class WorldGroup extends FlxGroup
 {
-	public var walls:FlxTypedGroup<Wall>;
-	public var lasers:FlxTypedGroup<LaserEmitter>;
+	public var walls:FlxTypedGroup<FlxNapeSprite>;
+	public var lasers:FlxTypedGroup<Laser>;
+	public var laseremitters:FlxTypedGroup<FlxSprite>;
 	public var lights:FlxTypedGroup<Light>;
 	public var boxes:FlxTypedGroup<Box>;
 	public var mirrors:FlxTypedGroup<FlxNapeSprite>;
@@ -26,8 +29,9 @@ class WorldGroup extends FlxGroup
 		worldname = world;
 		
 		// Groups made for easy collision checks.
-		walls = new FlxTypedGroup<Wall>();
-		lasers = new FlxTypedGroup<LaserEmitter>();
+		walls = new FlxTypedGroup<FlxNapeSprite>();
+		laseremitters = new FlxTypedGroup<FlxSprite>();
+		lasers = new FlxTypedGroup<Laser>();
 		lights = new FlxTypedGroup<Light>();
 		boxes = new FlxTypedGroup<Box>();
 		mirrors = new FlxTypedGroup<FlxNapeSprite>();
@@ -36,6 +40,7 @@ class WorldGroup extends FlxGroup
 		add(mirrors);
         add(walls);
         add(lasers);
+		add(lasers);
         add(lights);
         add(boxes);
 	}
@@ -61,11 +66,20 @@ class WorldGroup extends FlxGroup
 	
 	public function addLaser(x:Int, y:Int, rot:Float, playstate:PlayState, flip:WorldGroup):LaserEmitter
 	{
+		var base:FlxNapeSprite = new FlxNapeSprite(x, y);
+		base.loadGraphic("assets/images/dark_laser_base.png");
+		base.createRectangularBody();
+		walls.add(base);
+		
 		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this, flip);
 		l.angle = rot;
-		lasers.add(l);
+		laseremitters.add(l);
 		add(l);
 		l.initialize();
+
+		base.reset(base.x + l.width / 2, base.y + l.height / 2);
+		base.body.type = BodyType.STATIC;
+		
 		return l;
 	}
 	
