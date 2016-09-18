@@ -32,6 +32,12 @@ class WorldGroup extends FlxGroup
 		boxes = new FlxTypedGroup<Box>();
 		mirrors = new FlxTypedGroup<FlxNapeSprite>();
 		switches = new FlxTypedGroup<Switch>();
+		
+		add(mirrors);
+        add(walls);
+        add(lasers);
+        add(lights);
+        add(boxes);
 	}
 	
 	override public function update(elapsed:Float):Void 
