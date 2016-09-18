@@ -22,6 +22,7 @@ class TiledLevel extends TiledMap
 {	
 	// Holds the object groups for the different world groups (light, dark, both)
 	public var _worlds:Map<String, WorldGroup>;
+	public var _floorEntities:Map<String, FloorEntitiesGroup>;
 	
 	// THESE ARE TEMPORARY FOR INTERMEDIATE REFACTORING PURPOSES
 	public var _mirror:Mirror;
@@ -38,6 +39,14 @@ class TiledLevel extends TiledMap
 			"dark" => new WorldGroup(CollisionFilter.DARK, "dark"), // Entities that are only in the dark world
 			"light" => new WorldGroup(CollisionFilter.LIGHT, "light"), // Entities that are only in the light world
 			"both" => new WorldGroup(CollisionFilter.BOTH, "both"), // Entities that are in both worlds
+		];
+		
+		// Entities that must be under the rest of the entities but on top of the floor
+		// These are also not nape sprites.
+		_floorEntities = [
+			"dark" => new FloorEntitiesGroup(CollisionFilter.DARK, "dark"),
+			"light" => new FloorEntitiesGroup(CollisionFilter.LIGHT, "light"),
+			"both" => new FloorEntitiesGroup(CollisionFilter.BOTH, "both")
 		];
 				
 		// load tilemaps
@@ -83,6 +92,11 @@ class TiledLevel extends TiledMap
 		return _worlds.get(world);
 	}
 	
+	public function getFloorEntities(world:String):FlxGroup 
+	{
+		return _floorEntities.get(world);
+	}
+	
 	private function _loadObject(o:TiledObject, layer:TiledObjectLayer)
 	{
 		var x:Int = o.x;
@@ -97,7 +111,9 @@ class TiledLevel extends TiledMap
 		}
 		
 		// Find the correct object group to add this object to.
-		var worldGroup:WorldGroup = _worlds.get(layer.properties.get("world"));
+		var thisWorld = layer.properties.get("world");
+		var worldGroup:WorldGroup = _worlds.get(thisWorld);
+		var floorEntitiesGroup:FloorEntitiesGroup = _floorEntities.get(thisWorld);
 		
 		var tilesheetName = layer.properties.get("tilesheet");
 		if (tilesheetName == null) {
@@ -120,6 +136,7 @@ class TiledLevel extends TiledMap
 			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
 			case "switch": worldGroup.addSwitch(x, y, w, h);
 			case "laser": worldGroup.addLaser(x, y, rot, state);
+			case "pressure plate": floorEntitiesGroup.addPlate(x, y, w, h);
 		}
 	}
 	

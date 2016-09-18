@@ -26,6 +26,11 @@ class PlayState extends FlxState
 	public var _darkTiles:FlxGroup = new FlxGroup();
 	public var _lightTiles:FlxGroup = new FlxGroup();
 	
+	// groups for floor entities - this is also for layering reasons
+	public var _darkFloorEntities:FlxGroup;
+	public var _lightFloorEntities:FlxGroup;
+	public var _bothFloorEntities:FlxGroup;
+	
 	// Entity groups for each world - to be extracted from .tmx by parser in TiledLevel
 	public var _darkWorld:WorldGroup;
 	public var _lightWorld:WorldGroup;
@@ -45,15 +50,23 @@ class PlayState extends FlxState
 	
 	public function init (levelpath:String){
 		// Parse level data from file.
-		level = new TiledLevel(levelpath, this);
+		level = new TiledLevel(levelpath, this);	
 		
 		// Retrieve object groups based on what world(s) they're in.
+		_darkFloorEntities = level.getFloorEntities("dark");
+		_lightFloorEntities = level.getFloorEntities("light");
+		_bothFloorEntities = level.getFloorEntities("both");			
+	
 		_darkWorld = level.getWorldEntities("dark");
 		_lightWorld = level.getWorldEntities("light");
 		_bothWorlds = level.getWorldEntities("both");
 		
 		add(_darkTiles);
 		add(_lightTiles);
+
+		add(_bothFloorEntities);
+		add(_darkFloorEntities);
+		add(_lightFloorEntities);		
 		
 		add(_bothWorlds);
 		add(_darkWorld);
@@ -99,7 +112,9 @@ class PlayState extends FlxState
 		
 		_darkTiles.visible = _isDark;
 		_lightTiles.visible = !_isDark;
-		
+
+		_darkFloorEntities.visible = _isDark;
+		_lightFloorEntities.visible = !_isDark;		
 		
 		if (_isDark) {
 			player.body.shapes.at(0).filter = CollisionFilter.DARK;
