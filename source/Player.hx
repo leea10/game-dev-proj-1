@@ -28,9 +28,13 @@ class Player extends FlxNapeSprite
 	public var vx:Float = 0;
 	public var vy:Float = 0;
 	
+	var box_offset:Vec2 = Vec2.get(0,0);
+	
 	public var box_target:FlxSprite = new FlxSprite();
 	public var has_drag_target:Bool = false;
 	public var is_dragging:Bool = false;
+	public var has_been_dragging:Bool = false;
+	
 	public var drag_axis:String = "";
 	
 	public var state:PlayState;
@@ -71,13 +75,27 @@ class Player extends FlxNapeSprite
 		
 		if (is_dragging){
 			var box:FlxNapeSprite = cast box_target;
+			reset(box_offset.x+box.x+32,box_offset.y+box.y+32);
+			/*
+			if (has_been_dragging){
+				if (box.body.velocity.length <= 0.01){
+					this.body.velocity = new Vec2(0, 0);
+					reset(box_offset.x+box.x+32,box_offset.y+box.y+32);
+					has_been_dragging = false;
+				}
+			}
+			*/
 			box.body.velocity = this.body.velocity;
+			if (drag_axis == "horizontal" && (left_pressed || right_pressed)){
+				has_been_dragging = true;
+			}
+			else if (drag_axis == "vertical" && (up_pressed || down_pressed)){
+				has_been_dragging = true;
+			}
 		}
-		
-		// magic
-		// (lerps player in the direction of their velocity)
-		//var shortest_angle:Float = ((((rotation - angle) % 360) + 540) % 360) - 180;
-		//angle += shortest_angle * 0.3;
+		else {
+			has_been_dragging = false;
+		}
 	}
 	
 	public function handle_key_presses():Void
@@ -86,17 +104,23 @@ class Player extends FlxNapeSprite
 		down_pressed = FlxG.keys.anyPressed([DOWN, S]);
 		left_pressed = FlxG.keys.anyPressed([LEFT, A]);
 		right_pressed = FlxG.keys.anyPressed([RIGHT, D]);
-		
+
+		var tempdrag:Bool = is_dragging;
 		is_dragging = FlxG.keys.pressed.SHIFT && has_drag_target;
+		
+		if (!tempdrag && is_dragging){ // we JUST started dragging something
+			box_offset = Vec2.get(x - box_target.x, y - box_target.y);
+		}
+		
 	}
 	
 	public function get_drag_axis():Void
 	{
-		if (angle == 180 || angle == 0)
+		if ((angle >= 179.9 && angle <= 180.1) || (angle >= 359.9 || angle <= 0.1))
 		{
 			drag_axis = "horizontal";
 		}
-		else if (angle == 90 || angle == 270)
+		else if ((angle >= 89.9 && angle <= 90.1) || (angle >= 269.9 && angle <= 270.1))
 		{
 			drag_axis = "vertical";
 		}
@@ -116,7 +140,6 @@ class Player extends FlxNapeSprite
 		if (left_pressed && right_pressed)
 			left_pressed = right_pressed = false;
 			
-		
 		if (is_dragging){
 			if (drag_axis == "horizontal"){
 				up_pressed = down_pressed = false;
@@ -151,8 +174,11 @@ class Player extends FlxNapeSprite
 				// player moves slower when dragging stuff
 				body.velocity = new Vec2(vx * _speed/2, vy * _speed/2);
 			}
-			else {
-				angle = _rotation;
+			else {				
+				var shortest_angle:Float = ((((_rotation - angle) % 360) + 540) % 360) - 180;
+				angle += shortest_angle * 0.5;
+				angle = (angle+360)%360.0;
+				
 				body.velocity = new Vec2(vx * _speed, vy * _speed);
 			}
 		}
@@ -164,7 +190,7 @@ class Player extends FlxNapeSprite
 		var direction_vector = Vec2.get(_cosAngle, _sinAngle);
 		
 		var box_ray:Ray = new Ray(origin_point, direction_vector);
-		box_ray.maxDistance = 21;
+		box_ray.maxDistance = 25;
 		
 		var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(box_ray);
 		
