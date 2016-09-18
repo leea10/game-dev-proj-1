@@ -134,8 +134,6 @@ class Laser extends FlxSprite
 					hit_point = Vec2.get(min_x, min_y);
 					bounced = temp_bounced;
 					flip_worlds = temp_flip;
-					
-					trace(flip_worlds);
 				}
 			}
 		}

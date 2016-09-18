@@ -43,6 +43,8 @@ class Player extends FlxNapeSprite
 	
 	public var state:PlayState;
 	
+	public var hit_area:FlxSprite;
+	
 	public function new(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int)
 	{
 		super(x, y);
@@ -59,7 +61,10 @@ class Player extends FlxNapeSprite
 		body.allowRotation = false;
 		body.inertia = 1000;
 		
-		body.scaleShapes(0.65,0.65);
+		body.scaleShapes(0.65, 0.65);
+		
+		hit_area = new FlxSprite(x, y);
+		hit_area.makeGraphic(41, 41, FlxColor.TRANSPARENT);
 		
 		FlxG.camera.follow(this);
 		
@@ -95,6 +100,9 @@ class Player extends FlxNapeSprite
 				has_been_dragging = false;
 			}
 		}
+		
+		hit_area.x = x+11;
+		hit_area.y = y+11;
 	}
 	
 	public function handle_key_presses():Void

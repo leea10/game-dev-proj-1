@@ -76,6 +76,7 @@ class PlayState extends FlxState
 		player = level._player;
 		mirror = level._mirror;
 		add(player);
+		add(player.hit_area);
 		
 		_bothWorlds.mirrors.add(mirror);
 
@@ -94,7 +95,8 @@ class PlayState extends FlxState
 	{
 		// If the spacebar was hit, switch worlds
 		// TODO(Ariel): Add another check to make sure the player is in front of the mirror.
-		if (FlxG.keys.justPressed.SPACE) {
+		if (FlxG.keys.justPressed.SPACE)
+		{
 			_switchWorld();
 		}		
 	}
@@ -126,7 +128,53 @@ class PlayState extends FlxState
 	
 	private function _switchWorld():Void
 	{
-		_setWorld(!_isDark);
+		var can_switch:Bool = true;
+		if (_isDark) {
+			if (FlxG.overlap(player.hit_area, _lightWorld.walls)){
+				can_switch = false;
+				// can't teleport into a wall
+			}
+			if (FlxG.overlap(player.hit_area, _lightWorld.boxes)){
+				can_switch = false;
+				// can't teleport into a box
+			}
+			if (FlxG.overlap(player.hit_area, _lightWorld.switches)){
+				can_switch = false;
+				// can't teleport into a switch
+			}
+			if (FlxG.overlap(player.hit_area, _lightWorld.mirrors)){
+				can_switch = false;
+				// can't teleport into a mirror
+			}
+			if (FlxG.overlap(player.hit_area, _lightWorld.lasers)){
+				can_switch = false;
+				// can't teleport into a laser emitter
+			}
+		}
+		else {
+			if (FlxG.overlap(player.hit_area, _darkWorld.walls)){
+				can_switch = false;
+				// can't teleport into a wall
+			}
+			if (FlxG.overlap(player.hit_area, _darkWorld.boxes)){
+				can_switch = false;
+				// can't teleport into a box
+			}
+			if (FlxG.overlap(player.hit_area, _darkWorld.switches)){
+				can_switch = false;
+				// can't teleport into a switch
+			}
+			if (FlxG.overlap(player.hit_area, _darkWorld.mirrors)){
+				can_switch = false;
+				// can't teleport into a mirror
+			}
+			if (FlxG.overlap(player.hit_area, _darkWorld.lasers)){
+				can_switch = false;
+				// can't teleport into a laser emitter
+			}
+		}
+		
+		if (can_switch) _setWorld(!_isDark);
 	}
 
 	public function waitAndRestart(delay:Int)
