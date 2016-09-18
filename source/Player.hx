@@ -36,8 +36,10 @@ class Player extends FlxNapeSprite
 	public var has_drag_target:Bool = false;
 	public var is_dragging:Bool = false;
 	public var has_been_dragging:Bool = false;
-	
 	public var drag_axis:String = "";
+	
+	public var switch_target:Switch;
+	public var has_switch_target:Bool = false;
 	
 	public var state:PlayState;
 	
@@ -69,6 +71,7 @@ class Player extends FlxNapeSprite
 		super.update(elapsed);
 		
 		if (!is_dead){
+			check_for_switches();
 			handle_key_presses();
 			handle_movement();
 			
@@ -106,6 +109,41 @@ class Player extends FlxNapeSprite
 		
 		if (!tempdrag && is_dragging){ // we JUST started dragging something
 			box_offset = Vec2.get(x - box_target.x, y - box_target.y);
+		}
+		
+		if (has_switch_target && FlxG.keys.justPressed.E){
+			switch_target.trigger();
+		}
+		
+	}
+	
+	public function check_for_switches():Void
+	{
+		has_switch_target = false;
+		var maxdist:Float = 70;
+		
+		if (state._isDark){
+			for (s in state._darkWorld.switches){				
+				if (Vec2.get((s.x+s.width/2)-(x+width/2),(s.y+s.height/2)-(y+height/2)).length < maxdist){
+					switch_target = s;
+					has_switch_target = true;
+				}
+			}
+		}
+		else {
+			for (s in state._lightWorld.switches){
+				if (Vec2.get((s.x+s.width/2)-(x+width/2),(s.y+s.height/2)-(y+height/2)).length < maxdist){
+					switch_target = s;
+					has_switch_target = true;
+				}
+			}
+		}
+		
+		for (s in state._bothWorlds.switches){
+			if (Vec2.get((s.x+s.width/2)-(x+width/2),(s.y+s.height/2)-(y+height/2)).length < maxdist){
+				switch_target = s;
+				has_switch_target = true;
+			}
 		}
 		
 	}
