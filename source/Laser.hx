@@ -35,7 +35,7 @@ class Laser extends FlxSprite
 		hit_point = Vec2.get(0, 0);
 		hit_normal = Vec2.get(0, 0);
 		
-		loadGraphic("assets/images/laser_beam.png");
+		loadGraphic("assets/images/laser_beam.png", true);
 		
 		angle = rotation;
 		scale.set(length / width, 1);
@@ -84,6 +84,11 @@ class Laser extends FlxSprite
 						should_collide = false;
 					}
 				}
+				for (s in state._darkWorld.switches){
+					if (s.body == rayResult.shape.body){
+						should_collide = false;
+					}
+				}
 				if (state._isDark){
 					if (state.player.body == rayResult.shape.body){
 						should_collide = false;
@@ -98,6 +103,11 @@ class Laser extends FlxSprite
 				}
 				for (box in state._lightWorld.boxes){
 					if (box.body == rayResult.shape.body){
+						should_collide = false;
+					}
+				}
+				for (s in state._lightWorld.switches){
+					if (s.body == rayResult.shape.body){
 						should_collide = false;
 					}
 				}
