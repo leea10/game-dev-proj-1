@@ -35,8 +35,13 @@ class Box extends FlxNapeSprite
 		super.update(elapsed);
 	}
 	
-	public function set_filter (filter:InteractionFilter)
+	public function set_filter (filter:InteractionFilter):Void
 	{
 		body.shapes.at(0).filter = filter;
+	}
+	
+	public function deactivate ():Void
+	{
+		set_physicsEnabled(false);
 	}
 }

@@ -244,6 +244,6 @@ class Player extends FlxNapeSprite
 		body.type = BodyType.STATIC;
 		set_physicsEnabled(false);
 		
-		state.waitAndRestart();
+		state.waitAndRestart(1500);
 	}
 }

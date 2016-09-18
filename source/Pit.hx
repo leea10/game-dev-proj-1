@@ -34,15 +34,48 @@ class Pit extends FlxSprite
 		
 		// if we're in the light world, things that are ONLY in the light world should fall in
 		if (in_light_world){
-			
+			for (box in state._lightWorld.boxes){
+				if (FlxG.overlap(this, box)){
+					if (overlap_inside(box, this)){
+						box.deactivate();
+						fall(box);
+						state.waitAndRestart(1500);
+					}
+				}
+			}
 		}
 		// if we're in the dark world, things that are ONLY in the light world should fall in
 		if (in_dark_world){
-			
+			for (box in state._darkWorld.boxes){
+				if (FlxG.overlap(this, box)){
+					if (overlap_inside(box, this)){
+						box.deactivate();
+						fall(box);
+						state.waitAndRestart(1500);
+					}
+				}
+			}
 		}
 		// if we're in both, things in both should also fall in
 		if (in_light_world && in_dark_world){
+			for (box in state._bothWorlds.boxes){
+				if (FlxG.overlap(this, box)){
+					if (overlap_inside(box, this)){
+						box.deactivate();
+						fall(box);
+						state.waitAndRestart(1500);
+					}
+				}
+			}
 			
+			if (FlxG.overlap(this, state.mirror)){
+				if (overlap_inside(state.mirror, this)){
+					state.mirror.deactivate();
+					fall(state.mirror);
+					fall(state.mirror.swivel_top);
+					state.waitAndRestart(1500);
+				}
+			}
 		}
 		
 		//also the player should fall in if we're in the same world as it
@@ -62,21 +95,21 @@ class Pit extends FlxSprite
 		get_worlds();
 	}
 	
-	// is a sprite entirely inside another?
+	// is a sprite entirely inside another? there's a little fudging here so things will fall in if they're ALMOST all the way inside (fixes some issues with float comparisons)
 	public function overlap_inside(in_object:FlxSprite, out_object:FlxSprite):Bool
 	{
 		var inside:Bool = true;
 		
-		if (in_object.x < out_object.x){
+		if (in_object.x+1 < out_object.x){
 			inside = false;
 		}
-		if (in_object.y < out_object.y){
+		if (in_object.y+1 < out_object.y){
 			inside = false;
 		}
-		if (in_object.x+in_object.width > out_object.x+out_object.width){
+		if (in_object.x+in_object.width > out_object.x+out_object.width+1){
 			inside = false;
 		}
-		if (in_object.y+in_object.height > out_object.y+out_object.height){
+		if (in_object.y+in_object.height > out_object.y+out_object.height+1){
 			inside = false;
 		}
 		

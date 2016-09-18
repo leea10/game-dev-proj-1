@@ -85,4 +85,9 @@ class Mirror extends FlxNapeSprite
 		
 		return result;
 	}
+	
+	public function deactivate ():Void
+	{
+		set_physicsEnabled(false);
+	}
 }

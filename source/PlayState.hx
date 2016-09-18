@@ -129,10 +129,9 @@ class PlayState extends FlxState
 		_setWorld(!_isDark);
 	}
 
-	public function waitAndRestart()
+	public function waitAndRestart(delay:Int)
 	{
-		Timer.delay(restartLevel, 1500);
-
+		Timer.delay(restartLevel, delay);
 	}
 	
 	function restartLevel()
