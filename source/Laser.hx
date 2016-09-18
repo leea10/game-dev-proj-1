@@ -35,7 +35,7 @@ class Laser extends FlxSprite
 		hit_point = Vec2.get(0, 0);
 		hit_normal = Vec2.get(0, 0);
 		
-		loadGraphic("assets/images/temp laser.png");
+		loadGraphic("assets/images/laser_beam.png");
 		
 		angle = rotation;
 		scale.set(length / width, 1);
@@ -43,7 +43,7 @@ class Laser extends FlxSprite
 		origin.set(0, height / 2);
 		x = x_pos;
 		y = y_pos;
-			
+		
 		in_dark_world = dark_world;
 		in_light_world = light_world;
 	}
