@@ -10,4 +10,11 @@ class TestLevelState extends PlayState
 		super.create();
 		init("assets/levels/level1.tmx");
 	}
+	
+	override function nextLevel()
+	{
+		var x:TestLevelStateTwo = new TestLevelStateTwo();
+		FlxG.switchState(x);
+		x._isDark = _isDark;
+	}
 }

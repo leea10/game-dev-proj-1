@@ -109,7 +109,7 @@ class Player extends FlxNapeSprite
 			}
 			
 			
-			if (body.velocity.length > 0.01){
+			if (body.velocity.length > 0.1){
 				if (is_dragging){
 					animation.play("push walk");
 				}

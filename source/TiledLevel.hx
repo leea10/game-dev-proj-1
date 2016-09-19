@@ -170,6 +170,7 @@ class TiledLevel extends TiledMap
 			case "pressure plate": var p:PressurePlate = floorEntitiesGroup.addPlate(x, y, w, h, state);
 				triggers.set(p,id);
 			case "pit": floorEntitiesGroup.addPit(x, y, w, h, state);
+			case "level end": floorEntitiesGroup.addEnd(x, y, w, h, state);
 		}
 	}
 	

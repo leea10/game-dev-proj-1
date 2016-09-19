@@ -30,10 +30,10 @@
  <tileset firstgid="257" name="darkworld" tilewidth="64" tileheight="64" tilecount="216" columns="18">
   <image source="../images/cracked_concrete_wall.png" width="1152" height="768"/>
  </tileset>
- <tileset firstgid="473" name="player" tilewidth="64" tileheight="64" tilecount="16" columns="4">
-  <image source="../images/player_sprite_sheet.png" width="256" height="256"/>
+ <tileset firstgid="473" name="player" tilewidth="64" tileheight="64" tilecount="24" columns="6">
+  <image source="../images/player_sprite_sheet.png" width="384" height="256"/>
  </tileset>
- <tileset firstgid="489" name="box" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+ <tileset firstgid="497" name="box" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../images/dark_crate.png" width="64" height="64"/>
  </tileset>
  <layer name="light_floor" width="100" height="100">
@@ -126,8 +126,8 @@
     <property name="id" value="a"/>
    </properties>
   </object>
-  <object id="91" type="box" gid="489" x="1344" y="832" width="64" height="64"/>
-  <object id="93" type="box" gid="489" x="832" y="768" width="64" height="64"/>
+  <object id="91" type="box" gid="497" x="1344" y="832" width="64" height="64"/>
+  <object id="93" type="box" gid="497" x="832" y="768" width="64" height="64"/>
  </objectgroup>
  <objectgroup name="both_collision">
   <properties>
@@ -155,6 +155,6 @@
    <property name="world" value=""/>
   </properties>
   <object id="9" name="mirror start" type="mirror start" x="1184" y="672"/>
-  <object id="79" name="player start" type="player start" gid="478" x="1024" y="704" width="64" height="64"/>
+  <object id="79" name="player start" type="player start" gid="480" x="1024" y="704" width="64" height="64"/>
  </objectgroup>
 </map>

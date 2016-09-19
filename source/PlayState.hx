@@ -204,6 +204,17 @@ class PlayState extends FlxState
 		FlxG.switchState(x);
 	}
 	
+	public function waitAndNextLevel(delay:Int)
+	{
+		Timer.delay(nextLevel, delay);
+		Timer.delay(fade_out, Math.round(delay/2));
+	}
+	
+	function nextLevel()
+	{
+		// shell function to be replaced in the child
+	}
+	
 	public function fade_in()
 	{
 		FlxTween.tween(black_screen, { alpha: 0 }, 1);

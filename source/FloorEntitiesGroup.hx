@@ -23,7 +23,6 @@ class FloorEntitiesGroup extends FlxGroup
 		// Groups made for easy collision checks.
 		pressurePlates = new FlxTypedGroup<PressurePlate>();
 		pits = new FlxTypedGroup<Pit>();
-		// TODO(ariel): Add trapdoors here too.
 		
 		add(pressurePlates);
 		add(pits);
@@ -43,5 +42,12 @@ class FloorEntitiesGroup extends FlxGroup
 		pits.add(p);
 		p.initialize();
 		return p;
+	}
+	
+	public function addEnd(x:Int, y:Int, width:Int, height:Int, playstate:PlayState):LevelEnd
+	{
+		var e:LevelEnd = new LevelEnd(x, y, width, height, playstate);
+		add(e);
+		return e;
 	}
 }
