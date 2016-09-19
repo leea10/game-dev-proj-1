@@ -36,6 +36,8 @@ class PlayState extends FlxState
 	public var _lightWorld:WorldGroup;
 	public var _bothWorlds:WorldGroup;
 	
+	public var ui_man:UIManager;
+	
 	override public function create():Void
 	{
 		super.create();
@@ -89,6 +91,9 @@ class PlayState extends FlxState
 		
 		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
+		
+		ui_man = new UIManager();
+		add(ui_man);
 	}
 	
 	private function _handleInput():Void

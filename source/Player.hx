@@ -101,6 +101,20 @@ class Player extends FlxNapeSprite
 			}
 		}
 		
+		if (has_drag_target){
+			state.ui_man.drag_prompt.visible = true;
+		}
+		else {
+			state.ui_man.drag_prompt.visible = false;
+		}
+		
+		if (has_switch_target){
+			state.ui_man.switch_prompt.visible = true;
+		}
+		else {
+			state.ui_man.switch_prompt.visible = false;
+		}
+		
 		hit_area.x = x+11;
 		hit_area.y = y+11;
 	}
