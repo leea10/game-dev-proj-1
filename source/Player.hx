@@ -37,6 +37,8 @@ class Player extends FlxNapeSprite
 	public var is_dragging:Bool = false;
 	public var has_been_dragging:Bool = false;
 	public var drag_axis:String = "";
+
+	public var facing_mirror:Bool = false;
 	
 	public var switch_target:Switch;
 	public var has_switch_target:Bool = false;
@@ -89,6 +91,7 @@ class Player extends FlxNapeSprite
 			handle_movement();
 			
 			has_drag_target = false;
+			facing_mirror = false;
 			raycast_for_boxes();
 			get_drag_axis();
 			
@@ -279,6 +282,12 @@ class Player extends FlxNapeSprite
 		
 		var should_collide:Bool = false;
 		var min:Float = 100;
+
+				//Second Ray for Mirror Teleport
+		var mirror_ray:Ray = new Ray(origin_point, direction_vector);
+		mirror_ray.maxDistance = 100;
+
+		var mirrorResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(mirror_ray);
 		
 		for (rayResult in rayResultList)
 		{
@@ -323,6 +332,14 @@ class Player extends FlxNapeSprite
 			}
 			
 		}
+
+		for (rayResult in mirrorResultList)
+		{
+			if (state.mirror.body == rayResult.shape.body){
+				facing_mirror = true;
+			}
+		}
+		
 	}
 	
 	public function die():Void

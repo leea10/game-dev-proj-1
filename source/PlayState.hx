@@ -6,6 +6,7 @@ import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
+import flixel.math.FlxAngle;
 import flixel.group.FlxGroup;
 import flixel.util.FlxColor;
 import flixel.addons.nape.FlxNapeSprite;
@@ -105,14 +106,30 @@ class PlayState extends FlxState
 		// wait 100ms after the level has loaded to fade in (just to be safe)
 		Timer.delay(fade_in, 100);
 	}
+
+	public function angularDifference(angle1:Float, angle2:Float)
+	{
+		return Math.abs(FlxAngle.wrapAngle(angle2 - angle1));
+	}	
 	
 	private function _handleInput():Void
 	{
 		// If the spacebar was hit, switch worlds
 		// TODO(Ariel): Add another check to make sure the player is in front of the mirror.
-		if (FlxG.keys.justPressed.SPACE)
-		{
-			_switchWorld();
+		if (FlxG.keys.justPressed.SPACE && player.facing_mirror)
+		{	
+			var facing_front_mirror:Bool = false;
+
+			var mirrorToPlayerAngle:Float = FlxAngle.angleBetween(mirror, player, true) + 90;
+			var mirrorFacingAngle:Float = FlxAngle.asDegrees(mirror.swivel_top.body.rotation);
+
+			if(angularDifference(mirrorToPlayerAngle, mirrorFacingAngle) < 90){
+				facing_front_mirror = true;
+			}
+
+			if(facing_front_mirror){
+				_switchWorld();
+			}
 		}		
 	}
 	
