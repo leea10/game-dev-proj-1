@@ -12,7 +12,7 @@ class Main extends Sprite
 		super();
 		addChild(new FlxGame(1280, 720, MenuState));
 		
-		var fps:FPS = new FPS(10, 10, 0xff0000);
-		addChild(fps);
+		//var fps:FPS = new FPS(10, 10, 0xff0000);
+		//addChild(fps);
 	}
 }

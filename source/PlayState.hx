@@ -12,6 +12,7 @@ import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeSpace;
 import nape.phys.FluidProperties;
 import nape.shape.Shape;
+import flixel.tweens.FlxTween;
 import haxe.Timer;
 
 class PlayState extends FlxState
@@ -37,6 +38,7 @@ class PlayState extends FlxState
 	public var _bothWorlds:WorldGroup;
 	
 	public var ui_man:UIManager;
+	public var black_screen:FlxSprite;
 	
 	override public function create():Void
 	{
@@ -94,6 +96,14 @@ class PlayState extends FlxState
 		
 		ui_man = new UIManager();
 		add(ui_man);
+		
+		black_screen = new FlxSprite(0,0);
+		black_screen.makeGraphic(1280, 720, FlxColor.BLACK);
+		black_screen.scrollFactor.set(0, 0);
+		add(black_screen);
+		
+		// wait 100ms after the level has loaded to fade in (just to be safe)
+		Timer.delay(fade_in, 100);
 	}
 	
 	private function _handleInput():Void
@@ -185,11 +195,22 @@ class PlayState extends FlxState
 	public function waitAndRestart(delay:Int)
 	{
 		Timer.delay(restartLevel, delay);
+		Timer.delay(fade_out, Math.round(delay/2));
 	}
 	
 	function restartLevel()
 	{
 		var x = Type.createInstance(Type.getClass(this), []);
 		FlxG.switchState(x);
+	}
+	
+	public function fade_in()
+	{
+		FlxTween.tween(black_screen, { alpha: 0 }, 1);
+	}
+	
+	public function fade_out()
+	{
+		FlxTween.tween(black_screen, { alpha: 1 }, 0.4);
 	}
 }
