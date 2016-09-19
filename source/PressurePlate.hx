@@ -25,7 +25,7 @@ class PressurePlate extends FlxSprite implements Trigger
 		state = playstate;
 		floorgroup = group;
 		
-		makeGraphic(width, height, FlxColor.YELLOW);
+		loadGraphic("assets/images/pressure plate off.png");
 		_receiver = receiver;
 		
 		immovable = true;
@@ -86,31 +86,27 @@ class PressurePlate extends FlxSprite implements Trigger
 	
 	public function trigger() 
 	{
-		trace("on!");
 		if (!_on) {
 			_on = true;
-			color = FlxColor.CYAN;
+			loadGraphic("assets/images/pressure plate on.png");
 			
 			if (_receiver != null) 
 			{
 				_receiver.activate();
 			}
-			// Change appearance
 		}
 	}
 	
 	public function release() 
 	{
-		trace("off!");
 		if (_on) {
 			_on = false;
-			color = FlxColor.YELLOW;
+			loadGraphic("assets/images/pressure plate off.png");
 			
 			if (_receiver != null) 
 			{
 				_receiver.deactivate();
 			}
-			// Change appearance
 		}
 	}
 }

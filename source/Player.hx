@@ -48,8 +48,16 @@ class Player extends FlxNapeSprite
 	public function new(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int)
 	{
 		super(x, y);
-		loadGraphic(tilesheetPath, true, width, height);
-		animation.frameIndex = frame;
+		var framerate:Int = 5;
+		loadGraphic("assets/images/player_sprite_sheet_single_line.png", true, 64, 64);
+		animation.add("walk", [4, 5], framerate, true);
+		animation.add("push walk", [0, 1], framerate, true);
+		animation.add("idle", [3], framerate, false);
+		animation.add("push idle", [2], framerate, false);
+		
+		animation.play("idle");
+		
+		//animation.frameIndex = frame;
 		
 		createRectangularBody();
 		body.type = BodyType.DYNAMIC;
@@ -98,6 +106,25 @@ class Player extends FlxNapeSprite
 			}
 			else {
 				has_been_dragging = false;
+			}
+			
+			
+			if (body.velocity.length > 0.01){
+				if (is_dragging){
+					animation.play("push walk");
+				}
+				else {
+					animation.play("walk");
+				}
+			} else {
+				animation.stop();
+				
+				if (is_dragging){
+					animation.play("push idle");
+				}
+				else {
+					animation.play("idle");
+				}
 			}
 		}
 		
@@ -228,7 +255,7 @@ class Player extends FlxNapeSprite
 			
 			if (is_dragging){
 				// player moves slower when dragging stuff
-				body.velocity = new Vec2(vx * _speed/2, vy * _speed/2);
+				body.velocity = new Vec2(vx * _speed / 2, vy * _speed / 2);
 			}
 			else {				
 				var shortest_angle:Float = ((((_rotation - angle) % 360) + 540) % 360) - 180;

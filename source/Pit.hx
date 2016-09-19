@@ -24,7 +24,7 @@ class Pit extends FlxSprite
 		floorgroup = group;
 		state = playstate;
 		
-		makeGraphic(width, height, FlxColor.BLACK);
+		makeGraphic(width, height, FlxColor.TRANSPARENT);
 		
 		immovable = true;
 	}
