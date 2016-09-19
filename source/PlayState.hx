@@ -40,7 +40,7 @@ class PlayState extends FlxState
 	
 	public var ui_man:UIManager;
 	public var black_screen:FlxSprite;
-	
+		
 	override public function create():Void
 	{
 		super.create();
@@ -114,22 +114,23 @@ class PlayState extends FlxState
 	
 	private function _handleInput():Void
 	{
-		// If the spacebar was hit, switch worlds
-		// TODO(Ariel): Add another check to make sure the player is in front of the mirror.
-		if (FlxG.keys.justPressed.SPACE && player.facing_mirror)
-		{	
-			var facing_front_mirror:Bool = false;
-
+		// If the spacebar was hit (and we're facing the mirror), switch worlds
+		var facing_front_mirror:Bool = false;
+		if (player.facing_mirror)
+		{
 			var mirrorToPlayerAngle:Float = FlxAngle.angleBetween(mirror, player, true) + 90;
 			var mirrorFacingAngle:Float = FlxAngle.asDegrees(mirror.swivel_top.body.rotation);
-
+			
 			if(angularDifference(mirrorToPlayerAngle, mirrorFacingAngle) < 90){
 				facing_front_mirror = true;
 			}
-
-			if(facing_front_mirror){
-				_switchWorld();
-			}
+		}
+		
+		ui_man.jump_prompt.visible = facing_front_mirror;
+		
+		if (FlxG.keys.justPressed.SPACE && facing_front_mirror)
+		{	
+			_switchWorld();
 		}		
 	}
 	
