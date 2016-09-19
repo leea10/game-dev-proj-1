@@ -16,7 +16,7 @@ class WorldGroup extends FlxGroup
 	public var laseremitters:FlxTypedGroup<FlxSprite>;
 	public var lights:FlxTypedGroup<Light>;
 	public var boxes:FlxTypedGroup<Box>;
-	public var mirrors:FlxTypedGroup<FlxNapeSprite>;
+	public var mirrors:FlxTypedGroup<Mirror>;
 	public var switches:FlxTypedGroup<Switch>;
 	public var worldname:String;
 	
@@ -34,7 +34,7 @@ class WorldGroup extends FlxGroup
 		lasers = new FlxTypedGroup<Laser>();
 		lights = new FlxTypedGroup<Light>();
 		boxes = new FlxTypedGroup<Box>();
-		mirrors = new FlxTypedGroup<FlxNapeSprite>();
+		mirrors = new FlxTypedGroup<Mirror>();
 		switches = new FlxTypedGroup<Switch>();
 		
 		add(mirrors);

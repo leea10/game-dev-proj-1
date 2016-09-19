@@ -55,7 +55,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 	
 	function update_lasers():Void
 	{		
-		angle += .3;
+		//angle += .3;
 		
 		var i:Int = 0;
 		var prev:Laser = lasergroup.members[0];

@@ -118,7 +118,7 @@ class PlayState extends FlxState
 		var facing_front_mirror:Bool = false;
 		if (player.facing_mirror)
 		{
-			var mirrorToPlayerAngle:Float = FlxAngle.angleBetween(mirror, player, true) + 90;
+			var mirrorToPlayerAngle:Float = FlxAngle.angleBetween(mirror, player, true) - 90;
 			var mirrorFacingAngle:Float = FlxAngle.asDegrees(mirror.swivel_top.body.rotation);
 			
 			if(angularDifference(mirrorToPlayerAngle, mirrorFacingAngle) < 90){

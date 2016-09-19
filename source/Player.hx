@@ -43,6 +43,9 @@ class Player extends FlxNapeSprite
 	public var switch_target:Switch;
 	public var has_switch_target:Bool = false;
 	
+	public var mirror_target:Mirror;
+	public var has_mirror_target:Bool = false;
+	
 	public var state:PlayState;
 	
 	public var hit_area:FlxSprite;
@@ -87,6 +90,7 @@ class Player extends FlxNapeSprite
 		
 		if (!is_dead){
 			check_for_switches();
+			check_for_mirrors();
 			handle_key_presses();
 			handle_movement();
 			
@@ -145,6 +149,13 @@ class Player extends FlxNapeSprite
 			state.ui_man.switch_prompt.visible = false;
 		}
 		
+		if (has_mirror_target){
+			state.ui_man.rotate_prompt.visible = true;
+		}
+		else {
+			state.ui_man.rotate_prompt.visible = false;
+		}
+		
 		hit_area.x = x+11;
 		hit_area.y = y+11;
 	}
@@ -167,6 +178,12 @@ class Player extends FlxNapeSprite
 			switch_target.trigger();
 		}
 		
+		if (has_mirror_target && FlxG.keys.pressed.E){
+			mirror_target.turn(0.03);
+		}
+		if (has_mirror_target && FlxG.keys.pressed.Q){
+			mirror_target.turn(-0.03);
+		}
 	}
 	
 	public function check_for_switches():Void
@@ -195,6 +212,37 @@ class Player extends FlxNapeSprite
 			if (Vec2.get((s.x+s.width/2)-(x+width/2),(s.y+s.height/2)-(y+height/2)).length < maxdist){
 				switch_target = s;
 				has_switch_target = true;
+			}
+		}
+		
+	}
+	
+	public function check_for_mirrors():Void
+	{
+		has_mirror_target = false;
+		var maxdist:Float = 80;
+		
+		if (state._isDark){
+			for (s in state._darkWorld.mirrors){				
+				if (Vec2.get((s.x+s.width/2)-(x+width/2),(s.y+s.height/2)-(y+height/2)).length < maxdist){
+					mirror_target = s;
+					has_mirror_target = true;
+				}
+			}
+		}
+		else {
+			for (s in state._lightWorld.mirrors){
+				if (Vec2.get((s.x+s.width/2)-(x+width/2),(s.y+s.height/2)-(y+height/2)).length < maxdist){
+					mirror_target = s;
+					has_mirror_target = true;
+				}
+			}
+		}
+		
+		for (s in state._bothWorlds.mirrors){
+			if (Vec2.get((s.x+s.width/2)-(x+width/2),(s.y+s.height/2)-(y+height/2)).length < maxdist){
+				mirror_target = s;
+				has_mirror_target = true;
 			}
 		}
 		

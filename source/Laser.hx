@@ -129,6 +129,10 @@ class Laser extends FlxSprite
 					temp_bounced = true;
 					temp_flip = true;
 				}
+				else {
+					temp_bounced = false;
+					temp_flip = false;
+				}
 			}
 			
 			if (should_collide){

@@ -50,7 +50,7 @@ class Mirror extends FlxNapeSprite
 		origin_y = y+height/2;
 		
 		swivel_top.reset(origin_x,origin_y);
-		swivel_top.body.rotation += 0.01;
+		//swivel_top.body.rotation += 0.01;
 	}
 	
 	public function set_filter (filter:InteractionFilter)
@@ -84,6 +84,11 @@ class Mirror extends FlxNapeSprite
 		result.y = vec.x * Math.sin(degrees) + vec.y * Math.cos(degrees);
 		
 		return result;
+	}
+	
+	public function turn(amount:Float):Void
+	{
+		swivel_top.body.rotation += amount;
 	}
 	
 	public function deactivate ():Void

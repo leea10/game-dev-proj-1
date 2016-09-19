@@ -37,9 +37,6 @@ class UIManager extends FlxGroup
 		add(drag_prompt);
 		add(rotate_prompt);
 		add(jump_prompt);
-		
-		jump_prompt.visible = false;
-		rotate_prompt.visible = false;
 	}
 	
 	override public function update(elapsed:Float):Void
