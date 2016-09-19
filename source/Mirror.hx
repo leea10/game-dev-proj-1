@@ -58,6 +58,18 @@ class Mirror extends FlxNapeSprite
 		body.shapes.at(0).filter = filter;
 	}
 	
+	public function normal_compare (in_norm:Vec2):Bool
+	{
+		var norm = rotate_vec2(Vec2.get(swivel_top._cosAngle, swivel_top._sinAngle), 90);
+		return (float_compare(norm.x, in_norm.x)&&float_compare(norm.y, in_norm.y));
+	}
+	
+	public function float_compare (a:Float, b:Float):Bool
+	{
+		var threshold:Float = 0.01;
+		return ((a+threshold>b)&&(a-threshold<b));
+	}
+	
 	public function facing_point (x_pos:Float,y_pos:Float):Bool
 	{
 		var norm = rotate_vec2(Vec2.get(swivel_top._cosAngle, swivel_top._sinAngle), 90);

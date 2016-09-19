@@ -125,7 +125,7 @@ class Laser extends FlxSprite
 			
 			// do collide with the actual mirror part
 			if (state.mirror.swivel_top.body == rayResult.shape.body) {
-				if (state.mirror.facing_point(x,y)) {
+				if (state.mirror.normal_compare(rayResult.normal)) {
 					temp_bounced = true;
 					temp_flip = true;
 				}
