@@ -26,7 +26,7 @@ class Laser extends FlxSprite
 	public var hit_normal:Vec2;
 	public var bounced:Bool = false;
 	public var flip_worlds:Bool = false;
-		
+	
 	public function new(x_pos:Float, y_pos:Float, length:Float, rotation:Float, playstate:PlayState, dark_world:Bool, light_world:Bool) 
 	{
 		super(x_pos, y_pos);
@@ -54,13 +54,12 @@ class Laser extends FlxSprite
 	}
 	
 	public function calculate():Void
-	{		
+	{	
 		var origin_point = Vec2.get(x, y);
 		var direction_vector = Vec2.get(_cosAngle, _sinAngle);
 		
 		var laser_ray:Ray = new Ray(origin_point, direction_vector);
 		laser_ray.maxDistance = max_distance;
-		
 		
 		var rayResultList:RayResultList = FlxNapeSpace.space.rayMultiCast(laser_ray);
 		var min = max_distance;
@@ -129,10 +128,6 @@ class Laser extends FlxSprite
 					temp_bounced = true;
 					temp_flip = true;
 				}
-				else {
-					temp_bounced = false;
-					temp_flip = false;
-				}
 			}
 			
 			if (should_collide){
@@ -149,6 +144,18 @@ class Laser extends FlxSprite
 					bounced = temp_bounced;
 					flip_worlds = temp_flip;
 				}
+			}
+		}
+		
+		alpha = 0.9;
+		if (state._isDark) {
+			if (!in_dark_world) {
+				alpha = 0.00001;
+			}
+		}
+		else if (!state._isDark) {
+			if (!in_light_world) {
+				alpha = 0.00001;
 			}
 		}
 	}
