@@ -160,7 +160,7 @@ class PlayState extends FlxState
 		_darkFloorEntities.visible = _isDark;
 		_lightFloorEntities.visible = !_isDark;
 		
-		
+		/*
 		for (l in darklasers) {
 			if (_isDark){
 				l.alpha = 1;
@@ -176,7 +176,7 @@ class PlayState extends FlxState
 			else {
 				l.alpha = 0;
 			}
-		}
+		}*/
 		
 		
 		if (_isDark) {

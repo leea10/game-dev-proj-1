@@ -65,8 +65,6 @@ class LaserEmitter extends FlxSprite implements Receiver
 	{
 		super.update(elapsed);
 		update_lasers();
-		
-
 	}
 	
 	function update_lasers():Void
@@ -225,6 +223,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 	{
 		var l:Laser = new Laser(x + (width / 2), y + (height / 2) - 2, length, angle, state, in_dark_world, in_light_world);
 		lasergroup.add(l);
+		l.alpha = 0.00001;
 		return l;
 	}
 	

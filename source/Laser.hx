@@ -146,5 +146,17 @@ class Laser extends FlxSprite
 				}
 			}
 		}
+		
+		alpha = 0.9;
+		if (state._isDark) {
+			if (!in_dark_world) {
+				alpha = 0.00001;
+			}
+		}
+		else if (!state._isDark) {
+			if (!in_light_world) {
+				alpha = 0.00001;
+			}
+		}
 	}
 }
