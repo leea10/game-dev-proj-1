@@ -166,6 +166,8 @@ class TiledLevel extends TiledMap
 			case "sliding wall": var s:SlidingWall = worldGroup.addSlidingWall(tilesheetPath, frame, x, y, w, h, Std.parseInt(o.properties.get("dest x")), Std.parseInt(o.properties.get("dest y")));
 				receivers.set(s,id);
 			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h);
+				triggers.set(s, id);
+			case "laser rec": var s:LaserReceiver = worldGroup.addLaserRec(x, y);
 				triggers.set(s,id);
 			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state, flipGroup);
 				receivers.set(l, id);

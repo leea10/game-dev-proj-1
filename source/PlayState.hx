@@ -216,6 +216,10 @@ class PlayState extends FlxState
 				can_switch = false;
 				// can't teleport into a laser emitter
 			}
+			if (FlxG.overlap(player.hit_area, _lightWorld.slidingwalls)){
+				can_switch = false;
+				// can't teleport into a sliding wall
+			}
 		}
 		else {
 			if (FlxG.overlap(player.hit_area, _darkWorld.walls)){
@@ -237,6 +241,10 @@ class PlayState extends FlxState
 			if (FlxG.overlap(player.hit_area, _darkWorld.laseremitters)){
 				can_switch = false;
 				// can't teleport into a laser emitter
+			}
+			if (FlxG.overlap(player.hit_area, _darkWorld.slidingwalls)){
+				can_switch = false;
+				// can't teleport into a sliding wall
 			}
 		}
 		

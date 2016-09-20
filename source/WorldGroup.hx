@@ -19,6 +19,7 @@ class WorldGroup extends FlxGroup
 	public var switches:FlxTypedGroup<Switch>;
 	public var doors:FlxTypedGroup<Door>;
 	public var slidingwalls:FlxTypedGroup<SlidingWall>;
+	public var laserreceivers:FlxTypedGroup<LaserReceiver>;
 	public var worldname:String;
 	
 	var filter:InteractionFilter;
@@ -38,12 +39,14 @@ class WorldGroup extends FlxGroup
 		switches = new FlxTypedGroup<Switch>();
 		doors = new FlxTypedGroup<Door>();
 		slidingwalls = new FlxTypedGroup<SlidingWall>();
+		laserreceivers = new FlxTypedGroup<LaserReceiver>();
 		
 		add(slidingwalls);
 		add(mirrors);
         add(walls);
         add(lights);
         add(boxes);
+		add(laserreceivers);
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -90,6 +93,14 @@ class WorldGroup extends FlxGroup
 		lights.add(l);
 		add(l);
 		l.initialize();
+		return l;
+	}
+	
+	public function addLaserRec(x:Int, y:Int):LaserReceiver
+	{
+		var l:LaserReceiver = new LaserReceiver(x, y);
+		laserreceivers.add(l);
+		l.set_filter(filter);
 		return l;
 	}
 	

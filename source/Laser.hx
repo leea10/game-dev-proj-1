@@ -173,6 +173,26 @@ class Laser extends FlxSprite
 				}
 			}
 			
+			if (in_light_world) {
+				for (s in state._lightWorld.laserreceivers){
+					if (s.body == rayResult.shape.body) {
+						s.trigger();
+					}
+				}
+			}
+			if (in_dark_world) {
+				for (s in state._darkWorld.laserreceivers){
+					if (s.body == rayResult.shape.body) {
+						s.trigger();
+					}
+				}
+			}
+			for (s in state._bothWorlds.laserreceivers){
+				if (s.body == rayResult.shape.body) {
+					s.trigger();
+				}
+			}
+			
 			if (should_collide){
 				if (min > rayResult.distance) {
 					min = rayResult.distance;
