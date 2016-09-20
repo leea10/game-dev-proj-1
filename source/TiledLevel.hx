@@ -166,7 +166,9 @@ class TiledLevel extends TiledMap
 			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h);
 				triggers.set(s,id);
 			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state, flipGroup);
-				receivers.set(l,id);
+				receivers.set(l, id);
+			case "door": var d:Door = worldGroup.addDoor(x, y, w, h);
+				receivers.set(d, id);
 			case "pressure plate": var p:PressurePlate = floorEntitiesGroup.addPlate(x, y, w, h, state);
 				triggers.set(p,id);
 			case "pit": floorEntitiesGroup.addPit(x, y, w, h, state);

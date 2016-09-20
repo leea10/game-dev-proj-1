@@ -18,6 +18,7 @@ class WorldGroup extends FlxGroup
 	public var boxes:FlxTypedGroup<Box>;
 	public var mirrors:FlxTypedGroup<Mirror>;
 	public var switches:FlxTypedGroup<Switch>;
+	public var doors:FlxTypedGroup<Door>;
 	public var worldname:String;
 	
 	var filter:InteractionFilter;
@@ -36,6 +37,7 @@ class WorldGroup extends FlxGroup
 		boxes = new FlxTypedGroup<Box>();
 		mirrors = new FlxTypedGroup<Mirror>();
 		switches = new FlxTypedGroup<Switch>();
+		doors = new FlxTypedGroup<Door>();
 		
 		add(mirrors);
         add(walls);
@@ -100,6 +102,15 @@ class WorldGroup extends FlxGroup
 		b.set_filter(filter);
 		return b;
 	}
+
+	public function addDoor(x:Int, y:Int, width:Int, height:Int):Door
+	{
+		var d:Door = new Door(x, y, width, height);
+		doors.add(d);
+		add(d);
+		d.setFilter(filter);
+		return d;
+	}	
 	
 	public function addSwitch(x:Int, y:Int, width:Int, height:Int):Switch
 	{
