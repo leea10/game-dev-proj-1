@@ -164,7 +164,6 @@ class Laser extends FlxSprite
 					}
 				}
 			}
-			
 			for (s in state._bothWorlds.mirrors){
 				if (s.swivel_top.body == rayResult.shape.body) {
 					if (s.normal_compare(rayResult.normal)) {

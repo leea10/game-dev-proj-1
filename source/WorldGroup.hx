@@ -18,6 +18,7 @@ class WorldGroup extends FlxGroup
 	public var mirrors:FlxTypedGroup<Mirror>;
 	public var switches:FlxTypedGroup<Switch>;
 	public var doors:FlxTypedGroup<Door>;
+	public var slidingwalls:FlxTypedGroup<SlidingWall>;
 	public var worldname:String;
 	
 	var filter:InteractionFilter;
@@ -36,7 +37,9 @@ class WorldGroup extends FlxGroup
 		mirrors = new FlxTypedGroup<Mirror>();
 		switches = new FlxTypedGroup<Switch>();
 		doors = new FlxTypedGroup<Door>();
+		slidingwalls = new FlxTypedGroup<SlidingWall>();
 		
+		add(slidingwalls);
 		add(mirrors);
         add(walls);
         add(lights);
@@ -92,7 +95,7 @@ class WorldGroup extends FlxGroup
 	
 	public function addMirror(x:Int, y:Int, playstate:PlayState):Mirror
 	{
-		var m:Mirror = new Mirror(x, y, this);
+		var m:Mirror = new Mirror(x, y, this, playstate);
 		mirrors.add(m);
 		m.set_filter(filter);
 		
@@ -116,6 +119,14 @@ class WorldGroup extends FlxGroup
 		add(b);
 		b.set_filter(filter);
 		return b;
+	}
+	
+	public function addSlidingWall(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int, destx:Int, desty:Int):SlidingWall
+	{
+		var w:SlidingWall = new SlidingWall(tilesheetPath, frame, x, y, width, height, destx, desty);
+		slidingwalls.add(w);
+		w.set_filter(filter);
+		return w;
 	}
 
 	public function addDoor(x:Int, y:Int, width:Int, height:Int):Door

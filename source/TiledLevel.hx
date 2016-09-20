@@ -163,6 +163,8 @@ class TiledLevel extends TiledMap
 			case "mirror start": _mirror = _worlds.get("both").addMirror(x, y, state);
 			case "wall": worldGroup.addWall(x, y, w, h);
 			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
+			case "sliding wall": var s:SlidingWall = worldGroup.addSlidingWall(tilesheetPath, frame, x, y, w, h, Std.parseInt(o.properties.get("dest x")), Std.parseInt(o.properties.get("dest y")));
+				receivers.set(s,id);
 			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h);
 				triggers.set(s,id);
 			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state, flipGroup);

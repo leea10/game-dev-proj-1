@@ -14,11 +14,13 @@ class Mirror extends FlxNapeSprite
 	
 	public var swivel_top:FlxNapeSprite;
 	public var group:WorldGroup;
+	public var state:PlayState;
 	
-	public function new(x_in:Int, y_in:Int, worldgroup:WorldGroup)
+	public function new(x_in:Int, y_in:Int, worldgroup:WorldGroup, playstate:PlayState)
 	{
 		super(x_in, y_in);
 		group = worldgroup;
+		state = playstate;
 		
 		makeGraphic(64, 64, FlxColor.WHITE);
 		createRectangularBody();
@@ -52,7 +54,18 @@ class Mirror extends FlxNapeSprite
 		origin_y = y+height/2;
 		
 		swivel_top.reset(origin_x,origin_y);
-		//swivel_top.body.rotation += 0.01;
+		
+		alpha = 1;
+		if (state._isDark) {
+			if (group.worldname == "light") {
+				alpha = 0.00001;
+			}
+		}
+		else if (!state._isDark) {
+			if (group.worldname == "dark") {
+				alpha = 0.00001;
+			}
+		}
 	}
 	
 	public function set_filter (filter:InteractionFilter)

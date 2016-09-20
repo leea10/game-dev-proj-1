@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="64" nextobjectid="97">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="64" tileheight="64" nextobjectid="103">
  <tileset firstgid="1" name="temp" tilewidth="64" tileheight="64" tilecount="256" columns="16">
   <image source="../images/temp tilemap.png" width="1024" height="1024"/>
   <terraintypes>
@@ -61,19 +61,9 @@
   </properties>
   <object id="66" type="box" gid="36" x="1280" y="960" width="64" height="64"/>
   <object id="68" type="box" gid="17" x="1088" y="752" width="48" height="112"/>
-  <object id="79" name="pressure plate" type="pressure plate" x="1363" y="657" width="31" height="30">
-   <properties>
-    <property name="id" value="b"/>
-   </properties>
-  </object>
   <object id="80" name="door" type="door" x="769" y="705" width="21" height="62">
    <properties>
     <property name="id" value="b"/>
-   </properties>
-  </object>
-  <object id="81" name="trap door" type="trap door" x="1216" y="772" width="108" height="103">
-   <properties>
-    <property name="id" value="c"/>
    </properties>
   </object>
   <object id="87" name="pit" type="pit" x="960" y="832" width="192" height="192"/>
@@ -83,12 +73,36 @@
    </properties>
   </object>
   <object id="96" name="normal mirror" type="mirror" x="1436" y="618"/>
+  <object id="99" type="sliding wall" gid="17" x="1344" y="992" width="128" height="16">
+   <properties>
+    <property name="dest x" type="int" value="1216"/>
+    <property name="dest y" type="int" value="992"/>
+    <property name="id" value="x"/>
+   </properties>
+  </object>
+  <object id="100" name="pressure plate" type="pressure plate" x="1360" y="640" width="48" height="48">
+   <properties>
+    <property name="id" value="b"/>
+   </properties>
+  </object>
+  <object id="101" type="sliding wall" gid="17" x="1344" y="976" width="128" height="16">
+   <properties>
+    <property name="dest x" type="int" value="1344"/>
+    <property name="dest y" type="int" value="912"/>
+    <property name="id" value="z"/>
+   </properties>
+  </object>
+  <object id="102" name="switch" type="switch" x="1344" y="896" width="16" height="16">
+   <properties>
+    <property name="id" value="z"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="light_collision">
   <properties>
    <property name="world" value="light"/>
   </properties>
-  <object id="49" type="wall" x="1217" y="577" width="65" height="188"/>
+  <object id="49" type="wall" x="1217" y="576" width="65" height="192"/>
  </objectgroup>
  <layer name="dark_floor" width="100" height="100" visible="0">
   <properties>
@@ -142,13 +156,18 @@
   <object id="41" type="wall" x="704" y="576" width="64" height="256"/>
   <object id="42" type="wall" x="768" y="576" width="192" height="64"/>
  </objectgroup>
- <objectgroup name="both_objects" visible="0">
+ <objectgroup name="both_objects">
   <properties>
    <property name="tilesheet" value="temp tilemap.png"/>
    <property name="world" value="both"/>
   </properties>
   <object id="67" type="box" gid="24" x="1280" y="704" width="32" height="32"/>
   <object id="70" type="box" gid="17" x="928" y="832" width="96" height="48"/>
+  <object id="98" name="pressure plate" type="pressure plate" x="1408" y="720" width="48" height="48">
+   <properties>
+    <property name="id" value="x"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="player controlled">
   <properties>

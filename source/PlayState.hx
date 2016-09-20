@@ -168,7 +168,6 @@ class PlayState extends FlxState
 		_darkFloorEntities.visible = _isDark;
 		_lightFloorEntities.visible = !_isDark;
 		
-		
 		if (_isDark) {
 			player.body.shapes.at(0).filter = CollisionFilter.DARK;
 		}
