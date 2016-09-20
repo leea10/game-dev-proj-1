@@ -162,7 +162,7 @@ class TiledLevel extends TiledMap
 			// like the player does, then leave it as its own entity, like the player.
 			case "mirror start": _mirror = _worlds.get("both").addMirror(x, y, state);
 			case "wall": worldGroup.addWall(x, y, w, h);
-			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
+			case "box": worldGroup.addBox(x, y, w, h);
 			case "sliding wall": var s:SlidingWall = worldGroup.addSlidingWall(tilesheetPath, frame, x, y, w, h, Std.parseInt(o.properties.get("dest x")), Std.parseInt(o.properties.get("dest y")));
 				receivers.set(s,id);
 			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h);
@@ -172,6 +172,9 @@ class TiledLevel extends TiledMap
 			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state, flipGroup);
 				receivers.set(l, id);
 			case "door": var d:Door = worldGroup.addDoor(x, y, w, h);
+				if (o.properties.get("open") != null) {
+					d.activate();
+				}
 				receivers.set(d, id);
 			case "pressure plate": var p:PressurePlate = floorEntitiesGroup.addPlate(x, y, w, h, state);
 				triggers.set(p,id);

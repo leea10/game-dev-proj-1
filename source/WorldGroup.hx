@@ -123,9 +123,9 @@ class WorldGroup extends FlxGroup
 		return m;
 	}
 	
-	public function addBox(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int):Box
+	public function addBox(x:Int, y:Int, width:Int, height:Int):Box
 	{
-		var b:Box = new Box(tilesheetPath, frame, x, y, width, height);
+		var b:Box = new Box(x, y, width, height);
 		boxes.add(b);
 		add(b);
 		b.set_filter(filter);
