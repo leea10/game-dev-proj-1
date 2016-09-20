@@ -38,6 +38,10 @@ class PlayState extends FlxState
 	public var _lightWorld:WorldGroup;
 	public var _bothWorlds:WorldGroup;
 	
+	public var darklasers:FlxTypedGroup<Laser> = new FlxTypedGroup<Laser>();
+	public var lightlasers:FlxTypedGroup<Laser> = new FlxTypedGroup<Laser>();
+	public var bothlasers:FlxTypedGroup<Laser> = new FlxTypedGroup<Laser>();
+	
 	public var ui_man:UIManager;
 	public var black_screen:FlxSprite;
 		
@@ -76,6 +80,10 @@ class PlayState extends FlxState
 		add(_bothWorlds);
 		add(_darkWorld);
 		add(_lightWorld);
+		
+		add(bothlasers);
+		add(darklasers);
+		add(lightlasers);
 		
 		// Retrieve player and mirror.
 		player = level._player;
@@ -142,6 +150,7 @@ class PlayState extends FlxState
 	private function _setWorld(isDark):Void 
 	{
 		_isDark = isDark;
+		
 		_darkWorld.visible = _isDark;
 		_lightWorld.visible = !_isDark;
 		
@@ -150,6 +159,25 @@ class PlayState extends FlxState
 		
 		_darkFloorEntities.visible = _isDark;
 		_lightFloorEntities.visible = !_isDark;
+		
+		
+		for (l in darklasers) {
+			if (_isDark){
+				l.alpha = 1;
+			}
+			else {
+				l.alpha = 0;
+			}
+		}
+		for (l in lightlasers) {
+			if (!_isDark){
+				l.alpha = 1;
+			}
+			else {
+				l.alpha = 0;
+			}
+		}
+		
 		
 		if (_isDark) {
 			player.body.shapes.at(0).filter = CollisionFilter.DARK;
@@ -179,7 +207,7 @@ class PlayState extends FlxState
 				can_switch = false;
 				// can't teleport into a mirror
 			}
-			if (FlxG.overlap(player.hit_area, _lightWorld.lasers)){
+			if (FlxG.overlap(player.hit_area, _lightWorld.laseremitters)){
 				can_switch = false;
 				// can't teleport into a laser emitter
 			}
@@ -201,7 +229,7 @@ class PlayState extends FlxState
 				can_switch = false;
 				// can't teleport into a mirror
 			}
-			if (FlxG.overlap(player.hit_area, _darkWorld.lasers)){
+			if (FlxG.overlap(player.hit_area, _darkWorld.laseremitters)){
 				can_switch = false;
 				// can't teleport into a laser emitter
 			}

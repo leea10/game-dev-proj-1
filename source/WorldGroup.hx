@@ -12,7 +12,6 @@ import nape.dynamics.InteractionFilter;
 class WorldGroup extends FlxGroup
 {
 	public var walls:FlxTypedGroup<FlxNapeSprite>;
-	public var lasers:FlxTypedGroup<Laser>;
 	public var laseremitters:FlxTypedGroup<FlxSprite>;
 	public var lights:FlxTypedGroup<Light>;
 	public var boxes:FlxTypedGroup<Box>;
@@ -31,7 +30,6 @@ class WorldGroup extends FlxGroup
 		// Groups made for easy collision checks.
 		walls = new FlxTypedGroup<FlxNapeSprite>();
 		laseremitters = new FlxTypedGroup<FlxSprite>();
-		lasers = new FlxTypedGroup<Laser>();
 		lights = new FlxTypedGroup<Light>();
 		boxes = new FlxTypedGroup<Box>();
 		mirrors = new FlxTypedGroup<Mirror>();
@@ -39,8 +37,6 @@ class WorldGroup extends FlxGroup
 		
 		add(mirrors);
         add(walls);
-        add(lasers);
-		add(lasers);
         add(lights);
         add(boxes);
 	}
@@ -71,7 +67,7 @@ class WorldGroup extends FlxGroup
 		base.createRectangularBody();
 		walls.add(base);
 		
-		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this, flip);
+		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this);
 		l.angle = rot;
 		laseremitters.add(l);
 		add(l);

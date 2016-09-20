@@ -14,14 +14,16 @@ class LaserEmitter extends FlxSprite implements Receiver
 {
 	var length:Int = 600;
 	var state:PlayState;
-	var worldgroup:WorldGroup;
-	var flipgroup:WorldGroup;
+	var worldgroup:FlxTypedGroup<Laser>;
+	var flipgroup:FlxTypedGroup<Laser>;
+	
+	var thisworld:WorldGroup;
 	
 	// group for laser beams
 	var lasergroup:FlxTypedGroup<Laser>;
 	// group for spark effects that get displayed 
 	var sparksgroup:FlxGroup;
-		
+	
 	// how many times can the beam bounce before stopping?
 	var bounce_limit:Int = 5;
 	
@@ -30,12 +32,24 @@ class LaserEmitter extends FlxSprite implements Receiver
 	public var in_dark_world:Bool = false;
 	public var in_light_world:Bool = false;
 	
-	public function new(?x:Float=0, ?y:Float=0, playstate:PlayState, group:WorldGroup, flgroup:WorldGroup) 
+	public function new(?x:Float=0, ?y:Float=0, playstate:PlayState, group:WorldGroup) 
 	{
 		super(x, y);
 		state = playstate;
-		worldgroup = group;
-		flipgroup = flgroup;
+		thisworld = group;
+		
+		if (group.worldname == "dark") {
+			worldgroup = state.darklasers;
+			flipgroup = state.lightlasers;
+		}
+		else if (group.worldname == "light") {
+			worldgroup = state.lightlasers;
+			flipgroup = state.darklasers;
+		}
+		else {
+			worldgroup = state.bothlasers;
+			flipgroup = state.bothlasers;
+		}
 		
 		lasergroup = new FlxTypedGroup<Laser>();
 		sparksgroup = new FlxGroup();
@@ -51,12 +65,12 @@ class LaserEmitter extends FlxSprite implements Receiver
 	{
 		super.update(elapsed);
 		update_lasers();
+		
+
 	}
 	
 	function update_lasers():Void
 	{		
-		//angle += .3;
-		
 		var i:Int = 0;
 		var prev:Laser = lasergroup.members[0];
 		for (l in lasergroup){
@@ -65,8 +79,8 @@ class LaserEmitter extends FlxSprite implements Receiver
 				l.angle = angle;
 			}
 			else {
-				l.x = prev.hit_point.x + prev.hit_normal.x; // move the laser start points off of the surface just a little (to avoid weird clipping errors)
-				l.y = prev.hit_point.y + prev.hit_normal.y;
+				l.x = prev.hit_point.x;// + prev.hit_normal.x; // move the laser start points off of the surface just a little (to avoid weird clipping errors)
+				l.y = prev.hit_point.y;// + prev.hit_normal.y;
 				
 				// figure out the bounce angle
 				var old_angle:Vec2 = Vec2.get(prev._cosAngle, prev._sinAngle);
@@ -74,8 +88,8 @@ class LaserEmitter extends FlxSprite implements Receiver
 				
 				l.angle = (180 / 3.1416) * Math.atan2(new_angle.y, new_angle.x);
 			}
-			
 			l.calculate();
+			
 			prev = l;
 			
 			i++;
@@ -85,7 +99,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 		if (is_active){
 			desired_num_lasers = 1;
 			// we definitely want at least one beam
-			for (l in lasergroup.members){
+			for (l in lasergroup){
 				if (l.bounced){
 					desired_num_lasers += 1;
 				}
@@ -96,13 +110,42 @@ class LaserEmitter extends FlxSprite implements Receiver
 			desired_num_lasers = 0;
 		}
 		
+		//trace(lasergroup.length);
+		
+		/*
+		var prev:Laser = lasergroup.members[0];
+		var count:Int = 0;
+		for (l in lasergroup.members) {
+			if (count !=0){
+				// make sure all the lasers are in the right groups
+				if (prev.flip_worlds) {
+					// this laser should be in the other world
+					if ((l.in_light_world == prev.in_light_world) && (l.in_dark_world == prev.in_dark_world) && (in_dark_world != in_light_world)){
+						// something's wrong -- just delete all the lasers and start over
+						desired_num_lasers = 0;
+					}
+				}
+				else {
+					// this laser should be in the same world
+					if ((l.in_light_world != prev.in_light_world) || (l.in_dark_world != prev.in_dark_world)){
+						// something's wrong -- just delete all the lasers and start over
+						desired_num_lasers = 0;
+					}
+				}
+			}
+			prev = l;
+			count++;
+        }
+		*/
+		
 		// desired_num_lasers can be at maximum 1 more than the number of laser already in the group -- only one laser is ever added in a single frame
-		if ((desired_num_lasers > lasergroup.length) && desired_num_lasers <= (bounce_limit + 1)){
+		if ((desired_num_lasers > lasergroup.length) && desired_num_lasers <= (bounce_limit + 1)) {
+			trace(desired_num_lasers);
 			if (lasergroup.length > 0){
 				var prev:Laser = lasergroup.members[lasergroup.length - 1];
 				var l:Laser = create_new_laser();
 				
-				if (prev.flip_worlds){
+				if (prev.flip_worlds) {
 					l.in_dark_world = prev.in_light_world;
 					l.in_light_world = prev.in_dark_world;
 				}
@@ -111,41 +154,42 @@ class LaserEmitter extends FlxSprite implements Receiver
 					l.in_light_world = prev.in_light_world;
 				}
 				
+				trace("l light: " + l.in_light_world + "  l dark: " + l.in_dark_world);
+				trace("emit light: " + in_light_world+"  emit dark: " + in_dark_world);
+				
 				// is this laser in the world we started in?
 				if ((l.in_light_world != in_light_world) || (l.in_dark_world != in_dark_world)){
-					flipgroup.lasers.add(l);
+					flipgroup.add(l);
 				}
 				else {
-					worldgroup.lasers.add(l);
+					worldgroup.add(l);
 				}
 			}
 			else {
 				var l:Laser = create_new_laser();
-				worldgroup.lasers.add(l);
+				worldgroup.add(l);
 			}
 		}
 		// too many lasers
 		else if (desired_num_lasers < lasergroup.length){
 			
-			var temp_array:Array<Laser> = new Array<Laser>();
+			var tempgroup:FlxTypedGroup<Laser> = new FlxTypedGroup<Laser>();
 			
 			var i:Int = 0;
-			for (l in lasergroup.members){
+			for (l in lasergroup){
 				if (i < desired_num_lasers){
-					temp_array.insert(i, l);
+					tempgroup.add(l);
 				}
 				else {
-					worldgroup.lasers.remove(l);
-					flipgroup.lasers.remove(l);
+					worldgroup.remove(l);
+					flipgroup.remove(l);
 				}
 				i++;
 			}
 			
-			lasergroup.clear();
-			for (l in temp_array){
-				lasergroup.add(l);
-			}
+			lasergroup = tempgroup;
 		}
+		
 	}
 	
 	// simple 2d dot product
@@ -187,10 +231,10 @@ class LaserEmitter extends FlxSprite implements Receiver
 	// what world(s) is this laser in?
 	function get_worlds():Void
 	{
-		if (worldgroup.worldname == "light"){
+		if (thisworld.worldname == "light"){
 			in_light_world = true;
 		}
-		else if (worldgroup.worldname == "dark"){
+		else if (thisworld.worldname == "dark"){
 			in_dark_world = true;
 		}
 		else{
