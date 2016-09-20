@@ -23,6 +23,9 @@ class LaserReceiver extends FlxNapeSprite implements Trigger
 		super(x, y);
 		
 		makeGraphic(16, 16, FlxColor.ORANGE);
+		
+		loadGraphic("assets/images/laser receiver off.png");
+		
 		createRectangularBody();
 		body.type = BodyType.STATIC;
 		
@@ -51,6 +54,7 @@ class LaserReceiver extends FlxNapeSprite implements Trigger
 	{
 		if (!_on) {
 			_on = true;
+			loadGraphic("assets/images/laser receiver on.png");
 			
 			if (_receiver != null) 
 			{
@@ -65,6 +69,7 @@ class LaserReceiver extends FlxNapeSprite implements Trigger
 	{
 		if (_on) {
 			_on = false;
+			loadGraphic("assets/images/laser receiver off.png");
 			
 			if (_receiver != null) 
 			{
