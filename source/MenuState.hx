@@ -35,6 +35,6 @@ class MenuState extends FlxState
 	{
 		// switch to play state (only one state can be active at a time)
 		// TODO: replace with first tutorial level.
-		FlxG.switchState(new TestLevelState());
+		FlxG.switchState(new LevelOneState());
 	}
 }
