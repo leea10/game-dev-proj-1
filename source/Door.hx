@@ -10,28 +10,35 @@ class Door extends FlxNapeSprite implements Receiver
 	public function new(x:Int, y:Int, width:Int, height:Int) 
 	{	
 		super(x + width/2, y + height/2);
-		makeGraphic(width, height, FlxColor.RED);
+		loadGraphic("assets/images/door2 small.png", true, 9, 128);
 		
 		createRectangularBody();
 		setBodyMaterial(0, 0, 0, 1);
 		body.allowMovement = false;
 		body.allowRotation = false;
+		
+		animation.add("open", [0, 1, 2, 3, 4, 5], 20, false);
+		animation.add("close", [5, 4, 3, 2, 1, 0], 20, false);
 	}
 	
 	public function activate() 
 	{
 		// TODO(ariel): Play the open door animation
-		makeGraphic(cast width, cast height, FlxColor.LIME);
+		//makeGraphic(cast width, cast height, FlxColor.LIME);
 		_open = true;
 		set_physicsEnabled(false);
+		
+		animation.play("open");
 	}
 	
 	public function deactivate() 
 	{
 		// TODO(ariel): Play the close door animation
-		makeGraphic(cast width, cast height, FlxColor.RED);
+		//makeGraphic(cast width, cast height, FlxColor.RED);
 		_open = false;
 		set_physicsEnabled(true);
+		
+		animation.play("close");
 	}
 	
 	public function setFilter (filter:InteractionFilter)
