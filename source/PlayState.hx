@@ -91,11 +91,11 @@ class PlayState extends FlxState
 		add(player);
 		add(player.hit_area);
 		
-		_bothWorlds.mirrors.add(mirror);
-
+		//_bothWorlds.mirrors.add(mirror);
+		
 		player.state = this;
-		mirror.set_filter(CollisionFilter.BOTH);
-		add(mirror.swivel_top);
+		//mirror.set_filter(CollisionFilter.BOTH);
+		//add(mirror.swivel_top);
 		
 		// Initialize the level's starting world.
 		_setWorld(_isDark);
@@ -159,24 +159,6 @@ class PlayState extends FlxState
 		
 		_darkFloorEntities.visible = _isDark;
 		_lightFloorEntities.visible = !_isDark;
-		
-		/*
-		for (l in darklasers) {
-			if (_isDark){
-				l.alpha = 1;
-			}
-			else {
-				l.alpha = 0;
-			}
-		}
-		for (l in lightlasers) {
-			if (!_isDark){
-				l.alpha = 1;
-			}
-			else {
-				l.alpha = 0;
-			}
-		}*/
 		
 		
 		if (_isDark) {

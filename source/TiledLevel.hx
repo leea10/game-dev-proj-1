@@ -160,7 +160,7 @@ class TiledLevel extends TiledMap
 			// TODO(Ariel): Figure out the exact mechanics of the mirror's existence
 			// If it exists in both, place in "both". If it flips back and forth
 			// like the player does, then leave it as its own entity, like the player.
-			case "mirror start": _mirror = new Mirror(x, y);
+			case "mirror start": _mirror = _worlds.get("both").addMirror(x, y);
 			case "wall": worldGroup.addWall(x, y, w, h);
 			case "box": worldGroup.addBox(tilesheetPath, frame, x, y, w, h);
 			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h);
@@ -172,6 +172,7 @@ class TiledLevel extends TiledMap
 			case "pressure plate": var p:PressurePlate = floorEntitiesGroup.addPlate(x, y, w, h, state);
 				triggers.set(p,id);
 			case "pit": floorEntitiesGroup.addPit(x, y, w, h, state);
+			case "mirror": worldGroup.addMirror(x, y);
 			case "level end": floorEntitiesGroup.addEnd(x, y, w, h, state);
 		}
 	}

@@ -74,7 +74,7 @@ class WorldGroup extends FlxGroup
 		laseremitters.add(l);
 		add(l);
 		l.initialize();
-
+		
 		base.reset(base.x + l.width / 2, base.y + l.height / 2);
 		base.body.type = BodyType.STATIC;
 		
@@ -88,6 +88,14 @@ class WorldGroup extends FlxGroup
 		add(l);
 		l.initialize();
 		return l;
+	}
+	
+	public function addMirror(x:Int, y:Int):Mirror
+	{
+		var m:Mirror = new Mirror(x, y, this);
+		mirrors.add(m);
+		m.set_filter(filter);
+		return m;
 	}
 	
 	public function addBox(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int):Box

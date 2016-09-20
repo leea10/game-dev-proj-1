@@ -13,10 +13,12 @@ class Mirror extends FlxNapeSprite
 	public var origin_y:Float;
 	
 	public var swivel_top:FlxNapeSprite;
+	public var group:WorldGroup;
 	
-	public function new(x_in:Int, y_in:Int)
+	public function new(x_in:Int, y_in:Int, worldgroup:WorldGroup)
 	{
 		super(x_in, y_in);
+		group = worldgroup;
 		
 		makeGraphic(64, 64, FlxColor.WHITE);
 		createRectangularBody();
@@ -40,6 +42,8 @@ class Mirror extends FlxNapeSprite
 		/// ...1000, ...0000
 		var no_filter:InteractionFilter = new InteractionFilter(8, 0);
 		swivel_top.body.shapes.at(0).filter = no_filter;
+		
+		group.add(swivel_top);
 	}
 	
 	override public function update(elapsed:Float):Void

@@ -348,6 +348,12 @@ class Player extends FlxNapeSprite
 						temp_target = box;
 					}
 				}
+				for (mirror in state._darkWorld.mirrors){
+					if (mirror.body == rayResult.shape.body){
+						should_collide = true;
+						temp_target = mirror;
+					}
+				}
 			}
 			else {
 				
@@ -355,6 +361,12 @@ class Player extends FlxNapeSprite
 					if (box.body == rayResult.shape.body){
 						should_collide = true;
 						temp_target = box;
+					}
+				}
+				for (mirror in state._lightWorld.mirrors){
+					if (mirror.body == rayResult.shape.body){
+						should_collide = true;
+						temp_target = mirror;
 					}
 				}
 			}
@@ -365,12 +377,13 @@ class Player extends FlxNapeSprite
 					temp_target = box;
 				}
 			}
-			
-			if (state.mirror.body == rayResult.shape.body){
-				should_collide = true;
-				temp_target = state.mirror;
+			for (mirror in state._bothWorlds.mirrors){
+				if (mirror.body == rayResult.shape.body){
+					should_collide = true;
+					temp_target = mirror;
+				}
 			}
-		
+			
 			if (should_collide){
 				has_drag_target = true;
 				if (min > rayResult.distance) {

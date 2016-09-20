@@ -108,8 +108,6 @@ class LaserEmitter extends FlxSprite implements Receiver
 			desired_num_lasers = 0;
 		}
 		
-		//trace(lasergroup.length);
-		
 		/*
 		var prev:Laser = lasergroup.members[0];
 		var count:Int = 0;
@@ -138,7 +136,6 @@ class LaserEmitter extends FlxSprite implements Receiver
 		
 		// desired_num_lasers can be at maximum 1 more than the number of laser already in the group -- only one laser is ever added in a single frame
 		if ((desired_num_lasers > lasergroup.length) && desired_num_lasers <= (bounce_limit + 1)) {
-			trace(desired_num_lasers);
 			if (lasergroup.length > 0){
 				var prev:Laser = lasergroup.members[lasergroup.length - 1];
 				var l:Laser = create_new_laser();
@@ -151,9 +148,6 @@ class LaserEmitter extends FlxSprite implements Receiver
 					l.in_dark_world = prev.in_dark_world;
 					l.in_light_world = prev.in_light_world;
 				}
-				
-				trace("l light: " + l.in_light_world + "  l dark: " + l.in_dark_world);
-				trace("emit light: " + in_light_world+"  emit dark: " + in_dark_world);
 				
 				// is this laser in the world we started in?
 				if ((l.in_light_world != in_light_world) || (l.in_dark_world != in_dark_world)){

@@ -88,6 +88,11 @@ class Laser extends FlxSprite
 						should_collide = false;
 					}
 				}
+				for (s in state._darkWorld.mirrors){
+					if (s.swivel_top.body == rayResult.shape.body){
+						should_collide = false;
+					}
+				}
 				if (state._isDark){
 					if (state.player.body == rayResult.shape.body){
 						should_collide = false;
@@ -110,6 +115,11 @@ class Laser extends FlxSprite
 						should_collide = false;
 					}
 				}
+				for (s in state._lightWorld.mirrors){
+					if (s.swivel_top.body == rayResult.shape.body){
+						should_collide = false;
+					}
+				}
 				if (!state._isDark){
 					if (state.player.body == rayResult.shape.body){
 						should_collide = false;
@@ -117,18 +127,54 @@ class Laser extends FlxSprite
 				}
 			}
 			
-			// don't collide with the base of the mirror
-			if (state.mirror.body == rayResult.shape.body){
-				should_collide = false;
-			}
-			
-			// do collide with the actual mirror part
-			if (state.mirror.swivel_top.body == rayResult.shape.body) {
-				if (state.mirror.normal_compare(rayResult.normal)) {
-					temp_bounced = true;
-					temp_flip = true;
+			// don't collide with the base of the mirrors
+			for (s in state._lightWorld.mirrors){
+				if (s.body == rayResult.shape.body){
+					should_collide = false;
 				}
 			}
+			for (s in state._darkWorld.mirrors){
+				if (s.body == rayResult.shape.body){
+					should_collide = false;
+				}
+			}
+			for (s in state._bothWorlds.mirrors){
+				if (s.body == rayResult.shape.body){
+					should_collide = false;
+				}
+			}
+			
+			
+			
+			// do collide with the actual mirror part
+			if (in_light_world) {
+				for (s in state._lightWorld.mirrors){
+					if (s.swivel_top.body == rayResult.shape.body) {
+						if (s.normal_compare(rayResult.normal)) {
+							temp_bounced = true;
+						}
+					}
+				}
+			}
+			if (in_dark_world) {
+				for (s in state._darkWorld.mirrors){
+					if (s.swivel_top.body == rayResult.shape.body) {
+						if (s.normal_compare(rayResult.normal)) {
+							temp_bounced = true;
+						}
+					}
+				}
+			}
+			
+			for (s in state._bothWorlds.mirrors){
+				if (s.swivel_top.body == rayResult.shape.body) {
+					if (s.normal_compare(rayResult.normal)) {
+						temp_bounced = true;
+						temp_flip = true;
+					}
+				}
+			}
+			
 			
 			if (should_collide){
 				if (min > rayResult.distance) {
