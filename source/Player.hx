@@ -54,11 +54,11 @@ class Player extends FlxNapeSprite
 	{
 		super(x, y);
 		var framerate:Int = 5;
-		loadGraphic("assets/images/player_sprite_sheet_single_line.png", true, 64, 64);
-		animation.add("walk", [4, 5], framerate, true);
-		animation.add("push walk", [0, 1], framerate, true);
-		animation.add("idle", [3], framerate, false);
-		animation.add("push idle", [2], framerate, false);
+		loadGraphic("assets/images/player_sprite_final.png", true, 64, 64);
+		animation.add("push walk", [4, 5], framerate, true);
+		animation.add("walk", [0, 1], framerate, true);
+		animation.add("push idle", [3], framerate, false);
+		animation.add("idle", [2], framerate, false);
 		
 		animation.play("idle");
 		

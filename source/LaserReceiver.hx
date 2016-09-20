@@ -52,8 +52,6 @@ class LaserReceiver extends FlxNapeSprite implements Trigger
 		if (!_on) {
 			_on = true;
 			
-			trace("now on");
-			
 			if (_receiver != null) 
 			{
 				_receiver.activate();

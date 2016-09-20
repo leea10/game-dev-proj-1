@@ -8,12 +8,12 @@ class Door extends FlxNapeSprite implements Receiver
 	private var _open:Bool = false;
 	
 	public function new(x:Int, y:Int, width:Int, height:Int) 
-	{
-		super(x + width/2, y + width/2);
+	{	
+		super(x + width/2, y + height/2);
 		makeGraphic(width, height, FlxColor.RED);
 		
 		createRectangularBody();
-		setBodyMaterial(0, 0, 0, 1);		
+		setBodyMaterial(0, 0, 0, 1);
 		body.allowMovement = false;
 		body.allowRotation = false;
 	}
