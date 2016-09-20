@@ -19,6 +19,7 @@ import haxe.Timer;
 class PlayState extends FlxState
 {
 	public var _isDark:Bool = false; // Are we in the dark world?
+	public var should_be_dark:Bool = false;
 	
 	public var level:TiledLevel;
 	public var player:Player;
@@ -48,7 +49,8 @@ class PlayState extends FlxState
 	
 	public var ui_man:UIManager;
 	public var black_screen:FlxSprite;
-		
+	public var white_screen:FlxSprite;
+	
 	override public function create():Void
 	{
 		super.create();
@@ -106,13 +108,19 @@ class PlayState extends FlxState
 		add(lightmirrors);
 		
 		// Initialize the level's starting world.
-		_setWorld(_isDark);
+		_setWorld();
 		
 		FlxG.worldBounds.width = level.width * level.tileWidth;
 		FlxG.worldBounds.height = level.height * level.tileHeight;
 		
 		ui_man = new UIManager();
 		add(ui_man);
+		
+		white_screen = new FlxSprite(0,0);
+		white_screen.makeGraphic(1280, 720, FlxColor.WHITE);
+		white_screen.scrollFactor.set(0, 0);
+		add(white_screen);
+		white_screen.alpha = 0;
 		
 		black_screen = new FlxSprite(0,0);
 		black_screen.makeGraphic(1280, 720, FlxColor.BLACK);
@@ -155,9 +163,17 @@ class PlayState extends FlxState
 		return _isDark ? _darkWorld : _lightWorld;
 	}
 	
-	private function _setWorld(isDark):Void 
+	private function _setWorldAndFlash(isDark):Void 
 	{
-		_isDark = isDark;
+		should_be_dark = isDark;
+		FlxTween.tween(white_screen, { alpha: 1 }, 0.05);
+		Timer.delay(_setWorld, 50);
+		Timer.delay(flash_back, 50);
+	}
+	
+	private function _setWorld():Void
+	{
+		_isDark = should_be_dark;
 		
 		_darkWorld.visible = _isDark;
 		_lightWorld.visible = !_isDark;
@@ -224,7 +240,7 @@ class PlayState extends FlxState
 			}
 		}
 		
-		if (can_switch) _setWorld(!_isDark);
+		if (can_switch) _setWorldAndFlash(!_isDark);
 	}
 
 	public function waitAndRestart(delay:Int)
@@ -258,5 +274,10 @@ class PlayState extends FlxState
 	public function fade_out()
 	{
 		FlxTween.tween(black_screen, { alpha: 1 }, 0.4);
+	}
+	
+	public function flash_back()
+	{
+		FlxTween.tween(white_screen, { alpha: 0 }, 0.05);
 	}
 }
