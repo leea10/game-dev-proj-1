@@ -164,7 +164,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 		}
 		// too many lasers
 		else if (desired_num_lasers < lasergroup.length){
-			
+			trace("?");
 			var tempgroup:FlxTypedGroup<Laser> = new FlxTypedGroup<Laser>();
 			
 			var i:Int = 0;

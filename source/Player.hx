@@ -331,7 +331,7 @@ class Player extends FlxNapeSprite
 		var should_collide:Bool = false;
 		var min:Float = 100;
 
-				//Second Ray for Mirror Teleport
+		//Second Ray for Mirror Teleport
 		var mirror_ray:Ray = new Ray(origin_point, direction_vector);
 		mirror_ray.maxDistance = 100;
 

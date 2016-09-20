@@ -145,7 +145,6 @@ class Laser extends FlxSprite
 			}
 			
 			
-			
 			// do collide with the actual mirror part
 			if (in_light_world) {
 				for (s in state._lightWorld.mirrors){
@@ -174,7 +173,6 @@ class Laser extends FlxSprite
 					}
 				}
 			}
-			
 			
 			if (should_collide){
 				if (min > rayResult.distance) {

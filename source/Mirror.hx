@@ -41,9 +41,7 @@ class Mirror extends FlxNapeSprite
 		// we don't want this to collide with anything
 		/// ...1000, ...0000
 		var no_filter:InteractionFilter = new InteractionFilter(8, 0);
-		swivel_top.body.shapes.at(0).filter = no_filter;
-		
-		group.add(swivel_top);
+		swivel_top.body.shapes.at(0).filter = no_filter;		
 	}
 	
 	override public function update(elapsed:Float):Void

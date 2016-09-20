@@ -42,6 +42,10 @@ class PlayState extends FlxState
 	public var lightlasers:FlxTypedGroup<Laser> = new FlxTypedGroup<Laser>();
 	public var bothlasers:FlxTypedGroup<Laser> = new FlxTypedGroup<Laser>();
 	
+	public var darkmirrors:FlxTypedGroup<FlxNapeSprite> = new FlxTypedGroup<FlxNapeSprite>();
+	public var lightmirrors:FlxTypedGroup<FlxNapeSprite> = new FlxTypedGroup<FlxNapeSprite>();
+	public var bothmirrors:FlxTypedGroup<FlxNapeSprite> = new FlxTypedGroup<FlxNapeSprite>();
+	
 	public var ui_man:UIManager;
 	public var black_screen:FlxSprite;
 		
@@ -96,6 +100,10 @@ class PlayState extends FlxState
 		player.state = this;
 		//mirror.set_filter(CollisionFilter.BOTH);
 		//add(mirror.swivel_top);
+		
+		add(bothmirrors);
+		add(darkmirrors);
+		add(lightmirrors);
 		
 		// Initialize the level's starting world.
 		_setWorld(_isDark);

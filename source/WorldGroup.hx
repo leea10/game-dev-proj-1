@@ -90,11 +90,22 @@ class WorldGroup extends FlxGroup
 		return l;
 	}
 	
-	public function addMirror(x:Int, y:Int):Mirror
+	public function addMirror(x:Int, y:Int, playstate:PlayState):Mirror
 	{
 		var m:Mirror = new Mirror(x, y, this);
 		mirrors.add(m);
 		m.set_filter(filter);
+		
+		if (worldname == "dark"){
+			playstate.darkmirrors.add(m.swivel_top);
+		}
+		if (worldname == "light"){
+			playstate.lightmirrors.add(m.swivel_top);
+		}
+		if (worldname == "both"){
+			playstate.bothmirrors.add(m.swivel_top);
+		}
+		
 		return m;
 	}
 	
