@@ -25,7 +25,7 @@ class SlidingWall extends FlxNapeSprite implements Receiver
 		
 		super(origin_x, origin_y);
 		
-		loadGraphic(tilesheetPath, true, width, height);
+		loadGraphic("assets/images/moving wall.png");
 		createRectangularBody();
 		animation.frameIndex = frame;
 		body.type = BodyType.KINEMATIC;

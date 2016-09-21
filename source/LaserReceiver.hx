@@ -27,12 +27,11 @@ class LaserReceiver extends FlxNapeSprite implements Trigger
 		loadGraphic("assets/images/laser receiver off.png");
 		
 		createRectangularBody();
-		body.type = BodyType.STATIC;
+		body.type = BodyType.KINEMATIC;
 		
 		setBodyMaterial(0, 0, 0, 10);
 		
 		body.allowMovement = false;
-		body.allowRotation = false;
 	}
 	
 	override public function update(elapsed:Float):Void
