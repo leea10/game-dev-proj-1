@@ -53,7 +53,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 		
 		lasergroup = new FlxTypedGroup<Laser>();
 		sparksgroup = new FlxGroup();
-		
+
 		loadGraphic("assets/images/dark_laser_head.png");
 		//makeGraphic(16, 16, FlxColor.ORANGE);
 		origin.set(width / 2, height / 2);

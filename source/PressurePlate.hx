@@ -25,7 +25,12 @@ class PressurePlate extends FlxSprite implements Trigger
 		state = playstate;
 		floorgroup = group;
 		
-		loadGraphic("assets/images/pressure plate off.png");
+		if (floorgroup.worldname == "both"){
+			loadGraphic("assets/images/para pressure plate off.png");
+		}
+		else {
+			loadGraphic("assets/images/pressure plate off.png");
+		}
 		_receiver = receiver;
 		
 		immovable = true;
@@ -88,7 +93,12 @@ class PressurePlate extends FlxSprite implements Trigger
 	{
 		if (!_on) {
 			_on = true;
-			loadGraphic("assets/images/pressure plate on.png");
+			if (floorgroup.worldname == "both"){
+				loadGraphic("assets/images/para pressure plate on.png");
+			}
+			else {
+				loadGraphic("assets/images/pressure plate on.png");
+			}
 			
 			if (_receiver != null) 
 			{
@@ -101,7 +111,12 @@ class PressurePlate extends FlxSprite implements Trigger
 	{
 		if (_on) {
 			_on = false;
-			loadGraphic("assets/images/pressure plate off.png");
+			if (floorgroup.worldname == "both"){
+				loadGraphic("assets/images/para pressure plate off.png");
+			}
+			else {
+				loadGraphic("assets/images/pressure plate off.png");
+			}
 			
 			if (_receiver != null) 
 			{

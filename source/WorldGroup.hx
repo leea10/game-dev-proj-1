@@ -71,9 +71,20 @@ class WorldGroup extends FlxGroup
 	public function addLaser(x:Int, y:Int, rot:Float, playstate:PlayState, flip:WorldGroup):LaserEmitter
 	{
 		var base:FlxNapeSprite = new FlxNapeSprite(x, y);
-		base.loadGraphic("assets/images/dark_laser_base.png");
+		
+		if (worldname == "dark") {
+			base.loadGraphic("assets/images/dark_laser_base.png");
+		}
+		if (worldname == "light") {
+			base.loadGraphic("assets/images/light_laser_base.png");
+		}
+		if (worldname == "both") {
+			base.loadGraphic("assets/images/both laser base.png");
+		}
+		
 		base.createRectangularBody();
 		walls.add(base);
+		base.body.shapes.at(0).filter = filter;
 		
 		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this);
 		l.angle = rot;
