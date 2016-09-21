@@ -175,7 +175,7 @@ class PlayState extends FlxState
 	
 	public function break_box() {
 		box.break_animation();
-		move_mirror();
+		//move_mirror();
 	}
 	
 	public function move_mirror()

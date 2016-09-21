@@ -47,14 +47,16 @@ class Box extends FlxNapeSprite
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		/*
+		
 		if (animating) {
-			if (animation.finished) {				
+			if (animation.finished) {
 				state.mirror.body.position = body.position;
 				reset(0, 0);
 				state.sound_man.mirror.play();
+				
+				animating = false;
 			}
-		}*/
+		}
 	}
 	
 	public function set_filter (filter:InteractionFilter):Void
@@ -71,7 +73,7 @@ class Box extends FlxNapeSprite
 	{
 		// this takes 1.2 seconds
 		loadGraphic("assets/images/CrateBreakSpiteSheet.png", true, 64, 64);
-		animation.add("break", [0,1,2,3,4,5], 5, false);
+		animation.add("break", [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], 5, false);
 		animation.play("break");
 		
 		animating = true;

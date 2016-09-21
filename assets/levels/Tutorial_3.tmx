@@ -61,7 +61,7 @@
   <properties>
    <property name="world" value=""/>
   </properties>
-  <object id="18" type="box start" x="128" y="704"/>
+  <object id="18" type="box start" x="128" y="672" width="64" height="64"/>
   <object id="19" type="player start" x="64" y="704"/>
   <object id="21" type="mirror start" x="128" y="1536"/>
  </objectgroup>
