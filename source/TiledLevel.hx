@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxState;
 import flixel.FlxG;
+import flixel.addons.editors.tiled.TiledImageLayer;
 import flixel.group.FlxSpriteGroup;
 import haxe.io.Path;
 import flixel.FlxSprite;
@@ -87,6 +88,18 @@ class TiledLevel extends TiledMap
 			{
 				_loadObject(o, objectLayer);
 			}
+		}
+		
+		// load images
+		for (layer in layers)
+		{
+			if (layer.type != TiledLayerType.IMAGE) continue;
+			var imageLayer:TiledImageLayer = cast layer;
+			var underlay:FlxSprite = new FlxSprite(imageLayer.x + imageLayer.offsetX, imageLayer.y + imageLayer.offsetY);
+			var path:String = "assets/images/" + imageLayer.properties.get("path");
+			trace(imageLayer.x + imageLayer.offsetX + ' ' + imageLayer.y + imageLayer.offsetY + ' ' + path);
+			underlay.loadGraphic(path);
+			state.add(underlay);
 		}
 		
 		for (t in triggers.keys()){
