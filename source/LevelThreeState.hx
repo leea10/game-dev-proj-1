@@ -11,6 +11,6 @@ class LevelThreeState extends PlayState
 	
 	override function nextLevel()
 	{
-		// this is currently the last level
+		FlxG.switchState(new MenuState());
 	}
 }
