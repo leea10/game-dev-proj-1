@@ -175,14 +175,17 @@ class PlayState extends FlxState
 	
 	public function break_box() {
 		box.break_animation();
-		Timer.delay(move_mirror, 800);
+		move_mirror();
 	}
-	public function move_mirror() {
+	
+	public function move_mirror()
+	{
 		mirror.reset(box.body.position.x, box.body.position.y);
 		box.reset(0, 0);
 		sound_man.mirror.play();
 		box.loadGraphic("assets/images/light_crate.png");
 	}
+	
 	
 	private function _setWorldAndFlash(isDark):Void 
 	{

@@ -216,7 +216,7 @@ class LaserEmitter extends FlxSprite implements Receiver
 		//worldgroup.add(sparksgroup);
 		
 		// make one laser to begin with
-		create_new_laser();
+		//create_new_laser();
 	}
 	
 	public function create_new_laser():Laser

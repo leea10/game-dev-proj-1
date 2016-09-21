@@ -38,7 +38,6 @@ class Box extends FlxNapeSprite
 		body.allowMovement = true;
 		body.allowRotation = false;
 		
-		
 	}
 	
 	override public function update(elapsed:Float):Void
