@@ -1,9 +1,6 @@
 package;
+import flixel.FlxG;
 
-/**
- * ...
- * @author ...
- */
 class LevelOneState extends PlayState 
 {
 	override public function create():Void
@@ -14,6 +11,8 @@ class LevelOneState extends PlayState
 	
 	override function nextLevel()
 	{
-		// this is currently the last level
+		var x:LevelTwoState = new LevelTwoState();
+		FlxG.switchState(x);
+		x._isDark = _isDark;		
 	}
 }

@@ -170,6 +170,9 @@ class TiledLevel extends TiledMap
 			case "laser rec": var s:LaserReceiver = worldGroup.addLaserRec(x, y);
 				triggers.set(s,id);
 			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, rot, state, flipGroup);
+				if (o.properties.get("on") != null) {
+					l.activate();
+				}
 				receivers.set(l, id);
 			case "door": var d:Door = worldGroup.addDoor(x, y, w, h);
 				if (o.properties.get("open") != null) {
