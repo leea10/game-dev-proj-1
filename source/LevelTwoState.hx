@@ -10,6 +10,8 @@ class LevelTwoState extends PlayState
 	
 	override function nextLevel()
 	{
-		// this is currently the last level
+		var x:LevelTwoState = new LevelThreeState();
+		FlxG.switchState(x);
+		x._isDark = _isDark;
 	}
 }

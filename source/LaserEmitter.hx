@@ -32,9 +32,9 @@ class LaserEmitter extends FlxSprite implements Receiver
 	public var in_dark_world:Bool = false;
 	public var in_light_world:Bool = false;
 	
-	public function new(?x:Float=0, ?y:Float=0, width:Int, height:Int, playstate:PlayState, group:WorldGroup) 
+	public function new(?x:Float=0, ?y:Float=0, in_width:Int, in_height:Int, playstate:PlayState, group:WorldGroup) 
 	{
-		super(x + width / 2, y + height / 2);
+		super(x + in_width / 2, y + in_height / 2);
 		state = playstate;
 		thisworld = group;
 		
