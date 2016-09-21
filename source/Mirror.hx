@@ -22,7 +22,13 @@ class Mirror extends FlxNapeSprite
 		group = worldgroup;
 		state = playstate;
 		
-		makeGraphic(64, 64, FlxColor.WHITE);
+		if (group.worldname == "both") {
+			loadGraphic("assets/images/main_mirror_base.png");
+		}
+		else {
+			loadGraphic("assets/images/ParaMirrorBaseV5.png");
+		}
+
 		createRectangularBody();
 		body.type = BodyType.DYNAMIC;
 		
@@ -33,8 +39,15 @@ class Mirror extends FlxNapeSprite
 		body.allowRotation = false;
 		
 		// add the actual swiveling mirror part
-		swivel_top = new FlxNapeSprite(x+width/2, y+height/2);
-		swivel_top.makeGraphic(55, 10, FlxColor.BLACK);
+		swivel_top = new FlxNapeSprite(x + width / 2, y + height / 2);
+		
+		if (group.worldname == "both") {
+			swivel_top.loadGraphic("assets/images/main mirror top.png");
+		}
+		else {
+			swivel_top.loadGraphic("assets/images/ParaMirror.png");
+		}
+		
 		swivel_top.createRectangularBody();
 		swivel_top.body.type = BodyType.DYNAMIC;
 		swivel_top.body.allowMovement = false;
