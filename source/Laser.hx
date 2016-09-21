@@ -94,7 +94,7 @@ class Laser extends FlxSprite
 					}
 				}
 				for (s in state._darkWorld.slidingwalls){
-					if (s.swivel_top.body == rayResult.shape.body){
+					if (s.body == rayResult.shape.body){
 						should_collide = false;
 					}
 				}
@@ -131,7 +131,7 @@ class Laser extends FlxSprite
 					}
 				}
 				for (s in state._lightWorld.slidingwalls){
-					if (s.swivel_top.body == rayResult.shape.body){
+					if (s.body == rayResult.shape.body){
 						should_collide = false;
 					}
 				}
