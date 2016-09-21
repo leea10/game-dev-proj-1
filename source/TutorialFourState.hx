@@ -9,7 +9,8 @@ class TutorialFourState extends PlayState
 		super.create();
 		init("assets/levels/Tutorial_4.tmx");
 		
-		Timer.delay(break_box, 1000);
+		//Timer.delay(break_box, 3000);
+		break_box();
 	}
 	
 	override function nextLevel()
