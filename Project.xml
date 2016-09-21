@@ -41,6 +41,7 @@
 		<sound path="pressure plate activate.ogg" id="plate on" />
 		<sound path="pressure plate deactivate.ogg" id="plate off" />
 		<sound path="switch hit.ogg" id="switch hit" />
+		<sound path="mirror.ogg" id="mirror" />
 	</sound>
 
 	<!-- _______________________________ Libraries ______________________________ -->

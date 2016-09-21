@@ -256,6 +256,7 @@ class PlayState extends FlxState
 		
 		if (can_switch) {
 			_setWorldAndFlash(!_isDark);
+			sound_man.mirror.play();
 		}
 		else {
 			sound_man.error.play();
