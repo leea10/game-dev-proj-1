@@ -98,7 +98,6 @@ class TiledLevel extends TiledMap
 			var imageLayer:TiledImageLayer = cast layer;
 			var underlay:FlxSprite = new FlxSprite(imageLayer.x + imageLayer.offsetX, imageLayer.y + imageLayer.offsetY);
 			var path:String = "assets/images/" + imageLayer.properties.get("path");
-			trace(imageLayer.x + imageLayer.offsetX + ' ' + imageLayer.y + imageLayer.offsetY + ' ' + path);
 			underlay.loadGraphic(path);
 			state.add(underlay);
 		}
