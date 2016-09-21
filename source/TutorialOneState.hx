@@ -12,6 +12,8 @@ class TutorialOneState extends PlayState
 	
 	override function nextLevel()
 	{
-		// initialize tutorial level 2
+		var x:TutorialTwoState = new TutorialTwoState();
+		FlxG.switchState(x);
+		x._isDark = _isDark;
 	}
 }
