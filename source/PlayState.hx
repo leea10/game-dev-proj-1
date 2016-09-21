@@ -178,8 +178,8 @@ class PlayState extends FlxState
 		Timer.delay(move_mirror, 800);
 	}
 	public function move_mirror() {
-		mirror.body.position = box.body.position;
-		box.body.position.x = 10000;
+		mirror.reset(box.body.position.x, box.body.position.y);
+		box.reset(0, 0);
 		sound_man.mirror.play();
 		box.loadGraphic("assets/images/light_crate.png");
 	}

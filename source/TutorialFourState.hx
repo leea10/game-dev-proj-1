@@ -8,7 +8,6 @@ class TutorialFourState extends PlayState
 	{
 		super.create();
 		init("assets/levels/Tutorial_4.tmx");
-		is_tutorial = true;
 		
 		Timer.delay(break_box, 1000);
 	}
