@@ -181,6 +181,7 @@ class PlayState extends FlxState
 		mirror.body.position = box.body.position;
 		box.body.position.x = 10000;
 		sound_man.mirror.play();
+		box.loadGraphic("assets/images/light_crate.png");
 	}
 	
 	private function _setWorldAndFlash(isDark):Void 
