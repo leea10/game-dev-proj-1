@@ -179,10 +179,10 @@ class Player extends FlxNapeSprite
 		}
 		
 		if (has_mirror_target && FlxG.keys.pressed.E){
-			mirror_target.turn(0.03);
+			mirror_target.turn(0.015);
 		}
 		if (has_mirror_target && FlxG.keys.pressed.Q){
-			mirror_target.turn(-0.03);
+			mirror_target.turn(-0.015);
 		}
 	}
 	
