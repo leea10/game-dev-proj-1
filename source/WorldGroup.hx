@@ -111,8 +111,9 @@ class WorldGroup extends FlxGroup
 	{
 		var l:LaserReceiver = new LaserReceiver(x, y);
 		laserreceivers.add(l);
-		l.set_filter(filter);
-		l.body.rotation = rot;
+		l.set_filter(filter);		
+		l.body.rotation = rot*(3.1416/180);
+		l.body.type = BodyType.STATIC;
 		return l;
 	}
 	
@@ -167,7 +168,8 @@ class WorldGroup extends FlxGroup
 		switches.add(s);
 		add(s);
 		s.setFilter(filter);
-		s.body.rotation = rot;
+		s.body.rotation = rot*(3.1416/180);
+		s.body.type = BodyType.STATIC;
 		return s;
 	}
 }

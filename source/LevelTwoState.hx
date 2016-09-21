@@ -1,4 +1,5 @@
 package;
+import flixel.FlxG;
 
 class LevelTwoState extends PlayState 
 {
@@ -10,7 +11,7 @@ class LevelTwoState extends PlayState
 	
 	override function nextLevel()
 	{
-		var x:LevelTwoState = new LevelThreeState();
+		var x:LevelThreeState = new LevelThreeState();
 		FlxG.switchState(x);
 		x._isDark = _isDark;
 	}
