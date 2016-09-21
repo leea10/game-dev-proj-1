@@ -167,7 +167,7 @@ class TiledLevel extends TiledMap
 				receivers.set(s,id);
 			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h, rot);
 				triggers.set(s, id);
-			case "laser rec": var s:LaserReceiver = worldGroup.addLaserRec(x, y);
+			case "laser rec": var s:LaserReceiver = worldGroup.addLaserRec(x, y, rot);
 				triggers.set(s,id);
 			case "laser": var l:LaserEmitter = worldGroup.addLaser(x, y, width, height, rot, state, flipGroup);
 				if (o.properties.get("on") != null) {

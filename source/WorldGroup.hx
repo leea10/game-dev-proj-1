@@ -107,11 +107,12 @@ class WorldGroup extends FlxGroup
 		return l;
 	}
 	
-	public function addLaserRec(x:Int, y:Int):LaserReceiver
+	public function addLaserRec(x:Int, y:Int, rot:Float):LaserReceiver
 	{
 		var l:LaserReceiver = new LaserReceiver(x, y);
 		laserreceivers.add(l);
 		l.set_filter(filter);
+		l.body.rotation = rot;
 		return l;
 	}
 	
