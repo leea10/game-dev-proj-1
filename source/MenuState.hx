@@ -25,12 +25,10 @@ class MenuState extends FlxState
 		titlescreen.loadGraphic("assets/images/title screen_JANUS.png");
 		add(titlescreen);
 		
-		/*
 		play_button = new FlxButton(0, 0, "PLAY", switchToPlayState);
 		play_button.screenCenter();
-		play_button.loadGraphic("assets/images/PLAY_button.png", false, 192, 64);
 		add(play_button);
-		*/
+		
 		
 		// TO DO: Complete menu; style buttons to be consistent with our asthetic.
 	}
