@@ -11,15 +11,16 @@ class Switch extends FlxNapeSprite implements Trigger
 	// TODO(ariel): Include a sprite
 	public function new(x:Int, y:Int, width:Int, height:Int, ?receiver:Receiver = null) 
 	{
-		super(x + width/2, y + width/2);
-		makeGraphic(width, height, FlxColor.BLUE);
+		super(x + width / 2, y + width / 2);
+		
+		loadGraphic("assets/images/button off.png", true);
+		//makeGraphic(width, height, FlxColor.BLUE);
 		_receiver = receiver;
 		
 		createRectangularBody();
 		
 		setBodyMaterial(0, 0, 0, 1);		
 		body.allowMovement = false;
-		body.allowRotation = false;
 		solid = true;
 		
 		_on = false;
@@ -42,6 +43,13 @@ class Switch extends FlxNapeSprite implements Trigger
 		if (_receiver != null) 
 		{
 			_on ? _receiver.activate() : _receiver.deactivate();
+		}
+		
+		if (_on) {
+			loadGraphic("assets/images/button on.png", true);
+		}
+		else {
+			loadGraphic("assets/images/button off.png", true);
 		}
 	}
 }

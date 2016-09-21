@@ -160,12 +160,13 @@ class WorldGroup extends FlxGroup
 		return d;
 	}	
 	
-	public function addSwitch(x:Int, y:Int, width:Int, height:Int):Switch
+	public function addSwitch(x:Int, y:Int, width:Int, height:Int, rot:Float):Switch
 	{
 		var s:Switch = new Switch(x, y, width, height);
 		switches.add(s);
 		add(s);
 		s.setFilter(filter);
+		s.body.rotation = rot;
 		return s;
 	}
 }
