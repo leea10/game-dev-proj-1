@@ -55,4 +55,13 @@ class Box extends FlxNapeSprite
 	{
 		set_physicsEnabled(false);
 	}
+	
+	public function break_animation ():Void
+	{
+		trace("OK");
+		// this takes 1.2 seconds
+		loadGraphic("assets/images/CrateBreakSpiteSheet.png", true, 64, 64);
+		animation.add("break", [0,1,2,3,4,5], 5, false);
+		animation.play("break");
+	}
 }

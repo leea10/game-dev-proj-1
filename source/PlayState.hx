@@ -164,12 +164,23 @@ class PlayState extends FlxState
 		if (FlxG.keys.justPressed.SPACE && facing_front_mirror)
 		{	
 			_switchWorld();
-		}		
+		}
+		
 	}
 	
 	private function _getActiveWorld():WorldGroup 
 	{
 		return _isDark ? _darkWorld : _lightWorld;
+	}
+	
+	public function break_box() {
+		box.break_animation();
+		Timer.delay(move_mirror, 800);
+	}
+	public function move_mirror() {
+		mirror.body.position = box.body.position;
+		box.body.position.x = 10000;
+		sound_man.mirror.play();
 	}
 	
 	private function _setWorldAndFlash(isDark):Void 
