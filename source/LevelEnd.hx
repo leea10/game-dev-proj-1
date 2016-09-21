@@ -25,9 +25,17 @@ class LevelEnd extends FlxSprite
 		super.update(elapsed);
 		
 		// continue to the next level if the player and the mirror are both in this zone
-		if (FlxG.overlap(this, state.player.hit_area)){
-			if (FlxG.overlap(this, state.mirror)){
-				state.waitAndNextLevel(1500);
+		if (FlxG.overlap(this, state.player.hit_area)) {
+		
+			if (state.is_tutorial){
+				if (FlxG.overlap(this, state.box)){
+					state.waitAndNextLevel(1500);
+				}
+			}
+			else {
+				if (FlxG.overlap(this, state.mirror)){
+					state.waitAndNextLevel(1500);
+				}
 			}
 		}
 	}

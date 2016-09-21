@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="64" tileheight="64" nextobjectid="33">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="64" tileheight="64" nextobjectid="34">
  <tileset firstgid="1" name="t1" tilewidth="64" tileheight="64" tilecount="304" columns="19">
   <image source="../images/t1.png" width="1216" height="1024"/>
  </tileset>
  <imagelayer name="underlay" offsetx="384" offsety="320">
-  <image source="../images/t1underlay.png" width="832" height="768"/>
+  <image source="../images/t1underlay.png"/>
   <properties>
    <property name="path" value="t1underlay.png"/>
   </properties>
@@ -60,7 +60,8 @@
   <properties>
    <property name="world" value=""/>
   </properties>
-  <object id="27" type="mirror start" x="320" y="704"/>
+  <object id="27" type="mirror start" x="264" y="2104"/>
   <object id="28" type="player start" x="256" y="704"/>
+  <object id="33" type="box start" x="320" y="672" width="64" height="64"/>
  </objectgroup>
 </map>

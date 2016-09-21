@@ -7,6 +7,7 @@ class TutorialOneState extends PlayState
 	{
 		super.create();
 		init("assets/levels/Tutorial_1.tmx");
+		is_tutorial = true;
 	}
 	
 	override function nextLevel()

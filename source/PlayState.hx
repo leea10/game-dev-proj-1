@@ -24,6 +24,7 @@ class PlayState extends FlxState
 	public var level:TiledLevel;
 	public var player:Player;
 	public var mirror:Mirror;
+	public var box:Box;
 		
 	// groups for the actual tiles (not entities) -- this is for layering reasons
 	public var _darkTiles:FlxGroup = new FlxGroup();
@@ -97,8 +98,8 @@ class PlayState extends FlxState
 		
 		// Retrieve player and mirror.
 		player = level._player;
-		if (!is_tutorial)
-			mirror = level._mirror;
+		mirror = level._mirror;
+		box = level._box;
 		add(player);
 		add(player.hit_area);
 		
@@ -147,25 +148,23 @@ class PlayState extends FlxState
 	private function _handleInput():Void
 	{
 		// If the spacebar was hit (and we're facing the mirror), switch worlds
-		if (!is_tutorial){
-			var facing_front_mirror:Bool = false;
-			if (player.facing_mirror)
-			{
-				var mirrorToPlayerAngle:Float = FlxAngle.angleBetween(mirror, player, true) - 90;
-				var mirrorFacingAngle:Float = FlxAngle.asDegrees(mirror.swivel_top.body.rotation);
-				
-				if(angularDifference(mirrorToPlayerAngle, mirrorFacingAngle) < 90){
-					facing_front_mirror = true;
-				}
+		var facing_front_mirror:Bool = false;
+		if (player.facing_mirror)
+		{
+			var mirrorToPlayerAngle:Float = FlxAngle.angleBetween(mirror, player, true) - 90;
+			var mirrorFacingAngle:Float = FlxAngle.asDegrees(mirror.swivel_top.body.rotation);
+			
+			if(angularDifference(mirrorToPlayerAngle, mirrorFacingAngle) < 90){
+				facing_front_mirror = true;
 			}
-			
-			ui_man.jump_prompt.visible = facing_front_mirror;
-			
-			if (FlxG.keys.justPressed.SPACE && facing_front_mirror)
-			{	
-				_switchWorld();
-			}		
 		}
+		
+		ui_man.jump_prompt.visible = facing_front_mirror;
+		
+		if (FlxG.keys.justPressed.SPACE && facing_front_mirror)
+		{	
+			_switchWorld();
+		}		
 	}
 	
 	private function _getActiveWorld():WorldGroup 
