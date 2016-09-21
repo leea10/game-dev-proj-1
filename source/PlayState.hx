@@ -63,6 +63,7 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 		_handleInput();
+		sound_man.ambience.play();
 	}
 	
 	public function init (levelpath:String){
@@ -253,7 +254,12 @@ class PlayState extends FlxState
 			}
 		}
 		
-		if (can_switch) _setWorldAndFlash(!_isDark);
+		if (can_switch) {
+			_setWorldAndFlash(!_isDark);
+		}
+		else {
+			sound_man.error.play();
+		}
 	}
 
 	public function waitAndRestart(delay:Int)

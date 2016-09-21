@@ -65,6 +65,13 @@ class LaserEmitter extends FlxSprite implements Receiver
 	{
 		super.update(elapsed);
 		update_lasers();
+		
+		if (is_active) {
+			state.sound_man.laser.play();
+		}
+		else {
+			state.sound_man.laser.pause();
+		}
 	}
 	
 	function update_lasers():Void

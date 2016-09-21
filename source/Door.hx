@@ -6,10 +6,12 @@ import nape.dynamics.InteractionFilter;
 class Door extends FlxNapeSprite implements Receiver 
 {
 	private var _open:Bool = false;
+	public var state:PlayState;
 	
-	public function new(x:Int, y:Int, width:Int, height:Int) 
+	public function new(x:Int, y:Int, width:Int, height:Int, playstate:PlayState) 
 	{	
-		super(x + width/2, y + height/2);
+		super(x + width / 2, y + height / 2);
+		state = playstate;
 		loadGraphic("assets/images/door2 small.png", true, 9, 128);
 		
 		createRectangularBody();

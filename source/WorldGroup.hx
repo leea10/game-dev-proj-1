@@ -153,9 +153,9 @@ class WorldGroup extends FlxGroup
 		return w;
 	}
 
-	public function addDoor(x:Int, y:Int, width:Int, height:Int):Door
+	public function addDoor(x:Int, y:Int, width:Int, height:Int, state:PlayState):Door
 	{
-		var d:Door = new Door(x, y, width, height);
+		var d:Door = new Door(x, y, width, height, state);
 		doors.add(d);
 		add(d);
 		d.setFilter(filter);
