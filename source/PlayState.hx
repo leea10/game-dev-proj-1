@@ -180,7 +180,7 @@ class PlayState extends FlxState
 	
 	public function move_mirror()
 	{
-		mirror.reset(box.body.position.x, box.body.position.y);
+		mirror.body.position = box.body.position;
 		box.reset(0, 0);
 		sound_man.mirror.play();
 		box.loadGraphic("assets/images/light_crate.png");

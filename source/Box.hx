@@ -11,13 +11,17 @@ class Box extends FlxNapeSprite
 	public var origin_x:Float;
 	public var origin_y:Float;
 	
-	public function new(x_in:Int, y_in:Int, width:Int, height:Int, groupname:String) 
+	var animating:Bool = false;
+	
+	var state:PlayState;
+	
+	public function new(x_in:Int, y_in:Int, width:Int, height:Int, groupname:String, playstate:PlayState) 
 	{
 		origin_x = x_in + (width / 2);
 		origin_y = y_in + (height / 2) + (64 - height);
 		
 		super(origin_x, origin_y);
-		
+		state = playstate;
 		
 		if (groupname == "dark") {
 			loadGraphic("assets/images/dark_crate.png");
@@ -43,6 +47,14 @@ class Box extends FlxNapeSprite
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		/*
+		if (animating) {
+			if (animation.finished) {				
+				state.mirror.body.position = body.position;
+				reset(0, 0);
+				state.sound_man.mirror.play();
+			}
+		}*/
 	}
 	
 	public function set_filter (filter:InteractionFilter):Void
@@ -61,5 +73,7 @@ class Box extends FlxNapeSprite
 		loadGraphic("assets/images/CrateBreakSpiteSheet.png", true, 64, 64);
 		animation.add("break", [0,1,2,3,4,5], 5, false);
 		animation.play("break");
+		
+		animating = true;
 	}
 }

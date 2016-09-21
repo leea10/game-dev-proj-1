@@ -175,8 +175,8 @@ class TiledLevel extends TiledMap
 			// like the player does, then leave it as its own entity, like the player.
 			case "mirror start": _mirror = _worlds.get("both").addMirror(x, y, state);
 			case "wall": worldGroup.addWall(x, y, w, h);
-			case "box": worldGroup.addBox(x, y, w, h);
-			case "box start": _box = _worlds.get("light").addBox(x, y, w, h);
+			case "box": worldGroup.addBox(x, y, w, h, state);
+			case "box start": _box = _worlds.get("light").addBox(x, y, w, h, state);
 			case "sliding wall": var s:SlidingWall = worldGroup.addSlidingWall(tilesheetPath, frame, x, y, w, h, Std.parseInt(o.properties.get("dest x")), Std.parseInt(o.properties.get("dest y")));
 				receivers.set(s,id);
 			case "switch": var s:Switch = worldGroup.addSwitch(x, y, w, h, rot);
