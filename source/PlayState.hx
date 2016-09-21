@@ -52,6 +52,7 @@ class PlayState extends FlxState
 	public var white_screen:FlxSprite;
 	
 	public var sound_man:SoundManager;
+	public var is_tutorial:Bool = false;
 	
 	override public function create():Void
 	{
@@ -96,7 +97,8 @@ class PlayState extends FlxState
 		
 		// Retrieve player and mirror.
 		player = level._player;
-		mirror = level._mirror;
+		if (!is_tutorial)
+			mirror = level._mirror;
 		add(player);
 		add(player.hit_area);
 		
@@ -145,23 +147,25 @@ class PlayState extends FlxState
 	private function _handleInput():Void
 	{
 		// If the spacebar was hit (and we're facing the mirror), switch worlds
-		var facing_front_mirror:Bool = false;
-		if (player.facing_mirror)
-		{
-			var mirrorToPlayerAngle:Float = FlxAngle.angleBetween(mirror, player, true) - 90;
-			var mirrorFacingAngle:Float = FlxAngle.asDegrees(mirror.swivel_top.body.rotation);
-			
-			if(angularDifference(mirrorToPlayerAngle, mirrorFacingAngle) < 90){
-				facing_front_mirror = true;
+		if (!is_tutorial){
+			var facing_front_mirror:Bool = false;
+			if (player.facing_mirror)
+			{
+				var mirrorToPlayerAngle:Float = FlxAngle.angleBetween(mirror, player, true) - 90;
+				var mirrorFacingAngle:Float = FlxAngle.asDegrees(mirror.swivel_top.body.rotation);
+				
+				if(angularDifference(mirrorToPlayerAngle, mirrorFacingAngle) < 90){
+					facing_front_mirror = true;
+				}
 			}
+			
+			ui_man.jump_prompt.visible = facing_front_mirror;
+			
+			if (FlxG.keys.justPressed.SPACE && facing_front_mirror)
+			{	
+				_switchWorld();
+			}		
 		}
-		
-		ui_man.jump_prompt.visible = facing_front_mirror;
-		
-		if (FlxG.keys.justPressed.SPACE && facing_front_mirror)
-		{	
-			_switchWorld();
-		}		
 	}
 	
 	private function _getActiveWorld():WorldGroup 
