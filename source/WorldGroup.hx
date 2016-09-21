@@ -68,9 +68,9 @@ class WorldGroup extends FlxGroup
 		return w;
 	}
 	
-	public function addLaser(x:Int, y:Int, rot:Float, playstate:PlayState, flip:WorldGroup):LaserEmitter
+	public function addLaser(x:Int, y:Int, width:Int, height:Int, rot:Float, playstate:PlayState, flip:WorldGroup):LaserEmitter
 	{
-		var base:FlxNapeSprite = new FlxNapeSprite(x, y);
+		var base:FlxNapeSprite = new FlxNapeSprite(x + width / 2, y + width / 2);
 		
 		if (worldname == "dark") {
 			base.loadGraphic("assets/images/dark_laser_base.png");
@@ -86,7 +86,7 @@ class WorldGroup extends FlxGroup
 		walls.add(base);
 		base.body.shapes.at(0).filter = filter;
 		
-		var l:LaserEmitter = new LaserEmitter(x, y, playstate, this);
+		var l:LaserEmitter = new LaserEmitter(x, y, width, height, playstate, this);
 		l.angle = rot;
 		laseremitters.add(l);
 		add(l);
