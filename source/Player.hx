@@ -53,7 +53,7 @@ class Player extends FlxNapeSprite
 	public function new(tilesheetPath:String, frame:Int, x:Int, y:Int, width:Int, height:Int)
 	{
 		super(x, y);
-		var framerate:Int = 5;
+		var framerate:Int = 2;
 		loadGraphic("assets/images/player_sprite_final.png", true, 64, 64);
 		animation.add("push walk", [4, 5], framerate, true);
 		animation.add("walk", [0, 1], framerate, true);
@@ -99,6 +99,7 @@ class Player extends FlxNapeSprite
 			raycast_for_boxes();
 			get_drag_axis();
 			
+			var drag_noise:Bool = false;
 			if (is_dragging){
 				var box:FlxNapeSprite = cast box_target;
 				reset(box_offset.x+box.x+32,box_offset.y+box.y+32);
@@ -110,9 +111,21 @@ class Player extends FlxNapeSprite
 				else if (drag_axis == "vertical" && (up_pressed || down_pressed)){
 					has_been_dragging = true;
 				}
+				
+				
+				if (body.velocity.length > 1) {
+					drag_noise = true;
+				}
 			}
 			else {
 				has_been_dragging = false;
+			}
+			
+			if (drag_noise) {
+				state.sound_man.drag.play();
+			}
+			else {
+				state.sound_man.drag.pause();
 			}
 			
 			
@@ -176,6 +189,7 @@ class Player extends FlxNapeSprite
 		
 		if (has_switch_target && FlxG.keys.justPressed.E){
 			switch_target.trigger();
+			state.sound_man.switch_hit.play();
 		}
 		
 		if (has_mirror_target && FlxG.keys.pressed.E){
@@ -315,6 +329,13 @@ class Player extends FlxNapeSprite
 				
 				body.velocity = new Vec2(vx * _speed, vy * _speed);
 			}
+			
+			if (!state.sound_man.steps.playing){
+				state.sound_man.steps.play();
+			}
+		}
+		else {
+			state.sound_man.steps.stop();
 		}
 	}
 	
@@ -406,6 +427,7 @@ class Player extends FlxNapeSprite
 	public function die():Void
 	{
 		is_dead = true;
+		state.sound_man.scream.play();
 		body.type = BodyType.STATIC;
 		set_physicsEnabled(false);
 		

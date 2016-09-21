@@ -51,6 +51,8 @@ class PlayState extends FlxState
 	public var black_screen:FlxSprite;
 	public var white_screen:FlxSprite;
 	
+	public var sound_man:SoundManager;
+	
 	override public function create():Void
 	{
 		super.create();
@@ -61,6 +63,7 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 		_handleInput();
+		sound_man.ambience.play();
 	}
 	
 	public function init (levelpath:String){
@@ -115,6 +118,9 @@ class PlayState extends FlxState
 		
 		ui_man = new UIManager();
 		add(ui_man);
+		
+		sound_man = new SoundManager();
+		add(sound_man);
 		
 		white_screen = new FlxSprite(0,0);
 		white_screen.makeGraphic(1280, 720, FlxColor.WHITE);
@@ -248,7 +254,13 @@ class PlayState extends FlxState
 			}
 		}
 		
-		if (can_switch) _setWorldAndFlash(!_isDark);
+		if (can_switch) {
+			_setWorldAndFlash(!_isDark);
+			sound_man.mirror.play();
+		}
+		else {
+			sound_man.error.play();
+		}
 	}
 
 	public function waitAndRestart(delay:Int)

@@ -187,7 +187,7 @@ class TiledLevel extends TiledMap
 					l.activate();
 				}
 				receivers.set(l, id);
-			case "door": var d:Door = worldGroup.addDoor(x, y, w, h);
+			case "door": var d:Door = worldGroup.addDoor(x, y, w, h, state);
 				if (o.properties.get("open") != null) {
 					d.activate();
 				}

@@ -92,6 +92,7 @@ class PressurePlate extends FlxSprite implements Trigger
 	public function trigger() 
 	{
 		if (!_on) {
+			state.sound_man.plate_on.play();
 			_on = true;
 			if (floorgroup.worldname == "both"){
 				loadGraphic("assets/images/para pressure plate on.png");
@@ -110,6 +111,7 @@ class PressurePlate extends FlxSprite implements Trigger
 	public function release() 
 	{
 		if (_on) {
+			state.sound_man.plate_off.play();
 			_on = false;
 			if (floorgroup.worldname == "both"){
 				loadGraphic("assets/images/para pressure plate off.png");

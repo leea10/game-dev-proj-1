@@ -29,7 +29,20 @@
 
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" />
+	<assets path="assets"/>
+	<sound path="assets/sounds">
+		<sound path="SCREAM.ogg" id="scream" />
+		<sound path="ambience.ogg" id="ambience" />
+		<sound path="box drag.ogg" id="drag" />
+		<sound path="door hiss.ogg" id="door" />
+		<sound path="error.ogg" id="error" />
+		<sound path="footsteps.ogg" id="steps" />
+		<sound path="laser.ogg" id="laser" />
+		<sound path="pressure plate activate.ogg" id="plate on" />
+		<sound path="pressure plate deactivate.ogg" id="plate off" />
+		<sound path="switch hit.ogg" id="switch hit" />
+		<sound path="mirror.ogg" id="mirror" />
+	</sound>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
