@@ -25,10 +25,11 @@ class MenuState extends FlxState
 		titlescreen.loadGraphic("assets/images/title screen_JANUS.png");
 		add(titlescreen);
 		
-		play_button = new FlxButton(0, 0, "PLAY", switchToPlayState);
+		play_button = new FlxButton(0, 0, "", switchToPlayState);
+		play_button.loadGraphic("assets/images/buttondown.png");
 		play_button.screenCenter();
+		play_button.y += 200;
 		add(play_button);
-		
 		
 		// TO DO: Complete menu; style buttons to be consistent with our asthetic.
 	}
@@ -36,6 +37,13 @@ class MenuState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+		
+		if (play_button.status == FlxButton.HIGHLIGHT) {
+			play_button.loadGraphic("assets/images/buttonup.png");
+		}
+		else {
+			play_button.loadGraphic("assets/images/buttondown.png");
+		}
 	}
 	
 	public function switchToPlayState():Void

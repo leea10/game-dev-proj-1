@@ -12,9 +12,10 @@ import flixel.FlxObject;
 class MenuButton extends FlxButton
 {
 	
-	public function new(X:Float = 0, Y:Float = 0, ?Text:String, ?OnClick:Void‑>Void)
+	public function new(X:Float = 0, Y:Float = 0, ?Text:String, ?OnClick:Void>Void)
 	{
-		super(x_pos, y_pos);
+		super(X,Y,Text,OnClick);
+		
 		
 	}
 	
