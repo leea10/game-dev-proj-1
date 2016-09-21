@@ -16,7 +16,7 @@ import flixel.addons.nape.FlxNapeSprite;
 
 class Laser extends FlxSprite 
 {
-	var max_distance:Float = 600;
+	var max_distance:Float = 10000;
 	var state:PlayState;
 	
 	public var in_dark_world:Bool = false;
