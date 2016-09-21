@@ -35,10 +35,10 @@ class Door extends FlxNapeSprite implements Receiver
 	{
 		// TODO(ariel): Play the close door animation
 		//makeGraphic(cast width, cast height, FlxColor.RED);
-		_open = false;
-		set_physicsEnabled(true);
+		//_open = false;
+		//set_physicsEnabled(true);
 		
-		animation.play("close");
+		//animation.play("close");
 	}
 	
 	public function setFilter (filter:InteractionFilter)
