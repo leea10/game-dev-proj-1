@@ -29,7 +29,10 @@
 
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" />
+	<assets path="assets"/>
+	<sound path="assets/sounds">
+		<sound path="SCREAM.ogg" id="scream" />
+	</sound>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
