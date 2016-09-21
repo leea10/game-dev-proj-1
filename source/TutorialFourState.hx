@@ -14,10 +14,8 @@ class TutorialFourState extends PlayState
 	
 	override function nextLevel()
 	{	
-		/*
-		var x:TutorialTwoState = new TutorialTwoState();
+		var x:LevelOneState = new LevelOneState();
 		FlxG.switchState(x);
 		x._isDark = _isDark;
-		*/
 	}
 }
