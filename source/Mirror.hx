@@ -68,15 +68,15 @@ class Mirror extends FlxNapeSprite
 		
 		swivel_top.reset(origin_x,origin_y);
 		
-		alpha = 1;
+		swivel_top.alpha = 1;
 		if (state._isDark) {
 			if (group.worldname == "light") {
-				alpha = 0.00001;
+				swivel_top.alpha = 0.00001;
 			}
 		}
 		else if (!state._isDark) {
 			if (group.worldname == "dark") {
-				alpha = 0.00001;
+				swivel_top.alpha = 0.00001;
 			}
 		}
 	}
