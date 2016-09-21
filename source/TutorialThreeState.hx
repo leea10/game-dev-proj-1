@@ -1,19 +1,24 @@
 package;
-import flixel.FlxG;
 
-class TutorialTwoState extends PlayState 
+/**
+ * ...
+ * @author ...
+ */
+class TutorialThreeState extends PlayState 
 {
 	override public function create():Void
 	{
 		super.create();
-		init("assets/levels/Tutorial_2.tmx");
+		init("assets/levels/Tutorial_3.tmx");
 		is_tutorial = true;
 	}
 	
 	override function nextLevel()
 	{	
-		var x:TutorialThreeState = new TutorialThreeState();
+		/*
+		var x:TutorialTwoState = new TutorialTwoState();
 		FlxG.switchState(x);
 		x._isDark = _isDark;
+		*/
 	}
 }
